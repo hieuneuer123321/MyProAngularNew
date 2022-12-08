@@ -1,0 +1,9 @@
+.comment {
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.author_name_row {
+    position: relative;
+    border-bottom: 1px solid;
+}

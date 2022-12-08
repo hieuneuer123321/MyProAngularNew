@@ -1,0 +1,86 @@
+
+<div class="list-group-item  mb-3">BÁO CÁO ĐỊNH KÌ</div>
+<div class="kichthuoc mb-2">
+    <div class="row">
+        <div class="col-9">
+            <div class="mb-2">
+                <span class="text">Tổng cộng :</span>
+            </div>
+            <div>
+                <div class="list-group mb-2">
+                    <div class="list-group-item active text-center">TIÊU ĐỀ</div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div class="uil-arrow-circle-right">
+                                <a href=""> Thông báo nghĩ lễ Quốc khánh</a></div>
+                            (<div class="uil-user-circle">Phạm Minh Nhẫn,02/09/2022</div>
+                            <div class="uil-eye">22</div>)
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div class="uil-arrow-circle-right"><a href=""> Thông báo nghĩ lễ Quốc khánh</a></div>
+                            (<div class="uil-user-circle">Phạm Minh Nhẫn,02/09/2022</div>
+                            <div class="uil-eye">22</div>)
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div class="uil-arrow-circle-right"><a href=""> Thông báo nghĩ lễ Quốc khánh</a></div>
+                            (<div class="uil-user-circle">Phạm Minh Nhẫn,02/09/2022</div>
+                            <div class="uil-eye">22</div>)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div>
+                <div class="list-group">
+                    <div class="list-group-item active "><i> Danh sách được xem </i></div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div > <li> Giám đốc  </li></div>
+                            (<div>Người tạo - Thời gian tạo - Lần xem cuối</div>
+                            <div class="uil-eye"> Lượt xem 22</div>)
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div > <li> Kĩ thuật  </li></div>
+                            (<div>Người tạo - Thời gian tạo - Lần xem cuối</div>
+                            <div class="uil-eye"> Lượt xem 22</div>)
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <div > <li> Nhân sự  </li></div>
+                            (<div>Người tạo - Thời gian tạo - Lần xem cuối</div>
+                            <div class="uil-eye"> Lượt xem 22</div>)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        -->
+        </div>
+        <!---->
+        <div class="col-3">
+            <div class="d-grid">
+                <button [routerLink]="'/tasks/new-report'" type="button" class="btn btn-danger mb-2">Thống kê</button>
+                <div class="ootoppage1 btn btn-success ">Loại báo cáo</div>
+                    <select id="inputState" class="form-select mb-2">
+                        <option>Tất cả mọi người</option>
+                        <option *ngFor="let i of periodicalreportDuLieu">
+                            {{i}}
+                        </option> 
+                    </select>
+                <div class="ootoppage1 btn btn-success ">Mục báo cáo</div>
+                <!--Dữ liệu-->
+                <div>
+                    <p><a href="http://localhost:4200/tasks/import-report">1.Báo cáo thường kì</a></p>
+                    <p><a href="http://localhost:4200/tasks/import-report">2.Báo cáo thường kì</a></p>
+                    <p><a href="http://localhost:4200/tasks/import-report">3.Báo cáo thường kì</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

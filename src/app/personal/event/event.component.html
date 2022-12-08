@@ -1,0 +1,205 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button (click)="openNewEvent()" type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded " 
+                [title]="getLabel('newTask')" (click)="openNewEvent()"
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!--End page title-->
+    <div class="row">
+        <div class="col-9">
+            <table id = "basic-datatable" class = "table table-bordered table-striped border
+                                 border-style table-hover table-centered mb-0 dt-responsive nowrap w-100 content-table" >
+            <thead>
+                <tr>
+                    <th>{{getLabel('dateCol')}}</th>
+                    <th>{{getLabel('timeCol')}}</th>
+                    <th>{{getLabel('descriptionCol')}}</th>
+                    <th>{{getLabel('locationCol')}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="myTableRow" *ngFor="let item of eventListData | paginate: config" data-bs-toggle="modal"
+                    data-bs-target="#scrollable-modal" (click)="seeDetail(item)">
+                    <td>{{item.date|date:"dd/MM/yyyy"}}</td>
+                    <td>{{item.time_start|slice:11:16}} {{getLabel('to')}} {{item.time_end|slice:11:16}}</td>
+                    <td>
+                        <b>{{item.title}}</b>
+                        <br>
+                        {{item.description}}
+                    </td>
+                    <td>{{item.location}}</td>
+                </tr>
+                <div class="modal fade" id="scrollable-modal" tabindex="-1" role="dialog"
+                    aria-labelledby="scrollableModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="scrollableModalTitle">Event detail</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                    <li class="nav-item">
+                                        <a href="#detailTab" data-bs-toggle="tab" aria-expanded="false"
+                                            class="nav-link rounded-0 active">
+                                            <i class="mdi mdi-information d-md-none d-block"></i>
+                                            <span class="d-none d-md-block">Thông tin</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane  show active" id="detailTab">
+    
+                                        <div class="row">
+                                            <div class="mb-3 col-12">
+                                                <label for="simpleinput" class="form-label">Tiêu đề:</label>
+                                                <input [readonly]="editable" type="text" id="simpleinput"
+                                                    [(ngModel)]="eventDetail.title" class="form-control">
+                                            </div>
+                                            <div class="mb-3 col-lg-6 col-sm-12 row">
+                                                <label for="simpleinput" class="form-label">Bắt đầu :</label>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <input [readonly]="editable" class="form-control" id="example-date"
+                                                        value="{{eventDetail.time_start|slice:0:10}}" type="date"
+                                                        name="date">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <input [readonly]="editable" class="form-control" id="example-time"
+                                                        value="{{eventDetail.time_start|slice:11:16}}" type="time"
+                                                        name="time">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-lg-6 col-sm-12 row">
+                                                <label for="simpleinput" class="form-label">Kết thúc:</label>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <input [readonly]="editable" class="form-control" id="example-date"
+                                                        value="{{eventDetail.time_start|slice:0:10}}" type="date"
+                                                        name="date">
+                                                </div>
+                                                <div class="col-lg-6 col-sm-12">
+                                                    <input [readonly]="editable" class="form-control" id="example-time"
+                                                        value="{{eventDetail.time_end|slice:11:16}}" type="time"
+                                                        name="time">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 col-12">
+                                                <label for="simpleinput" class="form-label">Nội dung:</label>
+                                                <textarea class="form-control" [readonly]="editable" id="example-textarea"
+                                                    [(ngModel)]="eventDetail.description" rows="5"></textarea>
+                                            </div>
+                                            <div class="mb-3 col-12">
+                                                <label for="simpleinput" class="form-label">Địa điểm:</label>
+                                                <select id="example-multiselect" [disabled]="editable" class="form-control">
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                    <option>4</option>
+                                                    <option>5</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="assigneeTab">
+                                        <p>{{'working'|uppercase}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button *ngIf="!editable" type="button" class="btn btn-warning"
+                                    (click)="cancelEditEvent()">Huỷ</button>
+                                <button *ngIf="!editable" (click)="close()" type="button" class="btn btn-success">Lưu</button>
+                                <button *ngIf="editable" type="button" class="btn btn-primary"
+                                    (click)="editEvent()">Sửa</button>
+                                <button *ngIf="!eventDetail.status" type="button" class="btn btn-success">Duyệt</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </tbody>
+        </table>
+        </div>
+        <div class="col-3">
+            <div class="border mb-1">
+                <div class="list-group-item list-group-item background mb-2">
+                    <b class="d-flex justify-content-center"> Lịch </b>
+                </div>
+                <app-calendar [eventList]="events" (getEvents)="getEvents($event)"></app-calendar>
+            </div>
+            <div class="border">
+                <div class="list-group-item list-group-item background-1">
+                    <b class="d-flex justify-content-center"> Tham khảo lịch </b> 
+                </div>
+                <div>
+                    <select class="form-select" id="example-select">
+                        <option>--Chọn bộ phận--</option>
+                        <option>Tất cả mọi người</option>
+                        <option>Ban giám đốc</option>
+                        <option>Phòng Tổ Chức Hành Chính</option>
+                        <option>Phòng Kĩ Thuật</option>
+                    </select>
+                </div>
+                <div>
+                    <select class="form-select" id="example-select">
+                        <option>--Chọn người--</option>
+                        <option>Giám Đốc</option>
+                        <option>Phó Giám Đốc</option>
+                        <option>Trưởng phòng</option>
+                    </select>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- /////////////////// Pagination -->
+    <div class="list row col-9">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>
+                         

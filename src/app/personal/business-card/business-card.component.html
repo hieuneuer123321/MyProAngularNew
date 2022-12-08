@@ -1,0 +1,72 @@
+
+
+<div class="border">
+    <div class="list-group-item active mb-3"><b>DANH THIẾP</b></div>
+    <!--End page title-->
+    <div class="row">
+        <div class="col-9">
+            <div>
+                <table id = "basic-datatable" class = "table table-bordered table-striped border
+                             border-style table-hover table-centered mb-0 dt-responsive nowrap w-100 content-table" >
+                <thead>
+                    <tr>
+                        <th>{{getLabel('dateCol')}}</th>
+                        <th>{{getLabel('nameCol')}}</th>
+                        <th>{{getLabel('phoneCol')}}</th>
+                        <th>{{getLabel('emailCol')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class=" my-auto">
+                <div class="list-group">
+                    <button  type="button" class="btn btn-danger rounded mb-2" 
+                    [title]="getLabel('newTask')" (click)="openAddBusinessCard()"
+                style="cursor: pointer;"src="assets/imgs/plus.png"> 
+                Nhập danh thiếp</button>
+                </div>
+            </div>
+            <div class=" my-auto">
+                <div class="list-group">
+                    <button  type="button" class="btn btn-danger rounded mb-2" 
+                    [title]="getLabel('newTask')" (click)="openAddBusinessCard()"
+                style="cursor: pointer;"src="assets/imgs/plus.png"> 
+                Nhập nhóm doanh nghiệp</button>
+                </div>
+            </div>
+            <div class="border mb-1">
+                <label for="example-select" class="form-label list-group-item background-1 text-center">Nhóm công việc</label>
+                <select id="example-select" class="form-select">
+                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
+                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
+                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
+                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
+                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
+                </select>
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+    
+
+    
+                           
+                               
+        
+  
+
+
+
+       

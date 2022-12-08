@@ -1,0 +1,100 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-1 my-auto">
+            <img (click)="goBack()" style="cursor: pointer;opacity:0.5; width:30px;height:auto; margin:auto"
+                src="assets/imgs/left.png" />
+        </div>
+
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">Bạn đang chọn Dự án: <b class="text-primary">{{CurrentProject.tenDuAn}}</b></h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-9">
+
+                <table id="basic-datatable" class="table table-bordered table-striped border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table">
+                    <thead>
+                        <tr>
+                            <th><span type="checkbox" title="Chọn/bỏ chọn tất cả"><input type="checkbox"
+                                        name="công việc" /></span></th>
+                            <th> Công việc chưa thuộc nhóm </th>
+                            <th> Ngày bắt đàu </th>
+                            <th> Ngày hoàn thành </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of TaskList | paginate: config">
+                            <td><span type="checkbox" title="Chọn/bỏ chọn tất cả"><input
+                                        (change)="addlist(item.mscv,$event)" type="checkbox" name="công việc" /></span>
+                            </td>
+                            <td><a [routerLink]="'/tasks/task-detail/'+item.mscv">{{item.chude}}</a></td>
+                            <td>{{item.ngayBatDau|date:"dd/MM/yyyy"}}</td>
+                            <td>{{item.ngayKetThucDuKien|date:"dd/MM/yyyy"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="list row">
+                    <div class="col-md-8">
+                        <pagination-controls id="paging" [previousLabel]="'Quay Lại'" [nextLabel]="'Tiếp tục'"
+                            responsive="true" responsive="true" (pageChange)="handlePageChange($event)">
+                        </pagination-controls>
+                    </div>
+                    <div class="col-md-4">
+                        Số dòng:
+                        <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                            <option *ngFor="let size of pageSizes" [ngValue]="size">
+                                {{ size }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="list-group">
+                    <div label for="example-select" class="list-group-item list-group-item background form-label">
+                        Danh sách nhóm công việc
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <button type="button" class="btn btn-primary" (click)="addTaskToProject()"
+                                [disabled]="ListToAdd.length > 0 ? false : true">Thêm danh sách CV
+                                vào nhóm</button>
+                        </div>
+                    </div>
+                    <div label for="example-select" class="list-group-item list-group-item background form-label">
+                        Danh sách nhóm công việc
+                    </div>
+                    <div class="list-group-item list-group-item-primary d-flex flex-column gap-3">
+                        <label class="pointer" *ngFor="let item of ProjectList" (click)="changeProject(item)">
+                            {{item.stt}}. {{item.tenDuAn}}
+                            <b *ngIf="CurrentProject.msda === item.msda">(Đang
+                                chọn)</b>
+                        </label>
+                    </div>
+                </div>
+            </div>

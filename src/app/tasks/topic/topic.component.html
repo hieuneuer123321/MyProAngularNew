@@ -1,0 +1,134 @@
+<div class="container-flu">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Trao đổi</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-9">
+        <table  id = "basic-datatable"  class = "table table-bordered table-striped border-color
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" >
+            <thead >
+                <tr>
+                    <th>Danh sách trao đổi</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of topicData | paginate: config" data-bs-toggle="modal"
+                    data-bs-target="#scrollable-modal" routerLink="/tasks/topic-detail">
+                    <th><a href="javascript: void(0);" class="action-icon"> <i
+                                class=" uil-comments-alt"></i></a>{{item.title}}
+                        (<a href="javascript: void(0);" class="action-icon"> <i
+                                class=" uil-user-check"></i></a>{{item.author}}
+                        <a href="javascript: void(0);" class="action-icon"> <i
+                                class=" uil-comment-alt"></i></a>{{item.comments}}
+                        <a href="javascript: void(0);" class="action-icon"> <i
+                                class=" uil-compass"></i></a>{{item.time}}
+                        <a href="javascript: void(0);" class="action-icon"> <i class=" uil-eye"></i></a>{{item.views}})
+                    </th>
+
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-success w-100" data-bs-toggle="modal"
+            data-bs-target="#full-width-modal">Tạo trao đổi</button>
+        <div id="full-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-full-width">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="fullWidthModalLabel">Thêm mới trao đổi</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-11">
+                                    <div class="page-title-box">
+                                        <h4 class="page-title">Thêm trao đổi</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <aw-wizard>
+                                <aw-wizard-step stepTitle="Trao đổi">
+                                    <div class="container">
+                                        <div class="row"> 
+                                            <div class="mb-3">
+                                                <label for="example-textarea" class="form-label ipt">Tiêu đề <span class="requiredField"></span></label>
+                                                <textarea [(ngModel)]="topicData.title" class="form-control" id="example-textarea" rows="1"></textarea>
+                                            </div>
+                                            <div class="TableTdOO-20">
+                                            <label for="example-textarea" class="form-label ipt">Nội dung <span class="requiredField"></span></label>
+                                                <textarea class="form-control" [(ngModel)]="topicData.description" rows="5" cols="20" id="example-textarea" style="width: 100%">
+                        </textarea>
+                                            </div>
+                                           
+                                         
+                                            <div class="mb-3">
+                                                <label for="example-fileinput" class="form-label">Đính kèm</label>
+                                                <input type="file" multiple (change)="handleFileInput($event.target.files)" id="fileList"
+                                                    class="form-control">
+                                                <ol class="list-group list-group-numbered">
+                                                    <li *ngFor="let file of topicData.file; index as i" class="list-group-item">
+                                                        {{file.name}}<span (click)="removeFile(i)" style="float: right; font-weight:
+                                                        bold; cursor: pointer; color: #fa6767;">X</span></li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_list">
+                                        <button type="button"(click)='check()'  class="btn btn-primary">Tiếp</button>
+                        
+                                    </div>
+                                </aw-wizard-step>
+                                <aw-wizard-step stepTitle="Danh sách liên quan" >
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div style="margin: 0 10px 30px 30px;">
+                                                <label class="form-label" for="groupOfAssignee">
+                                                    Lựa chọn danh sách </label>
+                                                <select style="width: 50%;" [(ngModel)]="groupKeyChosenInStep2" class="form-select"
+                                                    id="groupOfAssignee">
+                                                    <option value="all" selected>Tất cả nhân viên</option>
+                                                    <option [ngValue]="groupKey" *ngFor="let groupKey of generalService.allUserGroupsKey">
+                        {{groupKey}}</option>
+                                                </select>
+                                            </div>
+                        
+                                            <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                                                [rightList]="chosenAssigneelList"></app-dual-list>
+                                            <div style="margin: 0 10px 30px 30px;">
+                                                <label class="form-label" for="majorAssignee"><span style="color: tomato;">(*)</span>
+                                                    Người xử lý chính </label>
+                                                <select style="width: 50%;" [(ngModel)]="majorAssignee" class="form-select" id="majorAssignee">
+                                                    <option selected>Chọn...</option>
+                                                    <option [ngValue]="assignee" *ngFor="let assignee of chosenAssigneelList">
+                                                        {{assignee.fullName}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="btn_list">
+                                        <button type="button" class="btn btn-warning" awPreviousStep>Quay lại</button>
+                                        <button type="button" class="btn btn-success">Kết thúc</button>
+                                    </div>
+                                </aw-wizard-step>
+                            </aw-wizard>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+        </div>
+    </div>
+</div>

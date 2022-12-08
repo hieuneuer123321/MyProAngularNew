@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1 my-auto">
+            <img (click)="goBack()" style="cursor: pointer;opacity:0.5; width:30px;height:auto; margin:auto"
+                src="assets/imgs/left.png" />
+        </div>
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">Nhóm công việc</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <table id="basic-datatable"
+                class="table table-bordered table-striped border table-hover table-centered mb-2 dt-responsive nowrap content-table">
+                <thead>
+                    <tr class="text-center">
+                        <th>STT</th>
+                        <th>Tên nhóm công việc</th>
+                        <th>Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of categoryData | paginate: config">
+                        <td class="text-center" style="width:10%;">
+                            <label *ngIf="categoryEditData.idnhomCv !== item.idnhomCv">
+                                {{item.stt}}
+                            </label>
+                            <select class="form-select" name="sttEdit" [(ngModel)]="categoryEditData.stt"
+                                *ngIf="categoryEditData.idnhomCv === item.idnhomCv">
+                                <option *ngFor="let i of numbers" [value]="i">{{i}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <label *ngIf="categoryEditData.idnhomCv !== item.idnhomCv">
+                                {{item.tenNhomCv}}
+                            </label>
+                            <input [(ngModel)]="categoryEditData.tenNhomCv"
+                                *ngIf="categoryEditData.idnhomCv === item.idnhomCv" type="text" name="tenNhomCvEdit"
+                                id="tenNhomCv" class=" form-control">
+                        </td>
+                        <td class="text-center gap-3 d-flex justify-content-center gap-3">
+                            <button type="button" *ngIf="categoryEditData.idnhomCv !== item.idnhomCv"
+                                (click)="categoryEdit(item)" class="btn btn-warning"><i
+                                    class="uil-edit-alt"></i></button>
+                            <button type="button" *ngIf="categoryEditData.idnhomCv !== item.idnhomCv"
+                                (click)="categroyDelete(item.idnhomCv)" class="btn btn-danger"><i
+                                    class="uil-trash-alt"></i></button>
+                            <button type="button" (click)="categorySaveEdit(item)"
+                                *ngIf="categoryEditData.idnhomCv === item.idnhomCv" class="btn btn-success">
+                                <i class="uil-check"></i>
+                            </button>
+                            <button type="button" (click)="categoryCancelEdit()"
+                                *ngIf="categoryEditData.idnhomCv === item.idnhomCv" class="btn btn-danger">
+                                <i class="uil-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-select" [(ngModel)]="categoryNewData.stt">
+                                <option *ngFor="let i of numbers">{{i}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="tenNhomCvNew" id="simpleinput" [(ngModel)]="categoryNewData.tenNhomCv"
+                                class="form-control">
+                        </td>
+                        <td class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" (click)="categroyCreateNew()">Thêm
+                                mới</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="list row">
+            <div class="col-md-8">
+                <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')"
+                    [nextLabel]="getLabel('nextBtn')" responsive="true" responsive="true"
+                    (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+            <div class="col-md-4">
+                {{getLabel("itemsPerPage")}}:
+                <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">
+                        {{ size }}
+                    </option>
+                </select>
+            </div>

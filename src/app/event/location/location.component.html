@@ -1,0 +1,241 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-1 my-auto">
+      <img
+        (click)="goBack()"
+        style="
+          cursor: pointer;
+          opacity: 0.5;
+          width: 30px;
+          height: auto;
+          margin: auto;
+        "
+        src="assets/imgs/left.png"
+      />
+    </div>
+    <div class="col-11">
+      <div class="page-title-box">
+        <h4 class="page-title">Địa Điểm</h4>
+      </div>
+    </div>
+    <div>
+      <button
+        type="button"
+        style="margin-bottom: 10px; background-color: RGB(0 145 255)"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#scrollable-modal"
+      >
+        Thêm Địa Điểm
+      </button>
+    </div>
+  </div>
+
+  <table
+    id="basic-datatable"
+    class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
+  >
+    <thead>
+      <tr>
+        <th class="d-flex justify-content-center">STT</th>
+        <th width="30%">Tên địa điểm</th>
+        <th width="50%">Mô tả</th>
+        <th width="10%"></th>
+      </tr>
+    </thead>
+    <tr *ngIf="isLoading">
+      <td colspan="4" style="background-color: white">
+        <div class="lds-facebook" style="width: 100%; margin-left: 20%">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </td>
+    </tr>
+    <tbody>
+      <tr *ngFor="let item of locationListAll">
+        <td class="table-stt text-center">{{ item.stt }}</td>
+        <td>{{ item.tenDiaDiem }}</td>
+        <td>{{ item.moTa }}</td>
+        <td class="text-center" style="width: 20%">
+          <button
+            type="submit"
+            name="ctl22$DANHMUC$ctl02$btnDel"
+            value="Xóa"
+            class="btn btn-danger rounded-pill"
+            (click)="deleteLocation(item.diaDiemId)"
+            id="ctl22_DANHMUC_btnDel_0"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Xóa"
+          >
+            <i class="uil-trash-alt"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger rounded-pill"
+            data-bs-toggle="tooltip"
+            data-bs-placement="bottom"
+            title="Sửa"
+            data-bs-toggle="modal"
+            data-bs-target="#scrollable-modal2"
+            (click)="
+              GetLocationById(
+                item.diaDiemId,
+                item.tenDiaDiem,
+                item.moTa,
+                item.stt
+              )
+            "
+          >
+            <i class="uil-edit-alt"></i>
+          </button>
+        </td>
+        <!--Start Modal Update Location--->
+        <div
+          class="modal fade"
+          id="scrollable-modal2"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="scrollableModalTitle"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered"
+            role="document"
+            style="width: 40%"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="scrollableModalTitle">
+                  Sửa Địa Điểm
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-hidden="true"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="nameLocation">Tên Địa Điểm</label><br />
+                  <input
+                    type="text"
+                    name="nameLocation"
+                    class="form-control"
+                    required
+                    [(ngModel)]="Location.nameLocation"
+                  />
+                </div>
+                <pre></pre>
+                <div class="form-group">
+                  <label for="desLocation">Mô Tả</label><br />
+                  <textarea
+                    type="text"
+                    name="desLocation"
+                    class="form-control"
+                    required
+                    [(ngModel)]="Location.description"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  #closebutton
+                >
+                  Đóng
+                </button>
+
+                <button
+                  id="closeModal"
+                  type="button"
+                  (click)="UpdateLocation()"
+                  class="btn btn-primary"
+                >
+                  Sửa
+                </button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!--End Modal Update Location--->
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Modal AddLocation -->
+<div
+  class="modal fade"
+  id="scrollable-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="scrollableModalTitle"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered"
+    role="document"
+    style="width: 40%"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scrollableModalTitle">Thêm Địa Điểm</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+      </div>
+      <form (ngSubmit)="AddLocation()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nameLocation">Tên Địa Điểm</label><br />
+            <input
+              type="text"
+              name="nameLocation"
+              class="form-control"
+              required
+              [(ngModel)]="nameLocationAdd"
+            />
+          </div>
+          <pre></pre>
+          <div class="form-group">
+            <label for="desLocation">Mô Tả</label><br />
+            <textarea
+              type="text"
+              name="desLocation"
+              class="form-control"
+              required
+              [(ngModel)]="desLocationAdd"
+            ></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            #closebuttonAdd
+            (click)="closeModalAdd()"
+          >
+            Đóng
+          </button>
+
+          <button type="button" type="submit" class="btn btn-primary">
+            Thêm Địa Điểm
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

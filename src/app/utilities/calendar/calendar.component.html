@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="row">
+    <div class="d-flex align-items-center justify-content-between">
+      <i class=" uil-arrow-left pointer h3" (click)="nextPrevDate('year','prev')"></i>
+      <i class=" uil-angle-left pointer h3" (click)="nextPrevDate('month','prev')"></i>
+      <div>
+        <h4 class="month-year-title pointer" (click)="getMYSelected()" type="button" id="select-date"
+          data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+          Tháng {{dateActive.format()|date:'MM, YYYY'}}</h4>
+        <div class="dropdown-menu" aria-labelledby="select-date">
+          <div class="d-flex text-center">
+            <div class="w-50">
+              <div class="m-y-select-wrap">
+                <div class="m-y-select pointer" [class.m-y-select-active]="i===dateActive.month()"
+                  (click)="changeDate(i,dateActive.year())" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                  {{i}}
+                </div>
+              </div>
+            </div>
+            <div class="w-50">
+              <div class="m-y-select-wrap">
+                <div class="m-y-select pointer" [class.m-y-select-active]="i===dateActive.year()"
+                  (click)="changeDate(dateActive.month(),i)" *ngFor="let i of yearList">
+                  {{i}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <i class="uil-angle-right pointer h3" (click)="nextPrevDate('month','next')"></i>
+      <i class=" uil-arrow-right pointer h3" (click)="nextPrevDate('year','next')"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <ul class="day-title fw-bold text-dark">
+        <li>CN</li>
+        <li>Hai</li>
+        <li>Ba</li>
+        <li>Tư</li>
+        <li>Năm</li>
+        <li>Sáu</li>
+        <li>Bảy</li>
+      </ul>
+      <ul>
+        <li *ngFor="let day of daysInMonth">
+          <div class="d-flex justify-content-center" style="position: relative;">
+            <div [class.day-active]="day.fulldate === today" [class.day]="day.fulldate !== null"
+              [class.day-selected]="selected_date !== today && day.fulldate === selected_date"
+              [class.css-test]="day.items.length > 0" (click)="selectedDay(day)">
+              {{day.fulldate|date:'dd'}}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

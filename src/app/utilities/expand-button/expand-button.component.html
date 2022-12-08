@@ -1,0 +1,5 @@
+<a (click)="expandHandle()" data-bs-toggle="collapse" href="#{{id_expand}}"
+    aria-expanded="true" aria-controls="collapseFour">
+    <i class="uil-plus" *ngIf="!isExpand"></i>
+    <i class="uil-minus" *ngIf="isExpand"></i>
+</a>

@@ -1,0 +1,61 @@
+<body class="authentication-bg" data-layout-config='{"darkMode":false}'>
+        <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xxl-4 col-lg-5">
+                        <div class="card">
+                            <!-- Logo -->
+                            <div class="card-header pt-4 pb-4 text-center bg-primary">
+                                <a href="index.html">
+                                    <span><img src="assets/imgs/logoOO.jpg" width="80%" alt=""></span>
+                                </a>
+                            </div>
+                            <div class="card-body p-4">
+    
+                                <div class="text-center w-75 m-auto">
+                                    <h4 class="text-dark-25 text-center mt-0 fw-bold">ĐĂNG NHẬP</h4>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tên đăng nhập</label>
+                                    <input [(ngModel)]="username" class="form-control" runat="server" name="username"
+                                        type="text" id="username" placeholder="">
+                                </div>
+    
+                                <div class="mb-3">
+                                    <a class="text-muted float-end"><small>Quên mật khẩu?</small></a>
+                                    <label for="password" class="form-label">Mật khẩu</label>
+                                    <div class="input-group input-group-merge">
+                                        <input [(ngModel)]="password" type="password" id="password" name="password" class="form-control" placeholder="Vui lòng nhập mật khẩu...">
+                                        <div class="input-group-text" data-password="false">
+                                            <span class="password-eye"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 mb-3">
+                                    <div class="form-check">
+                                        <input [(ngModel)]="isRememberPassword" type="checkbox" class="form-check-input" id="checkbox-signin">
+                                        <label class="form-check-label" for="checkbox-signin">Ghi nhớ đăng nhập</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3 mb-0 text-center">                                   
+                                    <button type="button" id="btn_dangnhap" class="btn btn-primary" type="submit" (click)="login()">
+                                        <span *ngIf="isLoggingIn"class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        Đăng Nhập
+                                    </button>
+                                </div>
+                            </div> <!-- end card-body -->
+    
+                        </div>
+                      
+                    </div> <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- end page -->
+
+        <footer class="footer footer-alt">
+            2008 - 2022 © OnlineOffice
+        </footer>
+</body>

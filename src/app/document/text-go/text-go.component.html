@@ -1,0 +1,1445 @@
+<div class="container-fluid">
+  <div class="list-group-item active mb-2">NHẬP VĂN BẢN ĐI</div>
+  <div class="row">
+    <div class="col-9">
+      <table id="basic-datatable" class="table dt-responsive nowrap w-100">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Số VB</th>
+            <th>Trích yếu</th>
+            <th>Nơi nhận</th>
+            <th>Ngày PH</th>
+            <th>Nơi soạn thảo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of textgosData | paginate : config">
+            <td>{{ i.numerical_order }}</td>
+            <td>{{ i.text_number }}</td>
+            <td>{{ i.abstract }}</td>
+            <td>{{ i.recipients }}</td>
+            <td>{{ i.release_date }}</td>
+            <td>{{ i.drafting_place }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="list row">
+        <div class="col-md-8">
+          <pagination-controls
+            id="paging"
+            [previousLabel]="'quay lại'"
+            [nextLabel]="'tiếp tục'"
+            responsive="true"
+            responsive="true"
+            (pageChange)="handlePageChange($event)"
+          ></pagination-controls>
+        </div>
+        <div class="col-md-4">
+          Số lượng thư mục
+          <select
+            style="border: solid 1px rgb(230, 229, 229)"
+            (change)="handlePageSizeChange($event)"
+          >
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+              {{ size }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- bên phải danh sách văn bản-->
+    <div class="col-3">
+      <!--buttun-->
+      <div class="d-grid">
+        <button
+          [routerLink]="'/document/new-text-go'"
+          type="button"
+          class="btn btn-primary mb-2"
+        >
+          Thêm văn bản đi
+        </button>
+        <button
+          [routerLink]="'/document/search'"
+          type="button"
+          class="btn btn-success"
+        >
+          Tìm kiếm
+        </button>
+      </div>
+      <!-- danh sách-->
+      <div class="col_3">
+        <div class="content-box">
+          <ul>
+            <li><span>Thư mục văn bản</span></li>
+            <a
+              href="#ctl22_ModuleTreeView_SkipLink"
+              style="
+                position: absolute;
+                left: -10000px;
+                top: auto;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+              "
+              >Skip Navigation Links.</a
+            >
+            <div id="ctl22_ModuleTreeView" style="width: 100%">
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t1')"
+                        ><img
+                          src="/WebResource.axd?d=dYYs3OPM-Igo6QKCaeiW7koaWzdg2R5sUu6Cczgg9fbs1kavJa5CMGDhOx556J8rlHP8GnnCf5J7ZpaDg9kIR-QTXLEEEIrXCtLRP8v4iFg1&amp;t=637100542300000000"
+                          alt="Expand UỶ BAN NHÂN DÂN TP.HCM<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s1')"
+                        id="ctl22_ModuleTreeViewt0i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s1')"
+                        id="ctl22_ModuleTreeViewt0"
+                        >UỶ BAN NHÂN DÂN TP.HCM
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t2')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand SỞ TÀI CHÁNH THÀNH PHỐ<p class='ChuThichOO'>(1)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s2')"
+                        id="ctl22_ModuleTreeViewt1i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s2')"
+                        id="ctl22_ModuleTreeViewt1"
+                        >SỞ TÀI CHÁNH THÀNH PHỐ
+                        <p class="ChuThichOO">(1)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t3')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand SỞ GIAO THÔNG VẬN TẢI TP.HCM<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s3')"
+                        id="ctl22_ModuleTreeViewt2i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s3')"
+                        id="ctl22_ModuleTreeViewt2"
+                        >SỞ GIAO THÔNG VẬN TẢI TP.HCM
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s4')"
+                        id="ctl22_ModuleTreeViewt3i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s4')"
+                        id="ctl22_ModuleTreeViewt3"
+                        >HÓA ĐƠN-CHỨNG TỪ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t5')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand HỢP ĐỒNG<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s5')"
+                        id="ctl22_ModuleTreeViewt4i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s5')"
+                        id="ctl22_ModuleTreeViewt4"
+                        >HỢP ĐỒNG
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t6')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand NGHỊ ĐỊNH<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s6')"
+                        id="ctl22_ModuleTreeViewt5i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s6')"
+                        id="ctl22_ModuleTreeViewt5"
+                        >NGHỊ ĐỊNH
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s7')"
+                        id="ctl22_ModuleTreeViewt6i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s7')"
+                        id="ctl22_ModuleTreeViewt6"
+                        >NGHỊ ĐỊNH NĂM 2019
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s97')"
+                        id="ctl22_ModuleTreeViewt7i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s97')"
+                        id="ctl22_ModuleTreeViewt7"
+                        >CÁC HỘ GIA ĐÌNH
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s98')"
+                        id="ctl22_ModuleTreeViewt8i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s98')"
+                        id="ctl22_ModuleTreeViewt8"
+                        >CÁC HỘ KINH DOANH DỊCH VỤ ĂN UỐNG
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s99')"
+                        id="ctl22_ModuleTreeViewt9i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s99')"
+                        id="ctl22_ModuleTreeViewt9"
+                        >NHÀ HÀNG &amp; KHÁCH SẠN
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t106')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand Quy trình nhập liệu<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s106')"
+                        id="ctl22_ModuleTreeViewt10i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s106')"
+                        id="ctl22_ModuleTreeViewt10"
+                        >Quy trình nhập liệu
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s113')"
+                        id="ctl22_ModuleTreeViewt11i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s113')"
+                        id="ctl22_ModuleTreeViewt11"
+                        >CÁC CÔNG TRÌNH ĐANG XÂY DỰNG
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s83')"
+                        id="ctl22_ModuleTreeViewt12i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s83')"
+                        id="ctl22_ModuleTreeViewt12"
+                        >Phòng HCNS
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t94')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand ĐẤU NỐI CỐNG THOÁT NƯỚC<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s94')"
+                        id="ctl22_ModuleTreeViewt13i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s94')"
+                        id="ctl22_ModuleTreeViewt13"
+                        >ĐẤU NỐI CỐNG THOÁT NƯỚC
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t136')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand TƯ VẤN THIẾT KẾ<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s136')"
+                        id="ctl22_ModuleTreeViewt14i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s136')"
+                        id="ctl22_ModuleTreeViewt14"
+                        >TƯ VẤN THIẾT KẾ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t140')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand UBND huyện Củ Chi<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s140')"
+                        id="ctl22_ModuleTreeViewt15i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s140')"
+                        id="ctl22_ModuleTreeViewt15"
+                        >UBND huyện Củ Chi
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s10')"
+                        id="ctl22_ModuleTreeViewt16i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s10')"
+                        id="ctl22_ModuleTreeViewt16"
+                        >SỞ Y TẾ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s12')"
+                        id="ctl22_ModuleTreeViewt17i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s12')"
+                        id="ctl22_ModuleTreeViewt17"
+                        >BỘ Y TẾ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s13')"
+                        id="ctl22_ModuleTreeViewt18i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s13')"
+                        id="ctl22_ModuleTreeViewt18"
+                        >TONG CONG TY
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t17')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand DỰ ÁN<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s17')"
+                        id="ctl22_ModuleTreeViewt19i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s17')"
+                        id="ctl22_ModuleTreeViewt19"
+                        >DỰ ÁN
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t29')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand QUY TRÌNH<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s29')"
+                        id="ctl22_ModuleTreeViewt20i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s29')"
+                        id="ctl22_ModuleTreeViewt20"
+                        >QUY TRÌNH
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t32')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand ISO 9001 14001<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s32')"
+                        id="ctl22_ModuleTreeViewt21i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s32')"
+                        id="ctl22_ModuleTreeViewt21"
+                        >ISO 9001 14001
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s50')"
+                        id="ctl22_ModuleTreeViewt22i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s50')"
+                        id="ctl22_ModuleTreeViewt22"
+                        >HỘI DOANH NHÂN TRẺ VN
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s62')"
+                        id="ctl22_ModuleTreeViewt23i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s62')"
+                        id="ctl22_ModuleTreeViewt23"
+                        >Thủ TỤC QUÂN
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s78')"
+                        id="ctl22_ModuleTreeViewt24i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s78')"
+                        id="ctl22_ModuleTreeViewt24"
+                        >BẤT ĐỘNG SẢN
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s79')"
+                        id="ctl22_ModuleTreeViewt25i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s79')"
+                        id="ctl22_ModuleTreeViewt25"
+                        >KINH DOANH
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','t80')"
+                        ><img
+                          src="/WebResource.axd?d=V4jZQ5INloX8_sbez5sDtGwQUGZqh8OjKte00Pe71cWW-5Lzxz0TuyZAJzTkxMj9x2Mdj33kvvJ_Zj-wLyxrlgja_qfh2f6bp2OpogQHCTM1&amp;t=637100542300000000"
+                          alt="Expand Kế toán<p class='ChuThichOO'>(0)</p>"
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s80')"
+                        id="ctl22_ModuleTreeViewt26i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=FjAgghB_68emgNnoKOdDg_YpvrL1aX_zz3VXCsKJaq1GNMjPbobMldQLxjCjpc0fW6XldaX4uAhn-0Fg8nVFW4uGFics_Ln0WE0TyQCAeVI1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s80')"
+                        id="ctl22_ModuleTreeViewt26"
+                        >Kế toán
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s114')"
+                        id="ctl22_ModuleTreeViewt27i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s114')"
+                        id="ctl22_ModuleTreeViewt27"
+                        >Thu Chi
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s96')"
+                        id="ctl22_ModuleTreeViewt28i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s96')"
+                        id="ctl22_ModuleTreeViewt28"
+                        >ĐẢNG BỘ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s115')"
+                        id="ctl22_ModuleTreeViewt29i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s115')"
+                        id="ctl22_ModuleTreeViewt29"
+                        >ĐƠN GIÁ
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=xnKIOFK8_FM0Qhs_8nLkLaoTtIKdn8-SlHPSPSYDpvtBSejiEivRbRUUzhuY5RYSKd-K9rNsQ0pqdIV980czC_nAuxVRgypJuuxDygPInGQ1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s116')"
+                        id="ctl22_ModuleTreeViewt30i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s116')"
+                        id="ctl22_ModuleTreeViewt30"
+                        >HỢP ĐỒNG
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table cellpadding="0" cellspacing="0" style="border-width: 0">
+                <tbody>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img
+                        src="/WebResource.axd?d=OVjaQnj7-BgyIYo-ciQX66f95aplGSLIIjiqK8EpFAwmo-Y9jhmwfJL1aPznyX4bDS-TWd0oBJp9qnsdkvHsl_ZgpPoqxUQon3EZniocaag1&amp;t=637100542300000000"
+                        alt=""
+                      />
+                    </td>
+                    <td>
+                      <a
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s118')"
+                        id="ctl22_ModuleTreeViewt31i"
+                        tabindex="-1"
+                        ><img
+                          src="/WebResource.axd?d=Kvw0mB1uRmY0Q_jJ6kSv8zkw4eSGm4Pxc-npBacaQaZcMmxdpnpSr8WHb8R_bP4PUulYAHlX04Tem6UJ_VY_dOiuheLsh2LwUf0dQbETt6A1&amp;t=637100542300000000"
+                          alt=""
+                          style="border-width: 0"
+                      /></a>
+                    </td>
+                    <td
+                      class="ctl22_ModuleTreeView_2"
+                      style="white-space: nowrap"
+                    >
+                      <a
+                        class="ctl22_ModuleTreeView_0 ctl22_ModuleTreeView_1"
+                        href="javascript:__doPostBack('ctl22$ModuleTreeView','s118')"
+                        id="ctl22_ModuleTreeViewt31"
+                        >test T
+                        <p class="ChuThichOO">(0)</p></a
+                      >
+                    </td>
+                  </tr>
+                  <tr style="height: 0px">
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <a id="ctl22_ModuleTreeView_SkipLink"></a>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+</div>

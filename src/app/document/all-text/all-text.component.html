@@ -1,0 +1,386 @@
+
+<ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+    <li class="nav-item">
+        <a href="#incoming-text" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
+            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+            <span class="d-none d-md-block">Văn bản đến</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#text-go" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0 ">
+            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+            <span class="d-none d-md-block">Văn bản đi</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#internal-text" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+            <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+            <span class="d-none d-md-block">Văn bản nội bộ</span>
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class=" tab-pane show active" id="incoming-text">
+        <!--Tìm kiếm-->
+        <div class="list row">
+            <div class="col-8">
+                <div class="input-group mb-3">
+                    <input (keyup)="search()" type="text" class="form-control"
+                        [placeholder]="getLabel('searchPlaceholer')" [(ngModel)]="searchKey" />
+                    <div class="input-group-append">
+                        <button  class="btn btn-outline-secondary" type="button" (click)="search()">
+                            <i class="uil-search-alt"></i> {{getLabel("searchBtn")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Nội dung-->
+        <div class="list-group-item active mb-3"><i >DANH SÁCH VĂN BẢN ĐẾN</i></div>
+        <div class="row">
+            <div class="col-9">
+                <table  id = "basic-datatable"  class = "table dt-responsive nowrap w-100" > 
+                <thead > 
+                    <tr > 
+                        <th > STT </th>
+                        <th > Số VB </th > 
+                        <th >Trích yếu </th > 
+                        <th > Nơi nhận </th > 
+                        <th > Ngày PH </th > 
+                        <th > Nơi soạn thảo </th > 
+                    </tr > 
+                </thead >
+                <tbody>
+                    <tr *ngFor="let i of incomingtextsData |paginate: config">
+                        <td>{{i.id}}</td>
+                        <td>{{i.abstract}}</td>
+                        <td>{{i.recipients}}</td>
+                        <td>{{i.release_date}}</td>
+                        <td>{{i.drafting_place|date:"dd/MM/yyyy"}}</td>
+                        <td>{{i.text_number}}</td>
+                    </tr>
+                </tbody>
+                </table >
+                <div class="list row">
+                    <div class="col-md-8">
+                        <pagination-controls id="paging" [previousLabel]="'quay lại'" [nextLabel]="'tiếp tục'"
+                            responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+                    </div>
+                    <div class="col-md-4">
+                        Số lượng thư mục
+                        <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                            <option *ngFor="let size of pageSizes" [ngValue]="size">
+                                {{ size }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--Nút bên trái-->
+            <div class="col-3">
+                <div  class = "d-grid" >
+                    <div class="ootoppage1 btn btn-success "> Năm</div>
+                    <select id="inputState" class="form-select mb-1">
+                        <option>Tất cả</option>
+                        <option value="-1"*ngFor="let i of incomingtextsnamMoi" >
+                            {{i}}
+                        </option>
+                    </select>
+                    <div class="ootoppage1 btn btn-success "> Nơi nhận văn bản</div>
+                    <select id="inputState" class="form-select mb-1">
+                        <option>Tất cả mọi người</option>
+                        <option *ngFor="let i of incomingtextsDuLieu">
+                            {{i}}
+                        </option>    
+                    </select>
+                </div>
+                <div class="d-grid">
+                    <button [routerLink]="'/document/new-document'"  type = "button"  class  =  "btn btn-info mb-1" > Thêm văn bản đến </button >
+                    <button type = "button"  class = "btn btn-sm btn-warning mb-1" data-bs-toggle="modal" data-bs-target="#standard-modal" > Chuyển đến xem </button >
+                </div>
+            </div>
+        </div>
+            <!--Chế độ xem-->
+        <div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="standard-modalLabel">CHẾ ĐỘ XEM</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                <div class="modal-body">
+                    <div class="row">
+                    <!---dòng bên trái-->
+                    <div class="col-5"></div>
+                    <div class="col-2"></div>
+                    <!---dòng bên phải-->
+                    <div class="col-5">
+                        <div>
+                            <label class="mb-1 ">Danh sách có sẵn </label>
+                            <select class="form-select mb-1   " id="example-select">
+                                <option>Chọn nhóm riêng</option>
+                                <option>Giám đốc</option>
+                                <option>Phòng Tổ Chức Hành Chính</option>
+                                <option>Phòng Kĩ Thuật</option>
+                                <option>Phòng Kinh Doanh</option>
+                                <option>Phòng Nhân Sự</option>
+                                <option>Phòng Tài Chính-Kế toán</option>
+                                <option>Phòng Truyền Thông</option>
+                            </select>
+                            <select class="form-select mb-2" id="example-select">
+                                <option>--Chọn nhóm từ danh bạ--</option>
+                                <option>Tất cả mọi người</option>
+                                <option>Giám đốc</option>
+                                <option>Phòng Tổ Chức Hành Chính</option>
+                                <option>Phòng Kĩ Thuật</option>
+                                <option>Phòng Kinh Doanh</option>
+                                <option>Phòng Nhân Sự</option>
+                                <option>Phòng Tài Chính-Kế toán</option>
+                                <option>Phòng Truyền Thông</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div><label class="mb-1 ">Danh sách được chọn </label></div>
+                    <div class="row">
+                        <div class="col-5">
+                            <select id="example-multiselect" multiple class="form-control mb-1">
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                                <option value="000"></option>
+                            </select>
+                        </div>
+                        <div class="col-2 d-flex justify-content-center flex-column">
+                            <button class="btn btn-info rounded-pill"> > </button>
+                            <button class="btn btn-info rounded-pill"> < </button>
+                        </div>
+                        <div class="col-5">
+                            <select id="example-multiselect" multiple class="form-control mb-1">
+                                <option>--Chọn nhóm từ danh bạ--</option>
+                                <option>Tất cả mọi người</option>
+                                <option>Giám đốc</option>
+                                <option>Phòng Tổ Chức Hành Chính</option>
+                                <option>Phòng Kĩ Thuật</option>
+                                <option>Phòng Kinh Doanh</option>
+                                <option>Phòng Nhân Sự</option>
+                                <option>Phòng Tài Chính-Kế toán</option>
+                                <option>Phòng Truyền Thông</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <div class="col-5"><input class="form-control mb-1" id="exampleFormControlInput1" placeholder="Tìm người dùng"></div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-primary rounded-pill"> Cập nhật </button>
+                    </div>
+                </div>
+                </div>
+            </div> 
+        </div> 
+    </div>
+         <!--ko ra khỏi đây-->
+    </div>
+    <div class="tab-pane" id="text-go">
+        <!--Tìm kiếm-->
+        <div class="list row">
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <input (keyup)="search()" type="text" class="form-control"
+                        [placeholder]="getLabel('searchPlaceholer')" [(ngModel)]="searchKey" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" (click)="search()">
+                            <i class="uil-search-alt"></i> {{getLabel("searchBtn")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Nội dung-->
+        <div class="container-fluid">
+            <div class="list-group-item active mb-2"> <i>DANH SÁCH VĂN BẢN ĐI</i></div> 
+            <div class="row">
+                <div class="col-9">
+                    <table  id = "basic-datatable"  class = "table dt-responsive nowrap w-100" > 
+                        <thead > 
+                            <tr > 
+                                <th > STT </th>
+                                <th > Số VB </th > 
+                                <th > Trích yếu </th > 
+                                <th > Nơi nhận </th > 
+                                <th > Ngày PH </th > 
+                                <th > Nơi soạn thảo </th > 
+                            </tr > 
+                        </thead >
+                        <tbody>
+                            <tr *ngFor="let i of incomingtextsData |paginate: config">
+                                <td>{{i.id}}</td>
+                                <td>{{i.abstract}}</td>
+                                <td>{{i.recipients}}</td>
+                                <td>{{i.release_date}}</td>
+                                <td>{{i.drafting_place|date:"dd/MM/yyyy"}}</td>
+                                <td>{{i.text_number}}</td>
+                            </tr>
+                        </tbody>
+                    </table >
+                    <div class="list row">
+                        <div class="col-md-8">
+                            <pagination-controls id="paging" [previousLabel]="'quay lại'" [nextLabel]="'tiếp tục'"
+                            responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+                        </div>
+                        <div class="col-md-4">
+                        Số lượng thư mục
+                        <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                            <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div  class = "d-grid" >
+                        <button [routerLink]="'/document/new-text-go'"  type = "button"  class = "btn btn-success mb-2" > Thêm văn bản đi </button >
+                    </div>
+                    <div class="content-box mb-2">
+                        <i class="uil-books"></i>
+                        <span>Thư mục văn bản :</span>
+                    </div>
+                    <!--Cây dữ liệu-->
+                    <ul>
+                        <li><i class="uil-bag"> ỦY BAN NHÂN DÂN</i>
+                            <ul>
+                                <li class=" uil-comment-alt-message">Văn bản hành chính</li>
+                                <li class=" uil-comment-alt-message">Văn bản nội vụ</li>
+                                <li class=" uil-comment-alt-message">Văn bản tuyệt mật</li>
+                            </ul>
+                        </li>
+                        <li><i class="uil-book-reader">CẤP XÃ HÀNH CHÍNH</i>
+                            <ul>
+                                <li class="uil-snowflake-alt">Văn bản tài nguyên môi trường</li>
+                                <li class="uil-cloud-sun-rain">Công văn khí tượng</li>
+                                <li class="uil-wind">Văn bản xử lý vi phạm môi trường
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                     </ul>
+                     <!--kết thúc dữ liệu cây-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="internal-text">
+        <!--Tìm kiếm-->
+        <div class="list row">
+            <div class="col-md-8">
+                <div class="input-group mb-3">
+                    <input (keyup)="search()" type="text" class="form-control"
+                        [placeholder]="getLabel('searchPlaceholer')" [(ngModel)]="searchKey" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" (click)="search()">
+                            <i class="uil-search-alt"></i> {{getLabel("searchBtn")}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Nội dung-->
+        <div class="container-fluid">
+            <div class="list-group-item active mb-2"> <i>DANH SÁCH VĂN BẢN NỘI BỘ</i></div> 
+            <div class="row">
+                <div class="col-9">
+                    <div class="container">
+                        <table id = "basic-datatable" class = "table table-bordered dt-responsive nowrap w-100 " >
+                            <thead > 
+                                <tr> 
+                                    <th > STT </th>
+                                    <th > Số VB </th > 
+                                    <th > Nơi nhận </th > 
+                                    <th > Ngày PH </th > 
+                                    <th > Nơi soạn thảo </th >  
+                                </tr> 
+                            </thead >
+                            <tbody>
+                                <tr *ngFor="let i of incomingtextsData |paginate: config">
+                                    <td>{{i.id}}</td>
+                                    <td>2 </td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="d-flex justify-content">
+                        <ul class="oolist">
+                            <div class="btnOO">
+                                <div id="ctl22_dvThoiHanCV" class="content-box">
+                                    <ul>
+                                        <li><span>NĂM</span></li>
+                                        <div id="ctl22_dvThoiHanCV" class="content-box">
+                                            <select id="inputState" class="form-select mb-1">
+                                                <option>Tất cả</option>
+                                                <option value="-1"*ngFor="let i of incomingtextsnamMoi" >{{i}}</option>
+                                            </select>
+                                        </div>
+                                    </ul>
+                                </div>
+                                <div id="ctl22_dvNoiSoanThao" class="content-box">
+                                    <ul>
+                                        <li><span>Nơi soạn thảo</span></li>
+                                        <select id="inputState" class="form-select mb-1">
+                                            <option>Tất cả mọi người</option>
+                                            <option *ngFor="let i of incomingtextsDuLieu">
+                                                {{i}}
+                                            </option>
+                                        </select>
+                                    </ul>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class = "d-grid" >
+                        <button [routerLink]="'/document/new-document'"  type = "button"  class = "btn btn-success   mb-1" > Thêm văn bản nội bộ </button >
+                    </div>
+                    <div class="content-box mb-2">
+                        <i class="uil-books"></i>
+                        <span>Thư mục văn bản :</span>
+                    </div>
+                     <!--Cây dữ liệu-->
+                     <ul>
+                        <li><i class="uil-bag"> ỦY BAN NHÂN DÂN</i>
+                            <ul>
+                                <li class=" uil-comment-alt-message">Văn bản hành chính</li>
+                                <li class=" uil-comment-alt-message">Văn bản nội vụ</li>
+                                <li class=" uil-comment-alt-message">Văn bản tuyệt mật</li>
+                            </ul>
+                        </li>
+                        <li><i class="uil-book-reader">CẤP XÃ HÀNH CHÍNH</i>
+                            <ul>
+                                <li class="uil-snowflake-alt">Văn bản tài nguyên môi trường</li>
+                                <li class="uil-cloud-sun-rain">Công văn khí tượng</li>
+                                <li class="uil-wind">Văn bản xử lý vi phạm môi trường
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                     </ul>
+                     <!--kết thúc dữ liệu cây-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

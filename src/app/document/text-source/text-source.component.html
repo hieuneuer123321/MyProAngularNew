@@ -1,0 +1,52 @@
+<div class="list-group-item active mb-2"><b>NGUỒN VĂN BẢN</b></div>
+<div class="row">
+	<div class="col-9">
+		<table  id = "basic-datatable"  class = "table table-bordered table-striped border
+                    border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" > 
+			<thead >
+				<tr > 
+					<th  class="d-flex justify-content-center" scope="col" > STT </th>
+					<th scope="col"> TÊN NGUỒN VĂN BẢN </th > 
+					<th scope="col">&nbsp;</th >  
+				</tr >
+			</thead>
+				
+			<tbody>	
+				<tr class="normal" *ngFor="let i of textsourceDuLieu |paginate: config">
+					<td class="text-center" style="width: 10%;">
+					<span style="display:inline-block;width:100%;">{{i.nume_rical_order}}</span></td>
+					<td>{{i.textsource_name}}</td>
+					<td class="text-center" style="width: 20%;">
+						<button type="submit" name="ctl22$DANHMUC$ctl02$btnDel" 
+						value="Xóa" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn chắc chắn xóa ?');" id="ctl22_DANHMUC_btnDel_0">
+						<i class="uil-trash-alt"></i></button>
+						<button type="button" class="btn btn-danger rounded-pill"><i class="uil-edit-alt"></i></button>
+					</td>
+				</tr>
+			</tbody>	
+		</table >
+		<table>
+			<div class="row">
+				<div class="col-3">
+					<pagination-controls id="paging" [previousLabel]="'quay lại'" [nextLabel]="'tiếp tục'"
+						(pageChange)="handlePageChange($event)"></pagination-controls>
+				</div>
+				<div class="col-6"><input type="text" id="simpleinput" class="form-control"></div>
+				<div class="col-3"><button type="button" class="btn btn-primary"><i class="uil-plus-square">Thêm mới</i></button></div>
+			</div>
+		</table>
+	</div>
+	<div class="col-3">
+		<div class = "d-grid">
+			<div class=" list-group-item list-group-item background text-center"style="font-size: 16px;" >
+				BỘ LỌC
+			</div>
+			<div class="list-group-item list-group-item-custom">
+				Tìm theo tên nguồn văn bản : 
+			</div>
+			<div class="list-group-item">
+				<input type="text" class="form-control" placeholder="Tìm kiếm" />
+			</div>
+		</div>
+	</div>	
+</div>

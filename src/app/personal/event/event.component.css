@@ -1,0 +1,19 @@
+.nav-link {
+    cursor: pointer;
+}
+.content-table thead tr {
+    background-color: #0091ff;
+    color: aliceblue;
+    text-align: left;
+    font-weight: bold;
+}
+.background{
+    background-color: #248a8c;
+    color: aliceblue;
+    font-size: 18px;
+}
+.background-1{
+    background-color: #68be9f;
+    color: aliceblue;
+
+}

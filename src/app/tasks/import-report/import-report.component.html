@@ -1,0 +1,35 @@
+<div class="list-group-item active mb-3">NHẬP BÁO CÁO</div>
+<div class="list-group-item">
+    <div class="row">
+        <div class="row mb-2">
+            <label class="col-3 col-form-label "> <font color="#0000FF">Tiêu đề báo cáo :</font></label>
+            <div class="col-9"><input type="text" id="simpleinput" class="form-control"></div>
+        </div>
+        <div class="row mb-2">
+            <label class="col-3 col-form-label "> <font color="#0000FF">Nội dung :</font></label>
+            <div class="col-9">
+                <label class="form-label">Nội Dung:<span class="requiredField">(*)</span></label>
+                    <angular-editor [config]="editorConfig" [(ngModel)]="htmlContent">
+                    </angular-editor>
+            </div>
+        </div>
+        <!--
+        <div class="row mb-2">
+            <label for="example-textarea" class="col-3 col-form-label"><font color="#0000FF">Đính kèm :</font></label>
+            <div class="col-9">
+                <input type="file" multiple (change)="handleFileInput($event.target.files)" id="fileList"
+                            class="form-control">
+                        <ol class="list-group list-group-numbered">
+                            <li *ngFor="let file of importReportData.file; index as i" class="list-group-item">
+                                {{file.name}}<span (click)="removeFile(i)" style="float: right; font-weight:
+                                bold; cursor: pointer; color: #fa6767;">X</span></li>
+                        </ol>
+            </div>
+        </div>-->
+        <div class="btnOO d-flex justify-content-center row">
+            <input type="submit" name="ctl22$Tim" value="Lưu" id="ctl22_Tim"  class="btn btn-danger" style="width: 20%;">
+            <input type="submit" name="ctl22$btnReset" value="Bỏ qua" id="ctl22_btnReset" class="btnOO ms-2 btn btn-danger" style="width:20%;">
+        </div>
+    </div>
+</div>
+

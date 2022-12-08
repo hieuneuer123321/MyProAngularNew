@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-0">Thảo luận</h4>
+                <div class="row mb-3 mt-3" *ngFor="let i of [0,1,2,3,4]">
+                    <div class="col-lg-1 col-md-0 d-flex justify-content-end">
+                        <app-avatar-tooltip ngClass="d-none d-lg-block" [fullname]="'Nguyễn Hoài Thương'" [size]="'sm'">
+                        </app-avatar-tooltip>
+                    </div>
+                    <div class="col-lg-11 col-md-12 comment">
+                        <div class="row author_name_row">
+                            <div class="d-flex align-items-center">
+                                <app-avatar-tooltip [fullname]="'Nguyễn Hoài Thương'" ngClass="d-block d-lg-none"
+                                    [size]="'sm'">
+                                </app-avatar-tooltip>
+                                <h5 class="ms-1">Nguyễn Hoài Thương</h5><i class="ms-1">{{i+10}} phút trước</i>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum itaque soluta expedita
+                                exercitationem, magni debitis sed numquam laboriosam illum. Earum itaque officiis
+                                deserunt quam aspernatur facere odit id. Enim nesciunt possimus sequi et ipsa soluta,
+                                velit delectus quaerat fugiat assumenda expedita corrupti tempora doloribus similique
+                                aliquam veritatis amet explicabo harum unde, eius quidem? Reiciendis id rerum eaque
+                                harum natus ducimus aperiam iure asperiores odit est ut sint aspernatur dignissimos,
+                                fugit dolorem praesentium voluptatum illum odio tenetur earum commodi fugiat ratione ea!
+                                Minus, possimus ullam. Animi, cumque dolor nesciunt ducimus quae eligendi facilis sequi
+                                laudantium ratione! Itaque quae non vitae nobis adipisci deleniti quaerat ipsam veniam
+                                laudantium quia. Quisquam sequi voluptatum, distinctio voluptatem qui maxime repellendus
+                                quia animi, illo aut ab itaque explicabo sunt architecto, iure in illum harum autem
+                                ipsam est. Eum quod dolorem exercitationem qui natus, ullam ex earum similique quas quo,
+                                officiis quaerat magnam dolore itaque ipsam in optio assumenda enim dolorum magni esse
+                                placeat! Saepe, dicta ab totam adipisci delectus atque assumenda aspernatur? Dolor
+                                fugiat harum consequuntur cum ex ipsam impedit eos neque fugit atque, culpa quae aut
+                                doloremque mollitia molestias cupiditate, obcaecati iusto quos? Amet, cupiditate. Itaque
+                                error at quos dolorem dolorum eligendi, beatae numquam id.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <angular-editor></angular-editor>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

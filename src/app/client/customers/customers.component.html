@@ -1,0 +1,288 @@
+<div class="container-fluid">
+    <div class="col-11">
+        <div class="page-title-box">
+            <h4 class="page-title">Danh sách khách hàng</h4>
+        </div>
+    </div>
+
+    <table class="table mb-0 pointer">
+        <thead>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên khách hàng</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Người đại diện</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of customersListData | paginate: config" data-bs-toggle="modal"
+                data-bs-target="#scrollable-modal">
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.location}}</td>
+                <td>{{item.representative}}</td>
+                
+
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="list row">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            Số lượng thư mục mỗi trang {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="scrollable-modal" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-full-width" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="scrollableModalTitle">Chi tiết khách hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-9">
+
+                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                <li class="nav-item">
+                                    <a href="#detailTab" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link rounded-0 active">
+                                        <i class="mdi mdi-information d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Thông tin</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#assigneeTab" data-bs-toggle="tab" aria-expanded="true"
+                                        class="nav-link rounded-0">
+                                        <i class="mdi mdi-key d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Hợp đồng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#taskTab" data-bs-toggle="tab" aria-expanded="true"
+                                        class="nav-link rounded-0">
+                                        <i class="mdi mdi-key d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Công việc</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#duanTab" data-bs-toggle="tab" aria-expanded="true"
+                                        class="nav-link rounded-0">
+                                        <i class="mdi mdi-key d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Dự án</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane  show active" id="detailTab">
+                                    <div class="row">
+                                        <div class="mb-3 col-12">
+                                            <label for="simpleinput" class="form-label">Tên khách hàng:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Mã khách hàng:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Loại khách hàng:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-lg-12 col-sm-12 row">
+                                            <label for="simpleinput" class="form-label">Ngày thành lập:</label>
+                                            <div class="col-lg-6 col-sm-12">
+                                                <input [readonly]="editable" class="form-control" id="example-date"
+                                                    type="date" name="date">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-9">
+                                            <label for="simpleinput" class="form-label">Địa chỉ:</label>
+                                            <input class="form-control" [readonly]="editable" id="simpleinput">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Điện thoại:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Email:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Website:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Loại hình:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Ngành nghề:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Mã số thuế:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Số GPKD:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Ngân hàng:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Người đại diện:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Chức vụ:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Điện thoại:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Email:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        
+                                        <div class="mb-3 col-6">
+                                            <label for="simpleinput" class="form-label">Ghi chú:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-12">
+                                            <label for="example-fileinput" class="form-label">Đính kèm:</label>
+                                            <input type="file" id="example-fileinput" class="form-control" [readonly]="editable">
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="assigneeTab">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <table class="table table-centered table-bordered mb-0">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Số hợp đồng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <div class="mb-3 col-12">
+                                                        <label for="example-palaceholder" class="form-label"></label>
+                                                        <input [readonly]="editable" type="text" id="simpleinput" class="form-control" placeholder="Chưa có hợp đồng" >
+                                                    </div>
+                                                    <button [routerLink]="'/client/new-contract'" data-bs-dismiss="modal" type = "button"  class = "btn btn-primary" > Thêm hợp đồng </button >
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane " id="taskTab">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <table class="table table-centered table-bordered mb-0">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Số công việc</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <div class="mb-3 col-12">
+                                                        <label for="example-palaceholder" class="form-label"></label>
+                                                        <input [readonly]="editable" type="text" id="simpleinput" class="form-control" placeholder="Chưa có công việc" >
+                                                    </div>
+                                                    <button [routerLink]="''" data-bs-dismiss="modal" type = "button"  class = "btn btn-primary" > Thêm công việc </button >
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane " id="duanTab">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <table class="table table-centered table-bordered mb-0">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Số dự án</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <div class="mb-3 col-12">
+                                                        <label for="example-palaceholder" class="form-label"></label>
+                                                        <input [readonly]="editable" type="text" id="simpleinput" class="form-control" placeholder="Chưa có dự án" >
+                                                    </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div  class = "d-grid" >
+                                <button [routerLink]="'/client/new-customers'" data-bs-dismiss="modal" type = "button"  class = "btn btn-primary" > Thêm khách hàng </button >
+                                
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button *ngIf="!editable" type="button" class="btn btn-warning"
+                        (click)="cancelEditcustomers()">Huỷ</button>
+                    <button *ngIf="!editable" (click)="close()" type="button" class="btn btn-success">Lưu</button>
+                    <button *ngIf="editable" type="button" class="btn btn-primary" (click)="editcustomers()">Sửa</button>
+                    <button type="button" class="btn btn-success">Cập nhật</button>
+                    <button type="button" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,455 @@
+<div class="container-fluid">
+  <ngx-loading
+    [show]="spinnerLoading"
+    [config]="{
+      primaryColour: 'whitesmoke',
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+  <!-- start page title -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông Báo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Đóng
+          </button>
+          <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+          <button
+            (click)="openNewEvent()"
+            type="button"
+            class="btn btn-primary"
+          >
+            Thử lại
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-9">
+      <div class="page-title-box">
+        <h4 class="page-title">{{ getLabel("pageTitle") }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-9">
+      <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+        <li (click)="changeTabs(true)" class="nav-item">
+          <a
+            data-bs-toggle="tab"
+            aria-expanded="false"
+            class="nav-link rounded-0 active"
+          >
+            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+            <span class="d-none d-md-block"
+              >{{ getLabel("verify") }}
+              <span
+                style="vertical-align: top"
+                class="badge rounded-pill bg-warning text-dark"
+                *ngIf="config != null && currentTab == true"
+                >{{ config.totalItems }}</span
+              ></span
+            >
+          </a>
+        </li>
+        <li (click)="changeTabs(false)" class="nav-item">
+          <a
+            data-bs-toggle="tab"
+            aria-expanded="true"
+            class="nav-link rounded-0"
+          >
+            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+            <span class="d-none d-md-block"
+              >{{ getLabel("unverify") }}
+              <span
+                style="vertical-align: top"
+                class="badge rounded-pill bg-warning text-dark"
+                *ngIf="config != null && currentTab == false"
+                >{{ config.totalItems }}</span
+              ></span
+            >
+          </a>
+        </li>
+      </ul>
+      <!--End page title-->
+      <table
+        id="basic-datatable"
+        class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
+      >
+        <thead>
+          <tr>
+            <th>{{ getLabel("dateCol") }}</th>
+            <th>{{ getLabel("timeCol") }}</th>
+            <th>{{ getLabel("descriptionCol") }}</th>
+            <th>{{ getLabel("locationCol") }}</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="myTableRow"
+            *ngFor="let item of eventListData | paginate : config"
+            data-bs-toggle="modal"
+            data-bs-target="#scrollable-modal"
+            (click)="seeDetail(item)"
+          >
+            <td>{{ item.date | date : "dd/MM/yyyy" }}</td>
+            <td>
+              {{ item.time_start | slice : 11 : 16 }} {{ getLabel("to") }}
+              {{ item.time_end | slice : 11 : 16 }}
+            </td>
+            <td>
+              <b>{{ item.title }}</b>
+              <br />
+              {{ item.description }}
+            </td>
+            <td>{{ item.location }}</td>
+            <!-- <td class="text-center" >
+                            <div id="tooltip-container1">
+                                <span class="d-inline-block" tabindex="0" data-bs-container="#tooltip-container1"
+                                    data-bs-toggle="tooltip" title="Chuyển thành lịch cá nhân">
+                                    <i class="uil-code"></i>
+                                </span>
+                            </div>
+                        </td> -->
+            <td>
+              <div class="align-items-center">
+                <button
+                  class="btn-icon"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Sửa"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+              </div>
+              <div class="align-items-center">
+                <button
+                  class="btn-icon"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Xóa"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+              <div class="align-items-center">
+                <button
+                  class="btn-icon"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Hủy"
+                >
+                  <i class="fa-solid fa-ban"></i>
+                </button>
+              </div>
+              <div class="align-items-center">
+                <button
+                  class="btn-icon"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Chuyển thành lịch cá nhân"
+                >
+                  <i class="fa-regular fa-calendar-days"></i>
+                </button>
+              </div>
+              <div class="align-items-center">
+                <button
+                  style="border: none"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Chuyển thành công việc"
+                >
+                  <i class="fa-sharp fa-solid fa-share"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+          <div
+            class="modal fade"
+            id="scrollable-modal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="scrollableModalTitle"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-scrollable modal-lg"
+              role="document"
+            >
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="scrollableModalTitle">
+                    Event detail
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-hidden="true"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                      <a
+                        href="#detailTab"
+                        data-bs-toggle="tab"
+                        aria-expanded="false"
+                        class="nav-link rounded-0 active"
+                      >
+                        <i class="mdi mdi-information d-md-none d-block"></i>
+                        <span class="d-none d-md-block">Thông tin</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a
+                        href="#assigneeTab"
+                        data-bs-toggle="tab"
+                        aria-expanded="true"
+                        class="nav-link rounded-0"
+                      >
+                        <i class="mdi mdi-key d-md-none d-block"></i>
+                        <span class="d-none d-md-block"
+                          >Danh sách tham gia</span
+                        >
+                      </a>
+                    </li>
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane show active" id="detailTab">
+                      <div class="row">
+                        <div class="mb-3 col-12">
+                          <label for="simpleinput" class="form-label"
+                            >Tiêu đề:</label
+                          >
+                          <input
+                            [readonly]="editable"
+                            type="text"
+                            id="simpleinput"
+                            [(ngModel)]="eventDetail.title"
+                            class="form-control"
+                          />
+                        </div>
+                        <div class="mb-3 col-lg-6 col-sm-12 row">
+                          <label for="simpleinput" class="form-label"
+                            >Bắt đầu:</label
+                          >
+                          <div class="col-lg-6 col-sm-12">
+                            <input
+                              [readonly]="editable"
+                              class="form-control"
+                              id="example-date"
+                              value="{{
+                                eventDetail.time_start | slice : 0 : 10
+                              }}"
+                              type="date"
+                              name="date"
+                            />
+                          </div>
+                          <div class="col-lg-6 col-sm-12">
+                            <input
+                              [readonly]="editable"
+                              class="form-control"
+                              id="example-time"
+                              value="{{
+                                eventDetail.time_start | slice : 11 : 16
+                              }}"
+                              type="time"
+                              name="time"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-3 col-lg-6 col-sm-12 row">
+                          <label for="simpleinput" class="form-label"
+                            >Kết thúc:</label
+                          >
+                          <div class="col-lg-6 col-sm-12">
+                            <input
+                              [readonly]="editable"
+                              class="form-control"
+                              id="example-date"
+                              value="{{
+                                eventDetail.time_start | slice : 0 : 10
+                              }}"
+                              type="date"
+                              name="date"
+                            />
+                          </div>
+                          <div class="col-lg-6 col-sm-12">
+                            <input
+                              [readonly]="editable"
+                              class="form-control"
+                              id="example-time"
+                              value="{{
+                                eventDetail.time_end | slice : 11 : 16
+                              }}"
+                              type="time"
+                              name="time"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-3 col-12">
+                          <label for="simpleinput" class="form-label"
+                            >Nội dung:</label
+                          >
+                          <textarea
+                            class="form-control"
+                            [readonly]="editable"
+                            id="example-textarea"
+                            [(ngModel)]="eventDetail.description"
+                            rows="5"
+                          ></textarea>
+                        </div>
+                        <div class="mb-3 col-12">
+                          <label for="simpleinput" class="form-label"
+                            >Địa điểm:</label
+                          >
+                          <select
+                            id="example-multiselect"
+                            [disabled]="editable"
+                            class="form-control"
+                          >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="assigneeTab">
+                      <p>{{ "working" | uppercase }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Đóng
+                  </button>
+                  <button
+                    *ngIf="!editable"
+                    type="button"
+                    class="btn btn-warning"
+                    (click)="cancelEditEvent()"
+                  >
+                    Huỷ
+                  </button>
+                  <button
+                    *ngIf="!editable"
+                    (click)="close()"
+                    type="button"
+                    class="btn btn-success"
+                  >
+                    Lưu
+                  </button>
+                  <button
+                    *ngIf="editable"
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="editEvent()"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    *ngIf="!eventDetail.status"
+                    type="button"
+                    class="btn btn-success"
+                  >
+                    Duyệt
+                  </button>
+                </div>
+              </div>
+              <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+          </div>
+          <!-- /.modal -->
+        </tbody>
+      </table>
+      <!-- /////////////////// Pagination -->
+      <div class="list row">
+        <div class="col-md-8">
+          <pagination-controls
+            id="paging"
+            [previousLabel]="getLabel('previousBtn')"
+            [nextLabel]="getLabel('nextBtn')"
+            responsive="true"
+            responsive="true"
+            (pageChange)="handlePageChange($event)"
+          ></pagination-controls>
+        </div>
+        <div class="col-md-4">
+          {{ getLabel("itemsPerPage") }}:
+          <select
+            style="border: solid 1px rgb(230, 229, 229)"
+            (change)="handlePageSizeChange($event)"
+          >
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+              {{ size }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="list-group">
+        <button
+          type="button"
+          class="btn btn-success rounded mb-1"
+          data-bs-toggle="modal"
+          data-bs-target="#new-news-modal"
+          style="cursor: pointer"
+          [title]="getLabel('newBtn')"
+          img
+          (click)="openNewEvent()"
+          src="assets/imgs/plus.png"
+        >
+          Thêm mới lịch tuần
+        </button>
+        <button type="button" class="btn btn-success rounded mb-1">
+          Phê Duyệt
+        </button>
+        <button type="button" class="btn btn-success rounded mb-1">Hủy</button>
+        <button
+          type="submit"
+          name="ctl22$DANHMUC$ctl02$btnDel"
+          value="Xóa"
+          class="btn btn-success rounded mb-1"
+          onclick="return confirm('Bạn chắc chắn xóa ?');"
+          id="ctl22_DANHMUC_btnDel_0"
+        >
+          Xóa
+        </button>
+        <button type="button" class="btn btn-success rounded mb-1">
+          In Lịch
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

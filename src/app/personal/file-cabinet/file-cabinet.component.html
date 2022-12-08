@@ -1,0 +1,44 @@
+
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button (click)="openNewFileCabinet()" type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-2 my-auto" style="position:fixed;right:0; top:15%;">
+            <abbr style="cursor: pointer;" [title]="getLabel('newBtn')">
+                <!--<img (click)="openNewTaskModal()" style="width:40px;height:auto; float: right !important;"
+                    src="assets/imgs/plus.png" />-->
+                    <input (click)="openNewFileCabinet()" type="submit" name="ctl25$DangKy" value="{{getLabel('newFile')}}" 
+                    id="ctl25_DangKy" class="btn btn-primary btn-block" style="width:100%;" />
+                
+            </abbr>
+        </div>
+    </div>
+<div class="row">
+
+    
+

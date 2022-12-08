@@ -1,0 +1,48 @@
+.load-more-comments {
+    font-size: 18px;
+    color: #5f80ff;
+}
+
+.activity-line::after {
+    content: "";
+    width: 2px;
+    height: 75%;
+    background-color: rgb(227 227 227 / 51%);
+}
+
+.load-more-comments:hover {
+    color: #476cff;
+}
+
+.event-item>div>div::before {
+    position: absolute;
+    left: 0;
+    content: '';
+    width: 3px;
+    height: 70px;
+    background-color: rgb(0, 0, 0);
+}
+
+.event-item {
+    animation: intro 1s linear;
+}
+
+.card {
+    animation: intro 0.3s linear;
+}
+
+.activity-wrap {
+    animation: intro 0.3s ease-in-out;
+}
+
+@keyframes intro {
+    0% {
+        opacity: 0;
+        margin-top: 20px;
+    }
+
+    100% {
+        opacity: 1;
+        margin-top: 0;
+    }
+}

@@ -1,0 +1,202 @@
+
+<!--Làm mới lại tính năng báo cáo trong modul Khách hàng-->
+<div class="list-group-item active mb-3">
+    <b>BÁO CÁO</b> </div>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="row">
+            <div class="col-6">
+                <div class="mb-2 row">
+                    <div class="col-4">
+                        <label for="simpleinput" class="form-label"> Loại khách hàng :</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="example-select">
+                            <option> Tất cả </option>
+                            <option> Bệnh viện </option>
+                            <option> Cá nhân - thuế </option>
+                            <option> Đối tác </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <div class="mb-2 row">
+                    <div class="col-4">
+                        <label class="form-label"> Loại hợp đồng : </label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="example-select">
+                            <option> Tất cả </option>
+                            <option> Kiểm định </option>
+                            <option> Tư vấn </option>
+                            <option> Bảo trì </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <div class="mb-2 row">
+                    <div class="col-4">
+                        <label for="simpleinput" class="form-label"> Loại hÌnh  :</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="example-select">
+                            <option> Tất cả </option>
+                            <option> Bệnh viện </option>
+                            <option> Cá nhân  </option>
+                            <option> Cổ phần </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <div class="mb-2 row">
+                    <div class="col-4">
+                        <label class="form-label"> Ngành nghề : </label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="example-select">
+                            <option> Tất cả </option>
+                            <option> Bệnh viện </option>
+                            <option> Vận tải </option>
+                            <option> Xây dựng </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <div class="row mb-2">
+                    <div class=" col-4">
+                        <label for="example-select" class="form-label">Tỉnh/Thành</label>
+                    </div>
+                    <div class="col-8">
+                        <select (change)="setProvincesCode($event.target.value)" class="form-select" id="example-select">
+                            <option [value]="item.codename" *ngFor="let item of countryData">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <div class="row mb-2">
+                    <div class=" col-4">
+                        <label for="example-select" class="form-label">Quận/Huyện</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="example-select">
+                            <option *ngFor="let item of districtsData">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="col-6">
+                <th>Sản phẩm</th>
+                    <ul class="list-group mb-2">
+                        <li class="list-group-item mb-1 ">
+                            <input class="form-check-input mb-1" type="checkbox" value="" aria-label="...">
+                                First checkbox
+                        </li>
+                        <li class="list-group-item mb-1 ">
+                            <input class="form-check-input mb-1" type="checkbox" value="" aria-label="...">
+                                Second checkbox
+                        </li>
+                        <li class="list-group-item mb-1 ">
+                            <input class="form-check-input mb-1" type="checkbox" value="" aria-label="...">
+                                Third checkbox
+                        </li>
+                        <li class="list-group-item mb-1 ">
+                            <input class="form-check-input mb-1" type="checkbox" value="" aria-label="...">
+                                Fourth checkbox
+                        </li>
+                    </ul>
+            </div>
+            <!---->
+            <div class="col-6">
+                <th class="mb-2" >Giá trị HD ( chọn đơn vị tính )</th>
+                    <div class="mb-2">
+                        <input type="text" id="example-palaceholder" class="form-control mb-2" placeholder="Từ">
+                        <input type="text" id="example-palaceholder" class="form-control mb-2" placeholder="Đến">
+                    </div>
+                <th class="mb-2" >Ngày thành lập </th>
+                    <div class="mb-2">
+                        <input class="form-control mb-2" id="example-date" type="date" name="date">
+                        <input class="form-control" id="example-date" type="date" name="date">
+                    </div>
+            </div>
+            <!---->
+            <div class="list-group-item col-12 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                <label class="text-danger">Tất cả</label>
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+            <div class="list-group-item col-3 mb-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                First checkbox
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div>
+            <input type="submit" name="ctl22$Tim" class="btn btn-danger mb-2 " value="Tìm" id="ctl22_Tim"  (click)="eData()"   style="width:100%;">
+            <input type="submit" name="ctl22$btnExportfile" value="Xuất File" id="ctl22_btnExportfile" class="btn btn-danger" style="width:100%;">
+        </div>
+    </div>
+</div>
+    <div *ngIf="customersListData" class="row">
+        <table id="basic-datatable" class="table table-bordered table-striped
+            border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap
+            w-100 content-table">
+            <thead>
+                <tr>
+                    <th class="d-flex justify-content-center">STT</th>
+                    <th>Khách</th>
+                    <th>Địa chỉ</th>
+                    <th>Người đại diện</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of customersListData | paginate: config">
+                    <th class="d-flex justify-content-center" scope="row">{{item.id}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.location}}</td>
+                    <td>{{item.representative}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    

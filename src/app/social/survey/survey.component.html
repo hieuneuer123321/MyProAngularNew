@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-2 my-auto">
+            <abbr style="cursor: pointer;" [title]="getLabel('newBtn')">
+                <!--<img (click)="openNewTaskModal()" style="width:40px;height:auto; float: right !important;"
+                    src="assets/imgs/plus.png" />-->
+                <img style="width:40px;height:auto; float: right !important;" src="assets/imgs/plus.png" />
+            </abbr>
+        </div>
+    </div>
+    <!--End page title-->
+    <table id="basic-datatable" class="table table-striped table-hover dt-responsive nowrap w-100">
+        <thead>
+            <tr>
+                <th>{{getLabel('numberCol')}}</th>
+                <th>{{getLabel('surveyList')}}</th>
+                <th>{{getLabel('questionCol')}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="myTableRow" *ngFor="let item of surveyData | paginate: config">
+                <td>{{item.number}}</td>
+                <td>
+                    <b>{{item.title}}</b>
+                    <br>
+                    {{item.startDate}} - {{item.endDate}}
+                </td>
+                <td>{{item.numberOfQuestion}} {{getLabel('questionLabel')}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- /////////////////// Pagination -->
+    <div class="list row">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

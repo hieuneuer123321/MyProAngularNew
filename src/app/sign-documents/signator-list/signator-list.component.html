@@ -1,0 +1,124 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+    </div>
+    
+    <!--End page title-->
+    <table id="basic-datatable" class="table">
+        <thead>
+            <tr>
+                <th colspan="4" class="text-center">{{getLabel('dateCol')}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="myTableRow" *ngFor="let item of eventListData | paginate: config" data-bs-toggle="modal"
+                data-bs-target="#scrollable-modal" (click)="seeDetail(item)">
+                <td>{{item.title}}</td>
+                <td>{{item.name}}</td>
+              <td> 
+                <div class="h5 custom-color"><i class=" uil-eye"></i>{{item.view}}</div></td>
+              <td>{{item.day|date:"dd/MM/yyyy"}}</td>
+            </tr>
+          
+            <div class="modal fade" id="scrollable-modal" tabindex="-1" role="dialog"
+                aria-labelledby="scrollableModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scrollableModalTitle">Chi tiết trình ký</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                                <li class="nav-item">
+                                    <a href="#detailTab" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link rounded-0 active">
+                                        <i class="mdi mdi-information d-md-none d-block"></i>
+                                        <span class="d-none d-md-block">Thông tin</span>
+                                    </a>
+                                </li>
+                               
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane  show active" id="detailTab">
+
+                                    <div class="row">
+                                        <div class="mb-3 col-12">
+                                            <label for="simpleinput" class="form-label">Tiêu đề:</label>
+                                            <input [readonly]="editable" type="text" id="simpleinput"
+                                                [(ngModel)]="eventDetail.title" class="form-control">
+                                        </div>
+                                       
+                                        <div class="mb-3 col-12">
+                                            <label for="simpleinput" class="form-label">Nội dung:</label>
+                                            <textarea class="form-control" [readonly]="editable" id="example-textarea"
+                                                [(ngModel)]="eventDetail.description" rows="5"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="example-fileinput" class="form-label">Đính kèm</label>
+                                            <input type="file" multiple (change)="handleFileInput($event.target.files)" id="fileList"
+                                                class="form-control">
+                                            <ol class="list-group list-group-numbered">
+                                                <li *ngFor="let file of signatorListData.file; index as i" class="list-group-item">
+                                                    {{file.name}}<span (click)="removeFile(i)" style="float: right; font-weight:
+                                                    bold; cursor: pointer; color: #fa6767;">X</span></li>
+                                            </ol>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="assigneeTab">
+                                    <p>{{'working'|uppercase}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button *ngIf="!editable" type="button" class="btn btn-warning"
+                                (click)="cancelEditEvent()">Huỷ</button>
+                            <button *ngIf="!editable" (click)="close()" type="button" class="btn btn-success">Lưu</button>
+                            <button *ngIf="editable" type="button" class="btn btn-primary"
+                                (click)="editEvent()">Sửa</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </tbody>
+    </table>
+    <!-- /////////////////// Pagination -->
+    <div class="list row">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

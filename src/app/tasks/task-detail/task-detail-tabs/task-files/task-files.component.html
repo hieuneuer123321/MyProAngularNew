@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="d-flex justify-content-between">
+        <h3 class="text-dark">Danh sách tệp tin</h3>
+        <div class="w-40">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-text text-primary"><i class="uil-search-alt"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-12" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+        <div class="card intro rounded">
+            <div class="card-body">
+                <div class="d-flex flex-column align-items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="50px" alt="icon">
+                    <h4>Orders backup...</h4>
+                    <i>1 tuần trước</i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

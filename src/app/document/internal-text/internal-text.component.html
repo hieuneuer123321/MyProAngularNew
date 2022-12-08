@@ -1,0 +1,68 @@
+<div class="content-main">
+    <!------------------------------------------------------------------------------------------------------------------------------>
+<div class="row">
+    <div class="col-9">
+        <div class="list-group-item active mb-2 kichthuoc">VĂN BẢN NỘI BỘ</div>
+        <div class="container">
+            <table id = "basic-datatable" class = "table table-bordered dt-responsive nowrap w-100 " >
+                <thead > 
+                    <tr> 
+                        <th > STT </th>
+                        <th > Số VB </th > 
+                        <th > Nơi nhận </th > 
+                        <th > Ngày PH </th > 
+                        <th > Nơi soạn thảo </th >  
+                    </tr> 
+                </thead >
+                <tbody>
+                    <tr *ngFor="let i of internaltextsData">
+                        <td>{{i.nume_rical_order}}</td>
+                        <td>2 </td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    <div class="col-md-4">
+    <div class="col_3">
+    <ul class="oolist">
+    <div class="btnOO">
+        <div id="ctl22_dvThoiHanCV" class="content-box">
+            <ul>
+                <li><span>NĂM</span></li>
+                <div id="ctl22_dvThoiHanCV" class="content-box">
+                            <select id="inputState" class="form-select mb-1">
+                                <option>Tất cả</option>
+                                <option value="-1"*ngFor="let i of internalTextnamMoi" >
+                                    {{i}}
+                                </option>
+                            </select>
+                </div>
+            </ul>
+        </div>
+    <div id="ctl22_dvNoiSoanThao" class="content-box">
+        <ul>
+            <li><span>Nơi soạn thảo</span></li>
+            <select id="inputState" class="form-select mb-1">
+                <option>Tất cả mọi người</option>
+                <option *ngFor="let i of internalTextDuLieu">
+                    {{i}}
+                </option>
+            </select>
+        </ul>
+    </div>
+    <div style="height:10px;"></div>
+        <button [routerLink]="'/document/new-document'"  type = "button"  class = "btn btn-primary " > Thêm văn bản nội bộ </button >
+        <button [routerLink]="'/document/search'"  type = "button"  class = "btn btn btn-success ms-2  " > Tìm kiếm </button >
+    </div>
+    </ul>
+</div>
+    </div>
+    <div>
+        
+    </div>
+     <!------------------------------------------------------------------------------------------------------------------------------>
+    

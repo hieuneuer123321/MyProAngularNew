@@ -1,0 +1,170 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel("pageTitle")}}</h4>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+    <div class="row" *ngIf="taskDetail">
+        <div class="col-12">
+            <div class="card ribbon-box">
+                <div class="card-body">
+                    <div class="ribbon-two ribbon-two-primary" *ngIf="isAssigner()"><span>Tham gia</span></div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-lg-2 order-2 col-md-12">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/1200px-Angular_full_color_logo.svg.png"
+                                class="img-thumbnail" alt="test">
+                        </div>
+                        <div class="col-lg-9 order-3 col-md-12 d-flex flex-column justify-content-evenly">
+                            <h3 class="text-dark">{{taskDetail.chude}}</h3>
+                            <label class="description" *ngIf="taskDetail.duAn==null">Không thuộc dự án nào</label>
+                            <label class="description" *ngIf="taskDetail.duAn!=null">{{taskDetail.duAn.tenDuAn}}</label>
+                            <div class="row d-flex justify-content-lg-start justify-content-center">
+                                <div class="col-lg-auto col-md-12 mb-3 mb-md-0 mt-sm-1">
+                                    <div class="task-report">
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="d-flex justify-content-center align-items-center icon-round-custom rounded-circle">
+                                                <i class="uil-calendar-alt"></i>
+                                            </div>
+                                            <div class="ms-2">
+                                                <h5 class="m-0 text-dark">Ngày bắt đầu</h5>
+                                                <h5>{{taskDetail.ngayBatDau|date:"dd/MM/YYYY"}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-auto col-md-12 mb-3 mb-md-0 mt-sm-1">
+                                    <div class="task-report">
+                                        <div class="d-flex align-items-center">
+                                            <div
+                                                class="d-flex justify-content-center align-items-center icon-round-custom rounded-circle">
+                                                <i class="uil-check-circle"></i>
+                                            </div>
+                                            <div class="ms-2">
+                                                <h5 class="m-0 text-dark">Ngày kết thúc</h5>
+                                                <h5>{{taskDetail.ngayKetThuc|date:"dd/MM/YYYY"}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-auto col-md-12 mb-3 mb-md-0 mt-sm-1">
+                                    <div class="task-report">
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <img [src]="taskDetail.nguoiChinh.hinhDaiDien"
+                                                    *ngIf="taskDetail.nguoiChinh.hinhDaiDien!=null" alt="image"
+                                                    class="img-fluid avatar-sm rounded-circle">
+                                                <img src="assets/images/users/avatar-1.jpg"
+                                                    *ngIf="taskDetail.nguoiChinh.hinhDaiDien==null" alt="image"
+                                                    class="img-fluid avatar-sm rounded-circle">
+                                            </div>
+                                            <div class="ms-2">
+                                                <h5 class="m-0 text-dark">Thực hiện chính</h5>
+                                                <h5>{{taskDetail.nguoiChinh.hoTen}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-12 order-lg-4 order-sm-1 d-flex justify-content-end mb-1">
+                            <div class="row">
+                                <div class="dropdown text-dark">
+                                    <button type="button" class="btn btn-light btn-sm" id="taskdetail-dropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="uil-ellipsis-h h4">
+                                        </i>
+                                    </button>
+                                    <ul class="dropdown-menu intro" aria-labelledby="taskdetail-dropdown">
+                                        <li><a class="dropdown-item pointer">Thêm công việc mới</a></li>
+                                        <li><a class="dropdown-item pointer">Tạo công việc con</a></li>
+                                        <li><a class="dropdown-item pointer" (click)="requestFinishTask()">Đề xuất kết
+                                                thúc</a>
+                                        </li>
+                                        <li><a class="dropdown-item pointer" (click)="finishATask()">Kết thúc công
+                                                việc</a></li>
+                                        <li><a class="dropdown-item pointer">Không nhắc mới</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <ul class="nav nav-tabs nav-bordered mb-3">
+                            <li class="nav-item">
+                                <a href="#overview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                                    <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Tổng quan</span>
+                                </a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a href="#activity" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                    <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Thảo luận</span>
+                                </a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a href="#targets" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                                    <i class="uil-clipboard-alt d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Công việc con</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#users" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                    <i class="mdi mdi-account-multiple d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Danh sách tham gia</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#files" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                    <i class="uil-folder d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Tệp tin</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#setting" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                                    <i class="uil-cog d-md-none d-block"></i>
+                                    <span class="d-none d-md-block">Cài đặt công việc</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane show active" id="overview">
+                <app-task-overview [TaskDetail]="taskDetail" (reloadData)="getTaskDetail()"></app-task-overview>
+            </div>
+            <!-- <div class="tab-pane" id="activity">
+                <app-task-activity></app-task-activity>
+            </div> -->
+            <div class="tab-pane" id="targets">
+                <app-task-targets></app-task-targets>
+            </div>
+            <div class="tab-pane" id="users">
+                <app-task-users [dsThamGia]="taskDetail.danhSachNguoiXuLy"
+                    [dsDangXuLy]="taskDetail.danhSachNguoiDangXuLy" [dsDaXuLy]="taskDetail.danhSachNguoiDaXuLy"
+                    [dsChuaXuLy]="taskDetail.danhSachNguoiChuaXuLy" [dsDuocXem]="taskDetail.danhSachNguoiDuocXem">
+                </app-task-users>
+            </div>
+            <div class="tab-pane" id="files">
+                <app-task-files></app-task-files>
+            </div>
+            <div class="tab-pane" id="setting">
+                <app-task-setting [tenCV]="taskDetail.chude" [nhomCV]="taskDetail.nhomCongViec"
+                    [DsThamGia]="taskDetail.danhSachNguoiXuLy" [DsDuocXem]="taskDetail.danhSachNguoiDuocXem"
+                    [NguoiThucHienChinh]="taskDetail.nguoiChinh" [mscv]="taskDetail.mscv"
+                    [ngayKT]="taskDetail.ngayKetThuc|slice:0:10"
+                    (reloadData)="getTaskDetail()"></app-task-setting>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,254 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button (click)="generateData()" type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel("pageTitle")}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded" 
+                [title]="getLabel('newTask')" (click)="openNewTaskModal()"
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+        </div>
+        
+    </div>
+    <!-- end page title -->
+
+
+
+    <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+        <li (click)="currentTab = '0'; generateData()" class="nav-item">
+            <a data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0 active">
+                <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                <span class="d-none d-md-block">{{getLabel("assignedTab")}}
+                    <span style=" vertical-align:top;" class="badge rounded-pill bg-warning text-dark"
+                        *ngIf="currentTab==='0'">{{paginationConfig.totalItems}}</span></span>
+            </a>
+        </li>
+        <li (click)="currentTab = '1'; generateData()" class="nav-item">
+            <a data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
+                <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                <span class="d-none d-md-block">{{getLabel("forwadedTab")}} <span style=" vertical-align:top;"
+                        class="badge rounded-pill bg-warning text-dark"
+                        *ngIf="currentTab==='1'">{{paginationConfig.totalItems}}</span></span>
+            </a>
+        </li>
+        <li (click)="currentTab = '2'; generateData()" class="nav-item">
+            <a data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                <span class="d-none d-md-block">{{getLabel("watchableTab")}} <span style=" vertical-align:top;"
+                        class="badge rounded-pill bg-warning text-dark"
+                        *ngIf="currentTab==='2'">{{paginationConfig.totalItems}}</span></span>
+            </a>
+        </li>
+        <li (click)="currentTab = '3'; generateData()" class="nav-item">
+            <a data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                <span class="d-none d-md-block">{{getLabel("completedTab")}}<span style=" vertical-align:top;"
+                        class="badge rounded-pill bg-warning text-dark"
+                        *ngIf="currentTab==='3'">{{paginationConfig.totalItems}}</span></span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="list row">
+        <div class="col-md-8">
+            <div class="input-group mb-3">
+                <input (keyup)="search()" type="text" class="form-control"
+                    [placeholder]="getLabel('searchPlaceholer')" [(ngModel)]="searchKey" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" (click)="search()">
+                        <i class="uil-search-alt"></i> {{getLabel("searchBtn")}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="basic-datatable" class="table table-bordered table-striped border
+                            border-style table-hover table-centered mb-2 dt-responsive nowrap
+                            w-100 content-table">
+                                <thead>
+                                    <tr >
+                                        <th>{{getLabel("taskNameCol")}}</th>
+                                        <th>{{getLabel("creatorCol")}}</th>
+                                        <th>{{getLabel("startDateCol")}}</th>
+                                        <th>{{getLabel("endDateCol")}}</th>
+                                        <th>{{getLabel("progressCol")}}</th>
+                                        <th>{{getLabel("majorAssignerCol")}}</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody *ngIf="taskList!=null">
+                                    <tr class="myTableRow" (click)="taskItemClick(data)"
+                                        *ngFor="let data of taskList | paginate: paginationConfig">
+                                        <td>{{data.chude}}</td>
+                                        <td>{{data.nguoiTaoHoTen}}</td>
+                                        <td>{{data.ngayBatDau}}</td>
+                                        <td>{{data.ngayKetThucDuKien}}</td>
+                                        <td>
+                                            <p style="font-weight: bold;
+                                        color: rgb(218, 92, 47);" *ngIf="data.progressInfo.isLate">
+                                                {{data.progressInfo.displayText}}</p>
+                                            <circle-progress *ngIf="!data.progressInfo.isLate"
+                                                [percent]="data.progressInfo.percent" [radius]="20"
+                                                [outerStrokeWidth]="4" [innerStrokeWidth]="2"
+                                                [outerStrokeColor]="data.progressInfo.outerStrokeColor"
+                                                [innerStrokeColor]="'#C7E596'" [animation]="true"
+                                                [animationDuration]="100" [showSubtitle]="false" [backgroundPadding]="0"
+                                                [titleFontSize]="10"></circle-progress>
+                                        </td>
+                                        <td>{{data.nguoiXuLyChinhHoTen}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 
+    <div *ngIf="currentTab=='forwarded'" class="row">
+        <div class="col-sm-12">
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <table id="basic-datatable" class="table table-striped table-hover dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>{{getLabel("taskNameCol")}}</th>
+                                    <th>{{getLabel("creatorCol")}}</th>
+                                    <th>{{getLabel("startDateCol")}}</th>
+                                    <th>{{getLabel("endDateCol")}}</th>
+                                    <th>{{getLabel("progressCol")}}</th>
+                                    <th>{{getLabel("majorAssignerCol")}}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngIf="currentForwardedTask!=null">
+                                <tr class="myTableRow" (click)="taskItemClick(data)"
+                                    *ngFor="let data of currentForwardedTask | paginate: paginationConfig">
+                                    <td>{{data.chude}}</td>
+                                    <td>{{data.nguoiTaoHoTen}}</td>
+                                    <td>{{data.ngayBatDau}}</td>
+                                    <td>{{data.ngayKetThucDuKien}}</td>
+                                    <td>
+                                        <p style="font-weight: bold;
+                                        color: rgb(218, 92, 47);" *ngIf="data.progressInfo.isLate">
+                                            {{data.progressInfo.displayText}}</p>
+                                        <circle-progress *ngIf="!data.progressInfo.isLate"
+                                            [percent]="data.progressInfo.percent" [radius]="20" [outerStrokeWidth]="4"
+                                            [innerStrokeWidth]="2"
+                                            [outerStrokeColor]="data.progressInfo.outerStrokeColor"
+                                            [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="100"
+                                            [showSubtitle]="false" [backgroundPadding]="0" [titleFontSize]="10">
+                                        </circle-progress>
+                                    </td>
+                                    <td>{{data.nguoiXuLyChinhHoTen}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentTab=='watchable'" class="row">
+        <div class="col-sm-12">
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <table id="basic-datatable" class="table table-striped table-hover dt-responsive nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th>{{getLabel("taskNameCol")}}</th>
+                                    <th>{{getLabel("creatorCol")}}</th>
+                                    <th>{{getLabel("startDateCol")}}</th>
+                                    <th>{{getLabel("endDateCol")}}</th>
+                                    <th>{{getLabel("progressCol")}}</th>
+                                    <th>{{getLabel("majorAssignerCol")}}</th>
+                                </tr>
+                            </thead>
+
+                            <tbody *ngIf="currentWatchableTask!=null">
+                                <tr class="myTableRow" (click)="taskItemClick(data)"
+                                    *ngFor="let data of currentWatchableTask | paginate: paginationConfig">
+                                    <td>{{data.chude}}</td>
+                                    <td>{{data.nguoiTaoHoTen}}</td>
+                                    <td>{{data.ngayBatDau}}</td>
+                                    <td>{{data.ngayKetThucDuKien}}</td>
+                                    <td>
+                                        <p style="font-weight: bold;
+                                        color: rgb(218, 92, 47);" *ngIf="data.progressInfo.isLate">
+                                            {{data.progressInfo.displayText}}</p>
+                                        <circle-progress *ngIf="!data.progressInfo.isLate"
+                                            [percent]="data.progressInfo.percent" [radius]="20" [outerStrokeWidth]="4"
+                                            [innerStrokeWidth]="2"
+                                            [outerStrokeColor]="data.progressInfo.outerStrokeColor"
+                                            [innerStrokeColor]="'#C7E596'" [animation]="true" [animationDuration]="100"
+                                            [showSubtitle]="false" [backgroundPadding]="0" [titleFontSize]="10">
+                                        </circle-progress>
+                                    </td>
+                                    <td>{{data.nguoiXuLyChinhHoTen}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- /////////////////// Pagination -->
+    <div class="list row">
+        <div class="col-md-8">
+            <pagination-controls id="paginationControl" [previousLabel]="getLabel('previousBtn')"
+                [nextLabel]="getLabel('nextBtn')" responsive="true" (pageChange)="handlePageChange($event)">
+            </pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,99 @@
+.gantt {
+    overflow: overlay;
+}
+
+.gantt-row {
+    display: grid;
+    grid-gap: 0px 0px;
+}
+
+.gantt-gap {
+    display: grid;
+}
+
+.month {
+    position: sticky;
+    right: 0;
+    left: 0;
+}
+
+.first-row {
+    border-right: 1px solid black;
+}
+
+.gantt-gap>.row {
+    padding: 8px 0px;
+    border-bottom: 1px solid black;
+}
+
+.gantt-header>span {
+    grid-row: 1;
+}
+
+.dayofmonth:not(:first-child) {
+    text-align: center;
+    font-weight: bold;
+    border-right: 1px solid black;
+}
+
+.form-check-input {
+    border: 1px solid rgba(32, 32, 32, 0.381);
+}
+
+.task-detail {
+    width: 300px;
+    height: 130px;
+    border: 1px solid rgb(90, 90, 90);
+}
+
+.bar-item {
+    position: relative;
+    color: #f1f1f1;
+    border-radius: 5px;
+    cursor: pointer;
+    background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255, 0.1) 5px, rgba(255, 255, 255, 0.1) 12px);
+}
+
+.drag-btn {
+    width: 10px;
+    height: 100%;
+    background-color: #f3f3f3;
+    position: absolute;
+    border-radius: 5px;
+    cursor: e-resize;
+    border: 1px solid #aba6a6;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.bar-item:hover>.drag-btn {
+    opacity: 1;
+}
+
+.drag-left {
+    left: 0
+}
+
+.drag-right {
+    right: 0;
+}
+
+/*SCROLL BAR*/
+
+::-webkit-scrollbar {
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(175, 175, 175);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(124, 124, 124);
+}

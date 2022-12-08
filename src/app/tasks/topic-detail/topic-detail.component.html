@@ -1,0 +1,79 @@
+<div class="container-flu">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Chi tiết trao đổi</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-9">
+        <table class="table table-bordered border-primary table-centered">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Nội dung trao đổi</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="table-user col-1">
+                        <img src="assets/images/users/avatar-6.jpg" alt="table-user" class="me-2 rounded-circle" />
+                        Risa D. Pearson aaa
+                    </td>
+                    <td></td>
+                    <td class="table-action text-center col-1">
+                        <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                    </td>
+            </tbody>
+        </table>
+        <angular-editor [config]="editorConfig"></angular-editor>
+        <div class="d-flex justify-content-end mt-1">
+            <button type="button" class="btn btn-success"><i class="uil-message"></i> </button>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="row">
+            <button type="button" class="btn btn-primary mb-1" [routerLink]="'/tasks/new-task'">Tạo mới công việc</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary mb-1" [routerLink]="'/tasks/topic'">Quay lại</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary mb-1">Phản hồi</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#bs-example-modal-lg">Chuyển tiếp</button>
+            <div class="modal fade" id="bs-example-modal-lg" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myLargeModalLabel">Chuyển tiếp</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label class="form-label" for="groupOfWatchable">
+                                Lựa chọn danh sách từ: </label>
+                            <select style="width: 50%;" (change)="onWatchableGroupChange($event)"
+                                [(ngModel)]="groupKeyChosenInStep3" class="form-select" id="groupOfWatchable">
+                                <option value="all" selected>Tất cả nhân viên</option>
+                                <option [ngValue]="groupKey" *ngFor="let groupKey of generalService.allUserGroupsKey">
+                                    {{groupKey}}</option>
+                            </select>
+                        </div>
+
+                        <app-dual-list (updateLists)="dualListUpdateForWatchable($event)"
+                            [leftList]="allUserInStep3List" [rightList]="chosenWatchablelList"></app-dual-list>
+                        <div style="height:30px"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

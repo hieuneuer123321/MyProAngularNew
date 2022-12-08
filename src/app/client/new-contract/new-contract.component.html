@@ -1,0 +1,143 @@
+<div class="container-fluid">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Thêm mới hợp đồng</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9 row">
+            <div class="mb-1 col-6 row">
+                <label for="example-select" class="form-label col-4">Chọn khách hàng :</label>
+                <div class="col-8">
+                    <select class="form-select" id="example-select">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-1 col-6 row">
+                <label for="simpleinput" class="form-label col-4">Số hợp đồng :</label>
+                <div class="col-8"><input type="text" id="simpleinput" class="form-control"></div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-select" class="form-label col-4">Loại hợp đồng :</label>
+                <div class="col-8">
+                    <select class="form-select" id="example-select">
+                        <option></option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="simpleinput" class="form-label col-4">Ngày kí:</label>
+                <div class="col-8">
+                    <input class="form-control" id="example-date" type="date" name="date">
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="simpleinput" class="form-label col-4">Ngày thanh lý:</label>
+                <div class="col-8">
+                    <input class="form-control" id="example-date" type="date" name="date">
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-email" class="form-label col-4">Người kí :</label>
+                <div class="col-8">
+                    <input type="email" id="example-email" name="example-email" class="form-control" placeholder="">
+                </div>
+            </div>
+
+            <div class="mb-2 col-6 row">
+                <label for="example-palaceholder" class="form-label col-4">Chức vụ :</label>
+                <div class="col-8">
+                    <input type="text" id="example-palaceholder" class="form-control" placeholder="Chức vụ là gì nhỉ?">
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-palaceholder" class="form-label col-4">Giá trị :</label>
+                <div class="col-8">
+                    <input type="text" id="example-palaceholder" class="form-control" placeholder="Giá trị bao nhiêu?">
+                    <div class="mb-1 col-lg-6">
+                        <label for="example-select" class="form-label"></label>
+                        <select class="form-select" id="example-select">
+                            <option></option>
+                            <option>No results found</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label class="form-label col-4">Kì thanh toán :</label>
+                <div class="col-8">
+                    <input data-toggle="touchspin" type="number" value="1">
+                </div>
+            </div>
+
+            <div class="mb-1 col-6 row ">
+                <label for="example-palaceholder" class="form-label col-4">Tạm ứng :</label>
+                <div class="col-8"><input type="text" id="example-palaceholder" class="form-control" placeholder="Giá trị bao nhiêu?"></div>
+            </div>
+
+            <div class="mb-1 col-6 row ">
+                <label for="example-number" class="form-label col-4">Người liên hệ :</label>
+                <div class="col-8"><input class="form-control" id="example-number" type="text"></div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-number" class="form-label col-4">Số điện thoại :</label>
+                <div class="col-8"><input class="form-control" id="example-number" type="number" name="number"></div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-textarea" class="form-label col-4">Nội dung hợp đồng :</label>
+                <div class="col-8"><textarea class="form-control" id="example-textarea" rows="5"></textarea></div>
+            </div>
+
+            <div class="mb-1 col-6 row">
+                <label for="example-textarea" class="form-label col-4">Sản phẩm :</label>
+                <div class="col-8">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                        <label class="form-check-label" for="customCheck1">1</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">2</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">3</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="customCheck2">
+                        <label class="form-check-label" for="customCheck2">4</label>
+                    </div>
+                </div>
+            </div>
+            <div class=" row ">
+                <label for="example-fileinput" class="form-label col-2">Đính kèm :</label>
+                <div class="col-10"><input type="file" id="example-fileinput" class="form-control"></div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="d-grid">
+                <button [routerLink]="'/client/contract'" data-bs-dismiss="modal" type="button" class="btn btn-primary mb-1">
+                    Quay lại </button>
+                <button type="button" class="btn btn-primary"> Lưu </button>
+            </div>
+        </div>
+    </div>
+</div>

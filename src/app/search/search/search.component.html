@@ -1,0 +1,48 @@
+<div class="col-11">
+     <div class="page-title-box">
+         <h4 class="page-title">Kết quả tìm kiếm: {{keylabel}}</h4>
+         </div>
+         </div>
+         <div class="card" *ngIf="result[0].length>0">
+            <div class="card-body">
+                <h4 class="card-title">Dự án công việc</h4>
+                <table class="table table-centered mb-0">
+                    <thead> <tr>
+                        <th>name</th>
+                        <th>start</th>
+                        <th>end</th>
+                    </tr></thead>
+                   <tbody>
+                    <tr *ngFor="let item of result[0]">
+                        <td>{{item.name}}</td>
+                        <td>{{item.start}}</td>
+                        <td>{{item.end}}</td>
+                    </tr>
+                   </tbody>
+                </table>
+            
+            </div>
+         </div>
+         <div class="card" *ngIf="result[1].length>0">
+            <div class="card-body">
+                <h4 class="card-title">Danh sách trình ký</h4>
+                <table class="table table-centered mb-0">
+                    <thead> <tr>
+                        <th>name</th>
+                        <th>status</th>
+                        <th>number</th>
+                        
+                    </tr></thead>
+                   <tbody>
+                    <tr *ngFor="let item of result[1]">
+                        <td>{{item.name}}</td>
+                        <td>{{item.status}}</td>
+                        <td>{{item.number}}</td>
+                    </tr>
+                   </tbody>
+                </table>
+            
+            </div>
+         </div>
+    
+    

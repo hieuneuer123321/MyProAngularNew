@@ -1,0 +1,22 @@
+/* .trStyle {
+  margin-bottom: 20px;
+} */
+.container {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.137);
+  padding-bottom: 10px;
+}
+.item-container {
+  min-width: 300px;
+}
+.item-container2 {
+  flex-grow: 1;
+}
+.item {
+  color: rgb(45, 130, 204);
+  font-size: 16px;
+  font-weight: bold;
+}
+.btn-right {
+  color: white;
+}

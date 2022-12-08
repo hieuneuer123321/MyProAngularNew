@@ -1,0 +1,174 @@
+.month-year-title:hover {
+  background-color: rgb(242, 242, 242);
+}
+
+.month-year-title {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 17px;
+  text-align: center;
+}
+
+.m-y-select {
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 17px;
+}
+
+.m-y-select-wrap {
+  max-height: 220px;
+  overflow-y: scroll;
+}
+
+li {
+  width: 14.2857143%;
+  list-style: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  font-size: 17px;
+  border-radius: 50%;
+}
+
+.day-title>li {
+  font-size: 17px;
+}
+
+.day-title {
+  border-radius: 5px;
+}
+
+.day:hover,
+.m-y-select:hover {
+  background-color: rgb(208, 233, 255);
+  color: rgb(40, 40, 40);
+}
+
+.day-selected,
+.m-y-select-active {
+  background-color: beige;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.day-active {
+  background-color: rgb(57, 39, 252);
+  font-weight: bold;
+  color: #fff;
+}
+
+.day-selected.css-test::before {
+  background-color: #000000;
+}
+
+.day-active.css-test::before {
+  background-color: #ffffff;
+}
+
+.css-test::before {
+  content: '';
+  position: absolute;
+  background-color: #ababab;
+  padding: 3px;
+  border-radius: 50%;
+  bottom: 7px;
+  /*box-shadow: 0 0 5px #ababab5f, 0 0 10px #ababab5f, 0 0 20px #ababab5f,
+    0 0 30px #ababab5f, 0 0 40px #ababab5f, 0 0 50px #ababab5f;*/
+  /*animation: changeColor 5s linear infinite;*/
+}
+
+/*
+@keyframes changeColor {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+*/
+ul {
+  margin: 0;
+  padding: 0
+}
+
+.dropdown-menu.show {
+  animation: dropdown 0.2s linear;
+}
+
+.day {
+  animation: day-opacity .5s linear;
+}
+
+@keyframes day-opacity {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dropdown {
+  0% {
+    opacity: 0;
+    margin-top: 10px;
+  }
+
+  100% {
+    opacity: 1;
+    margin: 0;
+  }
+}
+
+/* SCROLL BAR */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(175, 175, 175);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(124, 124, 124);
+}
+
+/*response*/
+@media screen and (max-width:720px) {
+  .day {
+    font-size: 15px;
+    width: 30px;
+    height: 30px;
+  }
+
+  li {
+    margin-top: 10px;
+  }
+
+  .css-test::before {
+    padding: 2px;
+    border-radius: 50%;
+    bottom: 1px;
+  }
+
+  .day-title>li {
+    font-size: 15px;
+    color: rgba(73, 73, 73, 0.5);
+  }
+}

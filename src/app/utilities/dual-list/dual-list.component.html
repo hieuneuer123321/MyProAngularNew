@@ -1,0 +1,40 @@
+<div class="dual-list">
+    <div class="list panel panel-default pull-left">
+      <div class="panel-heading">
+        <label style="margin-left: 10px">{{ leftTitle }}</label>
+        <div class="btn-group">
+          <button class="btn btn-default" (click)="_leftList.selectAll()" [disabled]="_leftList.isSelectedAll()">Chọn tất cả</button>
+          <button class="btn btn-default" (click)="_leftList.selectNone()" [disabled]="_leftList.isSelectedNone()">Bỏ tất cả</button>
+        </div>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let item of _leftList.base" (click)="selectItem(_leftList.selected, item)"
+            [ngClass]="{ active: isSelected(_leftList.selected, item) }">
+          <span>{{ item[display] }}</span>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="btn-group-vertical">
+      <button type="button" class="btn btn-primary add" (click)="moveSelectedItems(_leftList, _rightList)"
+              [disabled]="!_leftList.selected.length"><i style="font-size: 1.5em;" class="uil-angle-right"></i></button>
+      <button type="button" class="btn btn-primary remove" (click)="moveSelectedItems(_rightList, _leftList)"
+              [disabled]="!_rightList.selected.length"><i style="font-size: 1.5em;" class="uil-angle-left"></i></button>
+    </div>
+  
+    <div class="list panel panel-default pull-left">
+      <div class="panel-heading">
+        <label style="margin-left: 10px">{{ rightTitle }}</label>
+        <div class="btn-group">
+          <button class="btn btn-default" (click)="_rightList.selectAll()" [disabled]="_rightList.isSelectedAll()">Chọn tất cả</button>
+          <button class="btn btn-default" (click)="_rightList.selectNone()" [disabled]="_rightList.isSelectedNone()">Bỏ tất cả</button>
+        </div>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item"  *ngFor="let item of _rightList.base" (click)="selectItem(_rightList.selected, item)"
+            [ngClass]="{ active: isSelected(_rightList.selected, item) }">
+          <span>{{ item[display] }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>

@@ -1,0 +1,127 @@
+<div id="task-sample-manager-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Công việc mẫu tác vụ</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#overview_tab" data-bs-toggle="tab" aria-expanded="false"
+                            class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Tổng quan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#user_tab" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Danh sách tham gia</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#watch_tab" data-bs-toggle="tab" aria-expanded="false" class="nav-link rounded-0">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Danh sách xem</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="overview_tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Thông tin cơ bản</h5>
+                                <form class="form-horizontal">
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Tên công việc:</label>
+                                        <div class="col-9">
+                                            <input type="text" class="form-control" placeholder="Tên công việc">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Dự án:</label>
+                                        <div class="col-9">
+                                            <select class="form-select" id="example-select">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Thư viện:</label>
+                                        <div class="col-9">
+                                            <select class="form-select" id="example-select">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Nội dung:</label>
+                                        <div class="col-9">
+                                            <angular-editor></angular-editor>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Lặp lại:</label>
+                                        <div class="col-9">
+                                            <select class="form-select" id="example-select">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-3 col-form-label">Số ngày hoàn thành:</label>
+                                        <div class="col-9">
+                                            <input type="number" class="form-control" placeholder="Số ngày hoàn thành">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">Tệp đính kèm</h5>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="user_tab">
+                        <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                            [rightList]="chosenAssigneelList"></app-dual-list>
+                        <div style="margin: 30px 10px 30px 30px;">
+                            <label class="form-label" for="majorAssignee"><span style="color: tomato;">(*)</span>
+                                Người Xử lý Chính: </label>
+                            <select style="width: 50%;" [(ngModel)]="majorAssignee" class="form-select"
+                                id="majorAssignee">
+                                <option selected>Chọn...</option>
+                                <option [ngValue]="assignee" *ngFor="let assignee of chosenAssigneelList">
+                                    {{assignee.fullName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="watch_tab">
+                        <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                            [rightList]="chosenAssigneelList"></app-dual-list>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

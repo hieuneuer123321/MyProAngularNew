@@ -1,0 +1,95 @@
+<div class="card" (mouseleave)="endDrag()" (mouseup)="endDrag()">
+    <div class="card-body">
+        <div class="d-flex justify-content-end m-2">
+            <div class="d-flex gap-2">
+                <div class="text-dark fw-bold">
+                    Dạng xem:
+                </div>
+                <div class="form-check pointer">
+                    <input type="radio" id="customRadio1" [checked]="true" (change)="changeViewMode(false,50)"
+                        name="customRadio" class="form-check-input pointer">
+                    <label class="form-check-label pointer text-dark" for="customRadio1">Ngày</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" id="customRadio2" name="customRadio" (change)="changeViewMode(true,10)"
+                        class="form-check-input  pointer">
+                    <label class="form-check-label text-dark pointer" for="customRadio2">Tháng</label>
+                </div>
+            </div>
+        </div>
+        <div class="row border border-dark">
+            <div class="col-md-2 col-sm-4 fw-bold gantt-gap pb-3" style="border-right:1px solid black">
+                <div class="row bg-primary text-light">
+                    <span>Tháng</span>
+                </div>
+                <div *ngIf="!isMonthMode" class="row bg-primary text-light">
+                    <span>Ngày</span>
+                </div>
+                <div class="row text-dark" *ngFor="let item of data">
+                    <span>{{item.taskTitle}}</span>
+
+                </div>
+                <!-- <div class="row text-dark">
+                    <span>Công việc 2</span>
+                </div> -->
+            </div>
+            <div class="col-md-10 col-sm-8 gantt gantt-gap pb-3">
+                <div class="row gantt-row text-light bg-primary fw-bold"
+                    [ngStyle]="{'grid-template-columns': 'repeat('+totalDay+','+ganttRowGap+'px)'}">
+                    <ng-container *ngFor="let item of ganttData">
+                        <div class="first-row" [ngStyle]="{
+                            'grid-column-start':getDiff(minDate,item.list[0])+1,
+                            'grid-column-end':(item.list.length + 1 + getDiff(minDate,item.list[0])),
+                            'text-align': 'center'}">
+                            <label class="month">{{item.month|date:'MM'}} <ng-container *ngIf="item.list.length>1">
+                                    {{item.month|date:',YYYY'}}
+                                </ng-container></label>
+                        </div>
+                    </ng-container>
+                </div>
+                <div *ngIf="!isMonthMode" class="row gantt-row text-dark"
+                    [ngStyle]="{'grid-template-columns': 'repeat('+totalDay+','+ganttRowGap+'px)'}">
+                    <ng-container *ngFor="let item of ganttData">
+                        <div [class.dayofmonth]="!isMonthMode" *ngFor="let i of item.list">
+                            <label>
+                                {{i|date:'dd'}}
+                            </label>
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- <app-gantt-row [ngStyle]="{'grid-template-columns': 'repeat('+totalCol+', 50px)'}"
+                    *ngFor="let item of data" class="row gantt-row" [isNode]="minDate===item.startAt"
+                    [col_start]="getDiff(minDate,item.startAt)+1"
+                    [col_end]="getDiff(minDate,item.startAt) + getDiff(item.startAt,item.endAt) + 2">
+                </app-gantt-row> -->
+                <div class="row gantt-row" *ngFor="let item of data" (mousemove)="onDrag($event)"
+                    [ngStyle]="{'grid-template-columns': 'repeat('+ totalDay +','+ganttRowGap+'px)'}">
+                    <div class="bar-item bg-primary" [ngClass]="minDateOfTask===item.startAt?'bar-node':'bar'"
+                        [ngStyle]="{
+                        'grid-column-start': getDiff(minDate,item.startAt)+1,
+                        'grid-column-end': getDiff(minDate,item.startAt) + getDiff(item.startAt,item.endAt) + 1}"
+                        (mousedown)="move($event,item)" (mouseup)="endDrag()" data-bs-toggle="dropdown"
+                        aria-expanded="false" data-bs-auto-close="outside">
+                        <!-- btn drag -->
+                        <div class="drag-btn drag-left" (mousedown)="leftDrag($event,item)"> </div>
+                        <label></label>
+                        <!-- btn drag -->
+                        <div class="drag-btn drag-right" (mousedown)="rightDrag($event,item)"> </div>
+                    </div>
+                    <div class="dropdown-menu task-detail">
+                        <div class="ms-3 m-1">
+                            <div><b>Bắt đầu {{item.startAt|date:"dd/MM/yyyy"}} đến
+                                    {{item.endAt|date:"dd/MM/yyyy"}}</b>
+                            </div>
+                            <div>Số ngày hoàn thành: {{getDiff(item.startAt,item.endAt)}}</div>
+                            <div>Tiến trình: 43%</div>
+                            <div>Người xử lý chính: Nguyễn Hoài Thương</div>
+                            <div class="text-end text-primary"><label class="pointer">Xem thêm</label></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <app-gantt-row class="row gantt-row" [col_start]="7" [col_end]="7" [col]="31"> </app-gantt-row> -->
+            </div>
+        </div>
+    </div>
+</div>

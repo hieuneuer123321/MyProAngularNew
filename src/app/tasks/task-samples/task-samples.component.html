@@ -1,0 +1,112 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">Công việc mẫu</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button type="button" class="btn btn-success rounded" data-bs-toggle="modal"
+                    data-bs-target="#task-sample-manager-modal" style="cursor: pointer;" src="assets/imgs/plus.png">
+                    Thêm mới</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <table id="basic-datatable" class="table table-bordered table-striped border-color
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table">
+                <thead>
+                    <tr>
+                        <th class="d-flex justify-content-center">STT </th>
+                        <th>Tên công việc </th>
+                        <th class="d-flex justify-content-center"> Lặp lại </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of taskSampleData|paginate: config; let i = index" class="pointer">
+                        <td class="d-flex justify-content-center">{{i}}</td>
+                        <td><a [routerLink]="'/tasks/task-samples/detail/'+item.mscv">{{item.tenCV}}</a></td>
+                        <td class="d-flex justify-content-center">{{item.lapLai}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tên công việc:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary hover" data-bs-toggle="collapse" href="#dateCollapse"
+                    aria-expanded="false">
+                    Theo ngày tạo
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="dateCollapse">
+                    <div class="list-group-item">
+                        <form class="form-horizontal">
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-5 col-form-label">Từ ngày:</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="example-date" type="date" name="date">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-5 col-form-label">Đến ngày:</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="example-date" type="date" name="date">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-primary hover" data-bs-toggle="collapse"
+                    href="#authorCollapse" aria-expanded="false">
+                    Theo người tạo
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="authorCollapse">
+                    <div class="list-group-item">
+                        <select class="form-select" id="example-select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-task-sample-manager></app-task-sample-manager>

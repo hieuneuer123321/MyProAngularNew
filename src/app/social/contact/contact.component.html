@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+    </div>
+    <!--End page title-->
+    <div class="row">
+        <div class="col-lg-9 col-sm-12 order-md-1">
+            <table  id = "basic-datatable"  class = "table table-bordered table-striped border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" >
+                <thead >
+                    <tr>
+                        <th>{{getLabel('nameCol')}}</th>
+                        <th>{{getLabel('permissionCol')}}</th>
+                        <th>{{getLabel('phoneNumberCol')}}</th>
+                        <th>{{getLabel('emailCol')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="myTableRow" *ngFor="let item of contactData | paginate: config">
+                        <td class="table-user" style="width: 50%;">
+                            <img src="{{item.img}}" alt="{{item.fullName}}.img"
+                                class="me-2 rounded-circle">{{item.fullName}}
+                        </td>
+                        <td style="width: 100%;"><label>{{item.permission}}</label></td>
+                        <td style="width: 20%;"><label>{{item.phoneNumber}}</label></td>
+                        <td style="width: 20%;">
+                            <a href="mailto:{{item.email}}">{{item.email}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-3 col-sm-12 col-md-12 order-lg-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tên:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary pointer" data-bs-toggle="collapse" href="#department"
+                    aria-expanded="false">
+                    Theo bộ Phận
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="department">
+                    <div class="list-group-item" *ngFor="let item of departmentList; let i = index">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="departmentCheck{{i}}">
+                            <label class="form-check-label pointer" for="departmentCheck{{i}}">{{item}}</label>
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-primary pointer" data-bs-toggle="collapse" href="#permission"
+                    aria-expanded="false">
+                    Theo chức vụ
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="permission">
+                    <div class="list-group-item" *ngFor="let item of departmentList; let i = index">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="permissionCheck{{i}}">
+                            <label class="form-check-label pointer" for="permissionCheck{{i}}">{{item}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /////////////////// Pagination -->
+    <div class="list row col-9">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+.kichthuoc{
+    font-size: 18px;
+}
+.kichthuocnho{
+    font: 20px;
+}
+.border-color{
+    border-color: #127b90;
+}
+.border-style{
+    border-style: solid;
+}
+.font-letter{
+    flood-color:#127b90
+}
+.content-table thead tr {
+    background-color: #0091ff;
+    color: aliceblue;
+    text-align: left;
+    font-weight: bold;
+}
+.size{
+    width: 2cm;
+}

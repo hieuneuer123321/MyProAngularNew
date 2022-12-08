@@ -1,0 +1,56 @@
+.avatar-group:not(:first-child) {
+    left: -1px;
+    position: relative;
+    margin-left: -20px;
+    z-index: 1;
+}
+
+.icon-round-custom {
+    background-color: #e5edff;
+    color: #0015ff;
+    font-size: 18px;
+    width: 40px;
+    height: 40px;
+}
+
+.avatar-group {
+    cursor: pointer;
+}
+
+.bg-custom-color {
+    background-color: aliceblue;
+    color: black;
+}
+
+.avatar-group:hover {
+    z-index: 999;
+}
+
+.task-report {
+    border: 1px dashed;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border-color: #4d4d4d2e;
+}
+
+.task-header-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.description {
+    font-size: 21px;
+}
+
+.nav-link>* {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+hr {
+    width: 98%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

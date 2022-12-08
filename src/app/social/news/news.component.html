@@ -1,0 +1,142 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="new-news-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <app-news-manager></app-news-manager>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="news-type-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <app-news-type></app-news-type>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End page title-->
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded" 
+            data-bs-toggle="modal" data-bs-target="#new-news-modal" 
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <ng-container *ngFor="let item of newsData | paginate: config">
+                <div [routerLink]="['/social/news/detail/id']" class="col-12 row mb-3 border rounded">
+                    <div class="col-2 d-flex align-items-center">
+                        <img src="{{item.image}}" alt="image" class="pointer" width="100%">
+                    </div>
+                    <div class="col-10">
+                        <h3> <a>{{item.title}}</a></h3>
+                        <p class="paragraph_ellipsis">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+                            dolorum quo magni in
+                            expedita
+                            perferendis officiis consequatur assumenda rerum, nemo, recusandae aspernatur, soluta
+                            reprehenderit unde quod veritatis commodi doloribus dicta.</p>
+                        <i class="d-flex">Đăng bởi
+                            <div style="margin-left: 5px;margin-right:5px">
+                                <app-avatar-tooltip [fullname]="item.by" [size]="'xs'"></app-avatar-tooltip>
+                            </div>
+                            vào lúc {{item.date|date:'dd/MM/yyyy'}}
+                        </i>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tiêu đề:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary hover" data-bs-toggle="collapse" href="#department"
+                    aria-expanded="false">
+                    Theo Loại tin
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="department">
+                    <div class="list-group-item" *ngFor="let item of newGroupTitle; let i = index">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="departmentCheck{{i}}">
+                            <label class="form-check-label hover" for="departmentCheck{{i}}">{{item}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /////////////////// Pagination -->
+    <div class="list row col-9">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

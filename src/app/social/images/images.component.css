@@ -1,0 +1,27 @@
+.btn-custom {
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    color: aliceblue;
+    width: 100%;
+    text-align: right;
+    background-image: linear-gradient(to bottom, #00000070 1px, transparent);
+}
+
+.btn-custom>i {
+    cursor: pointer;
+}
+
+.btn>i:hover {
+    color: rgb(77, 77, 77);
+}
+.background{
+    background-color: #24358c;
+    color: aliceblue;
+}
+.content-table thead tr {
+    background-color: #0091ff;
+    color: aliceblue;
+    text-align: left;
+    font-weight: bold;
+}

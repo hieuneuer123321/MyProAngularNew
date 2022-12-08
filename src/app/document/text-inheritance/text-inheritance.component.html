@@ -1,0 +1,24 @@
+<div id="page-wrapper" class="gray-bg dashboard-1" style="min-height: 613px;">
+    <div class="content-main">
+        <!------------------------------------------------------------------------------------------------------------------------------>
+        
+<div class="grid-form1">
+    <div class="list-group-item active mb-2"><b>KẾ THỪA VĂN BẢN</b></div>
+<br>
+<div class="col-md-9 single_right btnOO">
+Chọn người kế thừa văn bản: <i>
+    <font color="red">(chú ý người kế thừa văn bản sẽ được xem tất cả các văn bản của mình)</font></i> <br>
+        <ul>
+            <select id="inputState" class="form-select mb-1">
+                <option>Tất cả mọi người</option>
+                <option *ngFor="let i of textInheritanceDuLieu">
+                    {{i}}
+                </option>
+            </select>
+        </ul>
+        <div class="d-flex justify-content-center"><button type="submit" class="btn btn-danger rounded-pill" name="ctl22$btnOK" id="ctl22_btnOK" style="width:20%;">Đồng ý</button> </div>
+    </div>
+    <div class="col-md-3">
+    <span id="ctl22_lblErr" style="color:Red;font-weight:bold;font-style:italic;"></span></div>
+    <div class="clearfix"></div>
+</div>

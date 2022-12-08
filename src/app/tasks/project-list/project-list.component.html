@@ -1,0 +1,114 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1 my-auto">
+            <img (click)="goBack()" style="cursor: pointer;opacity:0.5; width:30px;height:auto; margin:auto"
+                src="assets/imgs/left.png" />
+        </div>
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">Dự án công việc:</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-10">
+            <table id="basic-datatable" class="table table-bordered table-striped border-color-style
+             table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table">
+                <thead>
+                    <tr>
+                        <th class="d-flex justify-content-center">STT</th>
+                        <th>Tên dự án</th>
+                        <th>Tình trạng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of projectData | paginate: config">
+                        <td class="text-center" style="width: 10%;">
+                            <label *ngIf="projectEditData.msda !== item.msda">
+                                {{item.stt}}
+                            </label>
+                            <select class="form-select" name="sttEdit" [(ngModel)]="projectEditData.stt"
+                                *ngIf="projectEditData.msda === item.msda">
+                                <option *ngFor="let i of numbers" [value]="i">{{i}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <label *ngIf="projectEditData.msda !== item.msda">
+                                {{item.tenDuAn}}
+                            </label>
+                            <input [(ngModel)]="projectEditData.tenDuAn" *ngIf="projectEditData.msda === item.msda"
+                                type="text" name="tenDuAnEdit" id="tenDuAn" class=" form-control">
+                        </td>
+                        <td>
+                            <label *ngIf="projectEditData.msda !== item.msda">
+                                {{item.tinhTrang === 0 ? 'Chưa hoàn thành' : 'Đã kết thúc'}}
+                            </label>
+                            <select class="form-select" name="Tình trạng dự án" id="tinhtrangDA"
+                                *ngIf="projectEditData.msda === item.msda" [(ngModel)]="projectEditData.tinhTrang">
+                                <option value="0">Chưa hoàn thành</option>
+                                <option value="1">Đã kết thúc</option>
+                            </select>
+                        </td>
+                        <td class="text-center gap-3 d-flex justify-content-center gap-3">
+                            <button type="button" *ngIf="projectEditData.msda !== item.msda" (click)="projectEdit(item)"
+                                class="btn btn-warning"><i class="uil-edit-alt"></i></button>
+                            <button type="button" *ngIf="projectEditData.msda !== item.msda"
+                                (click)="projectDelete(item.msda)" class="btn btn-danger"><i
+                                    class="uil-trash-alt"></i></button>
+                            <button type="button" (click)="projectSaveEdit(item)"
+                                *ngIf="projectEditData.msda === item.msda" class="btn btn-success">
+                                <i class="uil-check"></i>
+                            </button>
+                            <button type="button" (click)="projectCancelEdit()"
+                                *ngIf="projectEditData.msda === item.msda" class="btn btn-danger">
+                                <i class="uil-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><select [(ngModel)]="projectCreateData.stt" name="" id="">
+                                <option *ngFor="let i of numbers">{{i}}</option>
+                            </select></td>
+                        <td><input [(ngModel)]="projectCreateData.tenda" type="text" id="" style="width:100%;" />
+                        </td>
+                        <td>
+                            <button type="button" (click)="projectCreateNew()" class="btn btn-primary">Thêm mới</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="list row">
+            <div class="col-md-8">
+                <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')"
+                    [nextLabel]="getLabel('nextBtn')" responsive="true" responsive="true"
+                    (pageChange)="handlePageChange($event)"></pagination-controls>
+            </div>
+            <div class="col-md-4">
+                {{getLabel("itemsPerPage")}}:
+                <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">
+                        {{ size }}
+                    </option>
+                </select>
+            </div>

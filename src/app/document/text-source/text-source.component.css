@@ -1,0 +1,27 @@
+.kichthuoc{
+    font-size: 18px;
+}
+.idcangiua {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        margin: 10px auto;
+    }
+    .border-color{
+        border-color: #127b90;
+    }
+    .border-style{
+        border-style: solid;
+    }
+    .content-table thead tr {
+        background-color: #0091ff;
+        color: aliceblue;
+        text-align: left;
+        font-weight: bold;
+    }
+    .background{
+        background-color: #24358c;
+        color: aliceblue;
+    }

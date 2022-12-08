@@ -1,0 +1,80 @@
+<div class="list-group-item active mb-3">
+    <b>TÌM KIẾM KHÁCH HÀNG - HỢP ĐỒNG</b> </div>
+<div class="col-lg-9">
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-2 row">
+                <div class="col-4">
+                    <label for="simpleinput" class="form-label"> Tên khách hàng :</label>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="simpleinput" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-2 row">
+                <div class="col-4">
+                    <label class="form-label"> Chọn khách hàng-hợp đồng : </label>
+                </div>
+                <div class="col-8">
+                    <select class="form-select" id="example-select">
+                        <option> Tìm hợp đồng </option>
+                        <option>Tìm khách hàng </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3 row">
+                <div class="col-4">
+                    <label for="simpleinput" class="form-label"> Kì thanh toán :</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control" id="example-date" type="date" name="date" placeholder="Từ ">
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3 row">
+                <div class="col-4">
+                    <label for="simpleinput" class="form-label"> Đến ngày :</label>
+                </div>
+                <div class="col-8">
+                    <input class="form-control" id="example-date" type="date" name="date" placeholder="Từ ">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="btnOO d-flex justify-content-center">
+    <div class="col-9">
+        <input type="submit" name="ctl22$Tim" class="btn btn-danger" value="Tìm" id="ctl22_Tim"  (click)="gData()"style="width:30%;">
+        <input type="submit" name="ctl22$Quaylai" style="width:30%;" value="Quay lại" id="ctl22_Quaylai"
+        [routerLink]="'/client/customers'" data-bs-dismiss="modal" type="button"
+                    class="btn btn-danger rounded ms-2">
+    </div>
+</div>
+
+        <div *ngIf="customersListData" class="row">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Khách</th>
+                        <th>Địa chỉ</th>
+                        <th>Người đại diện</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of customersListData | paginate: config">
+                        <th scope="row">{{item.id}}</th>
+                        <td>{{item.name}}</td>
+                        <td>{{item.location}}</td>
+                        <td>{{item.representative}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>

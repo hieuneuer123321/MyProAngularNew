@@ -1,0 +1,92 @@
+<div class="row">
+    <div class="col-9 row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Tổng quan</h5>
+                    <ul>
+                        <li class="row mb-1">
+                            <div class="col-4">Tên công việc:</div>
+                            <div class="col-8">NSS CV lập </div>
+                        </li>
+                        <li class="row mb-1">
+                            <div class="col-4">Dự án:</div>
+                            <div class="col-8">Lorem ipsum dolor sit amet. </div>
+                        </li>
+                        <li class="row mb-1">
+                            <div class="col-4">Nội dung:</div>
+                            <div class="col-8">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Omnis
+                                consequatur veritatis aperiam ea error veniam ad rerum repellat repellendus.
+                                Dolorum.</div>
+                        </li>
+                        <li class="row mb-1">
+                            <div class="col-4">Người xử lý chính:</div>
+                            <div class="col-8">Lorem ipsum dolor sit amet. </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-4">Lặp lại:</div>
+                            <div class="col-8">Lorem ipsum dolor sit amet. </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Danh sách tham gia</h5>
+                    <div class="list-group" data-simplebar style="max-height: 250px;">
+                        <div class="list-group-item" *ngFor="let i of [1,1,1,1,1,1,1]">
+                            <div class="d-flex align-items-center">
+                                <app-avatar-tooltip [fullname]="'Nguyen Hoai Thuong'" [size]="'sm'">
+                                </app-avatar-tooltip>
+                                <label>Nguyễn Hoài Thương</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Danh sách được xem</h5>
+                    <div class="list-group" data-simplebar style="max-height: 250px;">
+                        <div class="list-group-item" *ngFor="let i of [1,1,1,1,1,1,1]">
+                            <div class="d-flex align-items-center">
+                                <app-avatar-tooltip [fullname]="'Nguyen Hoai Thuong'" [size]="'sm'">
+                                </app-avatar-tooltip>
+                                <label>Nguyễn Hoài Thương</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <!-- <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Đính kèm</h5>
+                <div data-simplebar style="max-height: 180px;">
+                    <div class="row">
+                        <div class="col-4" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+                            <div class="card rounded">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="50px"
+                                            alt="icon">
+                                        <h4>Orders backup...</h4>
+                                        <i>1 tuần trước</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

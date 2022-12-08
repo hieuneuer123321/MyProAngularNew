@@ -1,0 +1,305 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded" 
+            data-bs-toggle="modal" data-bs-target="#library-manager-modal" 
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+        </div>
+    </div>
+    <!--End page title-->
+    <div class="row">
+        <div class="col-9">
+            <table  id = "basic-datatable"  class = "table table-bordered table-striped border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" >
+                <thead>
+                    <tr>
+                        <th class="d-flex justify-content-center">{{getLabel('numberCol')}}</th>
+                        <th >{{getLabel('descriptionCol')}}</th>
+                        <th class="d-flex justify-content-center" >{{getLabel('dateCol')}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="myTableRow" (click)="lookup()" data-bs-toggle="modal"
+                        data-bs-target="#library-detail-modal" *ngFor="let item of libraryData | paginate: config">
+                        <td class="d-flex justify-content-center" >{{item.number}}</td>
+                        <td>{{item.des}}</td>
+                        <td class="d-flex justify-content-center">{{item.date|date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal fade" id="library-detail-modal" tabindex="-1" role="dialog"
+            aria-labelledby="scrollableModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scrollableModalTitle">Thư viện</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-9 col-sm-12">
+                                <p>Mã số: XYZ</p>
+                                <p>Ngày ban hành: dd/MM/yyyy</p>
+                                <p>Thư mục:</p>
+                                <h4>Nội dung</h4>
+                                <p data-simplebar style="max-height: 40vh;">Lorem ipsum dolor sit amet consectetur
+                                    adipisicing elit. Quod, quibusdam voluptatem cum quas ex nulla earum non tempora,
+                                    odit, maxime aspernatur. Officiis est commodi possimus et quibusdam! Sunt possimus
+                                    veritatis, velit excepturi inventore facilis corporis corrupti eius ipsam voluptas
+                                    autem nulla distinctio. Quisquam cum expedita repellendus beatae, est neque saepe
+                                    aliquam porro perferendis officiis deleniti provident exercitationem quaerat
+                                    consectetur voluptate minus esse eum suscipit voluptatibus. Sapiente molestiae quae
+                                    doloribus beatae est tempora, doloremque animi cumque voluptates veniam, dolorum
+                                    iure quos? Numquam rerum eaque ea totam in aliquam molestiae iure dolorem, sunt
+                                    temporibus tempora eveniet unde autem dolore sequi debitis saepe odio soluta alias
+                                    praesentium? Eius dolor ratione laborum molestias nam quisquam, distinctio harum
+                                    natus adipisci obcaecati reprehenderit eum enim eos debitis illum dolorem veniam
+                                    illo assumenda explicabo praesentium minima expedita aliquam ex! Ea commodi officia
+                                    sunt provident autem omnis explicabo tempora sint. Dolorem quisquam magnam
+                                    laudantium non. Dolorum veritatis atque obcaecati, enim numquam earum laboriosam
+                                    architecto officia quod ea aliquid debitis quas, eos voluptatibus libero recusandae
+                                    aspernatur blanditiis dolores. Sapiente voluptatum ipsa eius quas, nobis beatae
+                                    optio eaque omnis deleniti ex expedita provident reprehenderit quae nemo quia, at
+                                    est laudantium, porro unde eligendi distinctio adipisci inventore! Numquam nam
+                                    officiis doloremque perspiciatis sunt iste ratione earum perferendis accusamus
+                                    consectetur voluptatem eveniet, nisi alias voluptatum animi quis adipisci quo?
+                                    Maiores nam corporis, fuga sit laborum ex. Repudiandae repellat voluptatum,
+                                    quibusdam voluptas atque odit soluta, repellendus doloribus ut sapiente ducimus
+                                    tempora enim reprehenderit, dolores exercitationem inventore omnis consequatur
+                                    aliquam magnam illo minus. Aut sunt perferendis nesciunt mollitia laudantium
+                                    dolorum, harum veniam recusandae fugiat nulla accusamus saepe et molestiae a facere
+                                    omnis illo ducimus asperiores vel debitis maxime sint! Minus fugit ratione
+                                    temporibus tenetur, harum eveniet earum, laboriosam, quidem ullam id ad facere
+                                    eligendi aperiam voluptates sapiente pariatur cupiditate! At, nihil repellendus!
+                                    Eveniet, modi nulla corporis eius sint velit vitae dolor natus atque tenetur nemo
+                                    autem placeat accusantium unde est quisquam reiciendis saepe maxime, ipsum tempore
+                                    suscipit tempora mollitia, veniam id! Deserunt magni quaerat quas veniam rerum, at
+                                    asperiores architecto nostrum commodi ratione cupiditate quam, temporibus omnis sit
+                                    nihil qui corporis nemo facere? Numquam molestias laudantium doloremque modi unde ut
+                                    explicabo nobis neque saepe esse illo perspiciatis iusto maiores quos, autem
+                                    pariatur debitis suscipit dolore animi eveniet in dolor nam. Nulla impedit
+                                    doloribus, dicta asperiores accusantium architecto deleniti quidem labore voluptas
+                                    quasi itaque dolores excepturi fugit consequatur ut, praesentium officiis inventore
+                                    veritatis aperiam minus! Modi cum quaerat reiciendis porro at. Ducimus obcaecati,
+                                    hic quia ad beatae in dolor eos ex quisquam? Doloribus mollitia porro repudiandae,
+                                    possimus, quaerat magni earum ipsam nisi aperiam distinctio consequatur
+                                    reprehenderit maiores eius animi dolores, hic cupiditate assumenda nemo quisquam
+                                    itaque velit nesciunt dolore? Voluptatum ullam ipsa tenetur sed laboriosam
+                                    consequatur voluptatibus, a aperiam quia vero, mollitia delectus amet beatae enim
+                                    eveniet hic atque, voluptas commodi voluptatem error facilis! Animi quam vitae est
+                                    facilis cupiditate fugit eveniet itaque officia voluptate? Deserunt obcaecati enim
+                                    laborum libero ab praesentium veritatis, quibusdam facilis, commodi laboriosam, id
+                                    nulla excepturi perspiciatis saepe! Facilis, sed est?</p>
+                                <h6 class="d-flex align-items-center justify-content-end">
+                                    đăng bởi
+                                    <div style="margin-left: 5px; margin-right: 5px;">
+                                        <app-avatar-tooltip [fullname]="'Nhân viên B'" [size]="'xs'">
+                                        </app-avatar-tooltip>
+                                    </div>
+                                    ngày 18/04/2000
+                                </h6>
+                            </div>
+                            <div class="col-lg-3 col-sm-12">
+                                <div class="row mb-3">
+                                    <div class="list-group">
+                                        <div class="list-group-item list-group-item-custom-dark">
+                                            Tệp tin
+                                        </div>
+                                        <div data-simplebar style="max-height: 55vh;"
+                                            class="list-group-item list-group">
+                                            <div *ngFor="let i of [1,2,3,4,5]"
+                                                class="list-group-item d-flex justify-content-between align-items-center pointer">
+                                                <label class="d-flex">
+                                                    files.pdf
+                                                </label>
+                                                <i class="uil-cloud-download h3 text-success"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#library-manager-modal" data-bs-dismiss="modal">Sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="library-manager-modal" tabindex="-1" role="dialog"
+            aria-labelledby="scrollableModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scrollableModalTitle">Thư viện</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Thư mục:</label>
+                            <select class="form-select" id="example-select">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Mã số:</label>
+                            <input type="text" id="simpleinput" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Ngày ban hành:</label>
+                            <input class="form-control" id="example-date" type="date" name="date">
+                        </div>
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Nội dung:</label>
+                            <textarea class="form-control" id="example-textarea" rows="5"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="simpleinput" class="form-label">Tệp tin:</label>
+                            <div data-simplebar style="max-height: 150px;">
+                                <div *ngFor="let i of [1,2,3,4,5,6]"
+                                    class="mb-1 border d-flex justify-content-between align-items-center rounded">
+                                    <div class="h4 ms-3">
+                                        <i class="uil-file me-1"></i>
+                                        <label>file.png</label>
+                                    </div>
+                                    <i class="uil-times h3 text-danger pointer me-3"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <app-dropzone></app-dropzone>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#library-detail-modal" data-bs-dismiss="modal">Quay lại</button>
+                        <!-- <button type="button" class="btn btn-warning">Huỷ</button> -->
+                        <button type="button" class="btn btn-success">Lưu</button>
+                        <button type="button" class="btn btn-danger">Xoá thư viện
+                            này</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tiêu đề:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary hover">
+                    Mục thư viện
+                </a>
+                <div class="list-group-item">
+                    <select class="form-control select2" data-toggle="select2">
+                        <option>Select</option>
+                        <optgroup label="Alaskan/Hawaiian Time Zone">
+                            <option value="AK">Alaska</option>
+                            <option value="HI">Hawaii</option>
+                        </optgroup>
+                        <optgroup label="Pacific Time Zone">
+                            <option value="CA">California</option>
+                            <option value="NV">Nevada</option>
+                            <option value="OR">Oregon</option>
+                            <option value="WA">Washington</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="list-group-item">
+                    <div id="jstree-1">
+                        <ul>
+                            <li>
+                                Root node 1
+                                <ul>
+                                    <li data-jstree='{ "selected" : true }'>
+                                        <a href="#">
+                                            Initially selected </a>
+                                    </li>
+                                    <li data-jstree='{ "icon" : "dripicons-home text-success " }'>
+                                        custom icon URL
+                                    </li>
+                                    <li data-jstree='{ "opened" : true }'>
+                                        initially open
+                                        <ul>
+                                            <li data-jstree='{ "disabled" : true }'>
+                                                Disabled Node
+                                            </li>
+                                            <li data-jstree='{ "type" : "file" }'>
+                                                Another node
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li data-jstree='{ "icon" : "dripicons-jewel text-danger" }'>
+                                        Custom icon class (bootstrap)
+                                    </li>
+                                </ul>
+                            </li>
+                            <li data-jstree='{ "type" : "link" }'>
+                                <a href="http://www.coderthemes.com">
+                                    Clickable link node </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /////////////////// Pagination -->
+    <div class="list row col-9">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

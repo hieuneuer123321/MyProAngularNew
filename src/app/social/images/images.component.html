@@ -1,0 +1,203 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded" 
+            data-bs-toggle="modal" data-bs-target="#standard-modal" 
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="image-folder-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class=" modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <app-new-images-folder></app-new-images-folder>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-success">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class=" modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <app-new-image></app-new-image>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-success">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End page title-->
+    <div class="row">
+        <div class="col-9">
+            <table  id = "basic-datatable"  class = "table table-bordered table-striped border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" >
+                <thead >
+                    <tr>
+                        <th>{{getLabel('imgCol')}}</th>
+                        <th class="d-flex justify-content-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="myTableRow" *ngFor="let item of imagesData | paginate: config">
+                        <td style="width: 100%;">
+                            {{item.title}}
+                        </td>
+                        <td class="table-action" style="width: 50%;">
+                            <div class="d-flex">
+                                <div id="tooltip-lookup">
+                                    <button type="button" class="btn btn-primary" data-bs-container="#tooltip-lookup"
+                                        title="Xem album" (click)="lookup()" data-bs-toggle="modal"
+                                        data-bs-target="#img-modal"><i class="uil-eye"></i>
+                                    </button>
+                                </div>
+                                <div id="tooltip-edit">
+                                    <button type="button" class="btn btn-warning" data-bs-container="#tooltip-edit"
+                                        data-bs-toggle="modal" title="Chỉnh sửa" (click)="edit()"
+                                        data-bs-target="#img-modal"> <i class="uil-edit"></i>
+                                    </button>
+                                </div>
+                                <div id="tooltip-delete">
+                                    <button type="button" class="btn btn-danger" data-bs-container="#tooltip-delete"
+                                        data-bs-toggle="tooltip" title="Xoá"><i class="uil-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="modal fade" id="img-modal" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="scrollableModalTitle">Ablum title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="mb-3 col-12">
+                                    <h3>Miêu tả Ablum</h3>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae itaque aspernatur
+                                        repellendus nam magni. Laudantium quisquam beatae cum architecto facilis
+                                        distinctio voluptate neque quam repellendus, eaque cupiditate soluta odit fuga.
+                                    </p>
+                                </div>
+                                <h3 class="mb-3">Danh sách hình ảnh</h3>
+                                <div class="col-lg-4 col-sm-12 mb-3" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+                                    <div class="position-relative">
+                                        <div *ngIf="editable" class="position-absolute btn-custom">
+                                            <i class="uil-multiply"></i>
+                                        </div>
+                                        <img src="https://phanmematp.vn/wp-content/uploads/2020/10/ky-nang-xu-ly-tinh-huong-trong-cong-viec-1.jpg"
+                                            class="img-fluid" alt="test.img">
+                                    </div>
+                                </div>
+                                <div *ngIf="editable" class="col-lg-12 col-sm-12 mb-3">
+                                    <app-dropzone></app-dropzone>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="button" *ngIf="!editable" (click)="edit()"
+                                class="btn btn-primary">Sửa</button>
+                            <button type="button" id="buy" *ngIf="editable" (click)="cancel()"
+                                class="btn btn-warning">Huỷ</button>
+                            <button type="button" (click)="save()" *ngIf="editable" class="btn btn-success">Lưu</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tiêu đề:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary hover" data-bs-toggle="collapse" href="#department"
+                    aria-expanded="false">
+                    Theo thư mục
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="department">
+                    <div class="list-group-item" *ngFor="let item of imageGroupTitle; let i = index">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="departmentCheck{{i}}">
+                            <label class="form-check-label hover" for="departmentCheck{{i}}">{{item}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /////////////////// Pagination -->
+    <div class="list row col-9">
+        <div class="col-md-8">
+            <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+                responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="col-md-4">
+            {{getLabel("itemsPerPage")}}:
+            <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div data-provide="datepicker-inline"></div>
+</div>

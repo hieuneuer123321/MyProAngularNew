@@ -1,0 +1,212 @@
+<div id="target_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-full-width">
+        <div class="modal-content bg-custom">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Draft the new contract document for sales team</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h4 class="card-title">
+                                    Tổng quan
+                                </h4>
+                                <ul class="fs-4">
+                                    <li class="row mt-3">
+                                        <div class="col-6 row">
+                                            <div class="col-auto">
+                                                <i class="uil-calendar-alt text-primary"></i>
+                                                <b class="ms-1">Ngày bắt đầu:</b>
+                                            </div>
+                                            <div class="col-auto">15/09/2022</div>
+                                        </div>
+                                        <div class="col-6 row">
+                                            <div class="col-auto">
+                                                <i class="uil-check-circle text-primary"></i>
+                                                <b class="ms-1">Ngày kết thúc:</b>
+                                            </div>
+                                            <div class="col-auto">15/10/2022</div>
+                                        </div>
+                                    </li>
+                                    <li class="row mt-3">
+                                        <div class="col-3"><b>Tình trạng</b></div>
+                                        <div class="col-9"><b>Chưa hoàn thành</b></div>
+                                    </li>
+                                    <li class="row mt-3">
+                                        <div class="col-3"><b>Dự án:</b></div>
+                                        <div class="col-9">Xây dựng Phiên bản Online Office Mới</div>
+                                    </li>
+                                    <li class="row mt-3">
+                                        <div class="col-3"><b>Khách hàng:</b></div>
+                                        <div class="col-9">--N/A--</div>
+                                    </li>
+                                    <li class="row mt-3">
+                                        <div class="col-3"><b>Thuộc nhóm:</b></div>
+                                        <div class="col-9">--N/A--</div>
+                                    </li>
+                                    <li class="row mt-3">
+                                        <div class="col-3"><b>Tệp đính kèm:</b></div>
+                                        <div class="col-9">--N/A--</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body text-dark">
+                                <h4 class="card-title">
+                                    Nội dung
+                                </h4>
+                                <p class="fs-4">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repudiandae id harum
+                                    mollitia aut, nihil dolor modi non? Repellendus excepturi et illum rerum harum sed
+                                    molestias. Consectetur sint sed modi? Animi accusamus distinctio, sequi provident
+                                    aut maxime quia incidunt dolorum architecto eveniet placeat impedit rem harum.
+                                    Quisquam, optio? Tenetur illum alias corrupti laboriosam, voluptas deleniti officia
+                                    aliquid porro ut illo corporis id reiciendis quis unde minus commodi, cupiditate
+                                    labore soluta libero dolorum veniam dicta delectus similique vel? Quis iste facere
+                                    vitae neque, iure distinctio repudiandae sint nulla, quam perferendis est, cum
+                                    aliquam vero voluptates blanditiis voluptate nostrum! Iste reiciendis enim libero.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="card-title-mb-0">Thảo luận</h5>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="d-flex" *ngFor="let i of [1,1,1]">
+                                                <img src="assets/images/users/avatar-2.jpg" alt="image"
+                                                    class="img-fluid avatar-sm rounded-circle img-thumbnail">
+                                                <div class="ms-2">
+                                                    <h5>Hoai Thuong Dev</h5>
+                                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab,
+                                                        quod repellat voluptas laboriosam eum autem beatae quae sapiente
+                                                        incidunt ipsa sunt iusto dolorem maxime molestiae dignissimos
+                                                        culpa odit ipsam ducimus! Maiores, eius minima! Laboriosam
+                                                        voluptas vel sed consequuntur, ipsa rem hic ad possimus a! Modi
+                                                        harum, aut quos voluptas quaerat at? Corrupti cumque suscipit
+                                                        error quis libero ab est esse. Qui, consequuntur eligendi.
+                                                        Voluptatibus, nesciunt! Nisi provident porro at itaque, quia
+                                                        sint libero nostrum aperiam repellendus. Optio blanditiis totam
+                                                        voluptates deserunt dignissimos delectus expedita fuga laborum
+                                                        error facilis? Rem, error. Necessitatibus optio tenetur quidem
+                                                        exercitationem vitae illum suscipit ducimus excepturi.</p>
+                                                </div>
+                                            </div>
+                                            <angular-editor></angular-editor>
+                                            <div class="d-flex mt-3 justify-content-end">
+                                                <button type="button" class="btn btn-primary me-2"><i
+                                                        class="uil-link-h"></i>Thêm tệp đính kèm</button>
+                                                <button type="button" class="btn btn-success">Gửi <i
+                                                        class="uil-navigator"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 text-dark">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Thực hiện chính</h4>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="d-flex align-items-center">
+                                            <img src="assets/images/users/avatar-4.jpg" class="avatar-sm rounded-circle"
+                                                alt="avatar">
+                                            <div class="ms-1 d-flex flex-column">
+                                                <h5 class="text-dark mb-0">Nguyễn văn A</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title d-flex justify-content-between">
+                                    <div class="col-auto">
+                                        <h4>Danh sách tham gia</h4>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="text" id="simpleinput" placeholder="Tìm kiếm" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-evenly mt-3">
+                                    <div class="form-check">
+                                        <input type="radio" checked id="solved-radio" name="customRadio"
+                                            class="form-check-input pointer border border-primary">
+                                        <label class="form-check-label pointer" for="solved-radio">Đã xử lý</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="solving-radio" name="customRadio"
+                                            class="form-check-input pointer border border-primary">
+                                        <label class="form-check-label pointer" for="solving-radio">Đang xử lý</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="notsolve-radio" name="customRadio"
+                                            class="form-check-input pointer border border-primary">
+                                        <label class="form-check-label pointer" for="notsolve-radio">Chưa xử lý</label>
+                                    </div>
+                                </div>
+                                <div data-simplebar style="max-height: 250px;" class="list-group mt-3">
+                                    <div class="list-group-item" *ngFor="let i of [1,1,1,1,1]">
+                                        <div class="d-flex align-items-center">
+                                            <img src="assets/images/users/avatar-1.jpg" class="avatar-sm rounded-circle"
+                                                alt="avatar">
+                                            <div class="ms-1 d-flex flex-column">
+                                                <h5 class="text-dark mb-0">Nguyễn văn A</h5>
+                                                <i class="fs-6">Xem 1 lần, lần cuối: 11/08/2022 10:08</i>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-primary me-1">IT</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title d-flex justify-content-between">
+                                    <div class="col-auto">
+                                        <h4>Danh sách được xem</h4>
+                                    </div>
+                                    <div class="col-auto">
+                                        <input type="text" id="simpleinput" placeholder="Tìm kiếm" class="form-control">
+                                    </div>
+                                </div>
+                                <div data-simplebar style="max-height: 250px;" class="list-group">
+                                    <div class="list-group-item" *ngFor="let i of [1,1,1,1,1]">
+                                        <div class="d-flex align-items-center">
+                                            <img src="assets/images/users/avatar-3.jpg" class="avatar-sm rounded-circle"
+                                                alt="avatar">
+                                            <div class="ms-1 d-flex flex-column">
+                                                <h5 class="text-dark mb-0">Nguyễn văn A</h5>
+                                                <i class="fs-6">Xem 1 lần, lần cuối: 11/08/2022 10:08</i>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-primary me-1">IT</span>
+                                            <span class="badge bg-primary me-1">Quản lý</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" data-bs-toggle="modal"
+                    data-bs-target="#target-manager-modal">Sửa</button>
+            </div>
+        </div>
+    </div>
+</div>

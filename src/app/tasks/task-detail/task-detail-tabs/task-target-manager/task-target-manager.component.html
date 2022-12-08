@@ -1,0 +1,88 @@
+<div id="target-manager-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a href="#edit_Overview" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Thông tin chung</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#edit_users" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">DS Người xử lý</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#edit_watching" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-settings-outline d-md-none d-block"></i>
+                            <span class="d-none d-md-block">DS Người xem </span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane  show active" id="edit_Overview">
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Tên Công việc:</label>
+                                <input type="text" id="simpleinput" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Dự án:</label>
+                                <input type="text" id="simpleinput" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Nội dung:</label>
+                                <angular-editor></angular-editor>
+                            </div>
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Ngày bắt đầu:</label>
+                                <input class="form-control" id="example-date" type="date" name="date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="simpleinput" class="form-label">Ngày hoàn thành:</label>
+                                <input class="form-control" id="example-date" type="date" name="date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Tệp tin:</label>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="edit_users">
+                        <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                            [rightList]="chosenAssigneelList"></app-dual-list>
+                        <div style="margin: 30px 10px 30px 30px;">
+                            <label class="form-label" for="majorAssignee"><span style="color: tomato;">(*)</span>
+                                Người Xử lý Chính: </label>
+                            <select style="width: 50%;" [(ngModel)]="majorAssignee" class="form-select"
+                                id="majorAssignee">
+                                <option selected>Chọn...</option>
+                                <option [ngValue]="assignee" *ngFor="let assignee of chosenAssigneelList">
+                                    {{assignee.fullName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="edit_watching">
+                        <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                            [rightList]="chosenAssigneelList"></app-dual-list>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-light">Quay lại</button>
+                <button type="button" class="btn btn-light">Lưu</button>
+                <button type="button" class="btn btn-primary">Xoá công việc này</button>
+            </div>
+        </div>
+    </div>
+</div>

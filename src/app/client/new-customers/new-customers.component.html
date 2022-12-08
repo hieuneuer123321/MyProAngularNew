@@ -1,0 +1,155 @@
+<div class="container-fluid">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Thêm mới khách hàng</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9 row ">
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Tên khách hàng</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="example-select" class="form-label">Loại khách hàng</label>
+                <select class="form-select" id="example-select">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Mã khách hàng</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-12">
+                <label for="simpleinput" class="form-label">Địa chỉ</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6 ">
+                <label for="simpleinput" class="form-label">Ngày thành lập:</label>
+                <div class="col-lg-6 col-sm-12">
+                    <input class="form-control" id="example-date" type="date" name="date">
+                </div>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="example-select" class="form-label">Tỉnh/Thành</label>
+                <select (change)="setProvincesCode($event.target.value)" class="form-select" id="example-select">
+                    <option [value]="item.codename" *ngFor="let item of countryData">{{item.name}}</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="example-select" class="form-label">Quận/Huyện</label>
+                <select class="form-select" id="example-select">
+                    <option *ngFor="let item of districtsData">{{item.name}}</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Điện thoại</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">FAX</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Email</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Website</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="example-select" class="form-label">Loại hình</label>
+                <select class="form-select" id="example-select">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="example-select" class="form-label">Ngành nghề</label>
+                <select class="form-select" id="example-select">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Mã số thuế</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Số GPKD</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Số tài khoản</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Ngân hàng</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Người đại diện</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Chức vụ</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Số điện thoại</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="simpleinput" class="form-label">Email</label>
+                <input type="text" id="simpleinput" class="form-control">
+            </div>
+            <div class="mb-3 col-6">
+                <label for="example-textarea" class="form-label">Ghi chú</label>
+                <textarea class="form-control" id="example-textarea" rows="5"></textarea>
+            </div>
+
+            <div class="mb-3 ">
+                <label for="example-fileinput" class="form-label">Đính kèm</label>
+                <input type="file" id="example-fileinput" class="form-control">
+            </div>
+
+            <div class="row mb-3 col-6 d-grid">
+                <button type="button" class="btn btn-primary"> Lưu </button>
+            </div>
+
+
+        </div>
+        <div class="col-3">
+            <div class="d-grid">
+                <button [routerLink]="'/client/customers'" data-bs-dismiss="modal" type="button"
+                    class="btn btn-primary"> Quay lại </button>
+
+            </div>
+        </div>
+    </div>
+</div>

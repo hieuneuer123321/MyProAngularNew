@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="row">
+        <div class="col-1 my-auto">
+            <img (click)="goBack()" style="cursor: pointer;opacity:0.5; width:30px;height:auto; margin:auto"
+                src="assets/imgs/left.png" />
+        </div>
+        <div class="col-11">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+    </div>
+    <aw-wizard>
+        <aw-wizard-step stepTitle="Hồ sơ">
+            <div class="container">
+                <div class="row">
+                   
+                   
+                   
+                    
+                    <div class="mb-3">
+                        <label for="example-textarea" class="form-label ipt">{{getLabel('nameCol')}}<span class="requiredField"></span></label>
+                        <textarea [(ngModel)]="newfileCabinetData.title" class="form-control" id="example-textarea" rows="1"></textarea>
+                    </div>
+                   
+                 
+                    <div class="mb-3">
+                        <label for="example-fileinput" class="form-label">{{getLabel('addFile')}}</label>
+                        <input type="file" multiple (change)="handleFileInput($event.target.files)" id="fileList"
+                            class="form-control">
+                        <ol class="list-group list-group-numbered">
+                            <li *ngFor="let file of newfileCabinetData.file; index as i" class="list-group-item">
+                                {{file.name}}<span (click)="removeFile(i)" style="float: right; font-weight:
+                                bold; cursor: pointer; color: #fa6767;">X</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_list">
+                <button type="button" (click)='check()' class="btn btn-primary">Next Step</button>
+            </div>
+        </aw-wizard-step>
+        <aw-wizard-step stepTitle="{{getLabel('relatedList')}}">
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin: 0 10px 30px 30px;">
+                        <label class="form-label" for="groupOfAssignee">
+                            {{getLabel('selectList')}} </label>
+                        <select style="width: 50%;" [(ngModel)]="groupKeyChosenInStep2" class="form-select"
+                            id="groupOfAssignee">
+                            <option value="all" selected>{{getLabel('allStaff')}}</option>
+                            <option [ngValue]="groupKey" *ngFor="let groupKey of generalService.allUserGroupsKey">
+                                {{groupKey}}</option>
+                        </select>
+                    </div>
+
+                    <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUserInStep2List"
+                        [rightList]="chosenAssigneelList"></app-dual-list>
+                    <div style="margin: 0 10px 30px 30px;">
+                        <label class="form-label" for="majorAssignee"><span style="color: tomato;">(*)</span>
+                            {{getLabel('mainHandler')}} </label>
+                        <select style="width: 50%;" [(ngModel)]="majorAssignee" class="form-select" id="majorAssignee">
+                            <option selected>Chọn...</option>
+                            <option [ngValue]="assignee" *ngFor="let assignee of chosenAssigneelList">
+                                {{assignee.fullName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_list">
+                <button type="button" class="btn btn-warning" awPreviousStep>{{getLabel('previousStep')}}</button>
+                <button type="button" class="btn btn-success">{{getLabel('finishCol')}}</button>
+            </div>
+        </aw-wizard-step>
+    </aw-wizard>
+</div>

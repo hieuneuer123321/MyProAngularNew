@@ -1,0 +1,9 @@
+.modal-footer {
+    font-size: 18px;
+}
+.content-table thead tr {
+    background-color: #0091ff;
+    color: aliceblue;
+    text-align: left;
+    font-weight: bold;
+}

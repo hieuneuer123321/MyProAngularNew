@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <div class="col-12">
+        <div class="page-title-box">
+            <h4 class="page-title">Danh mục</h4>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-9">
+           
+            <table id="basic-datatable" class="table table-bordered table-striped
+            border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap
+            w-100 content-table">
+                        <thead>
+                            <tr>
+                                <th>{{keyFilter.label}}</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of catalogData">
+                                <td class="table-user">
+                                    {{item[keyFilter.key]}}
+                                </td>
+                                <td align="center" style="width: 20%;">
+                                    <button type="submit" name="ctl22$DANHMUC$ctl02$btnDel" 
+                                    value="Xóa" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn chắc chắn xóa ?');" id="ctl22_DANHMUC_btnDel_0">
+                                    <i class="uil-trash-alt"></i></button>
+                                    <button type="button" class="btn btn-danger rounded-pill"><i class="uil-edit-alt"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <label for="example-multiselect" class="form-label list-group-item list-group-item background">Bộ lọc</label>
+                    <select id="example-multiselect" multiple class="form-control">
+                        <option (click)="filter('loaikhach','Loại khách hàng')" class="list-group-item pointer">Loại khách hàng </option>
+                        <option (click)="filter('doanhnghiep','Loại doanh nghiệp')" class="list-group-item pointer">Loại doanh nghiệp</option>
+                        <option (click)="filter('nganhnghe','Loại ngành nghề')" class="list-group-item pointer">Loại ngành nghề </option>
+                        <option (click)="filter('hopdong','Loại hợp đồng')" class="list-group-item pointer">Loại hợp đồng </option>
+                        <option (click)="filter('sanpham','Loại sản phẩm')" class="list-group-item pointer">Loại sản phẩm - dịch vụ</option>
+                    </select>
+            </div>
+        </div>
+    </div>
+</div>

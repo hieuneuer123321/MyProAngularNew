@@ -1,0 +1,111 @@
+<div class="row">
+    <div class="d-flex justify-content-between">
+        <h3 class="text-dark">Danh sách tham gia {{dsThamGia.length}}</h3>
+        <div class="w-40">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-text text-primary"><i class="uil-search-alt"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card intro rounded ribbon-box">
+            <div class="card-body">
+                <h4 class="card-title mb-0 border-bottom border-3 text-dark users-status-title border-success">
+                    Đã xử lý
+                </h4>
+                <div class="list-group mt-1">
+                    <div class="list-group-item" *ngFor="let i of dsDaXuLy">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="avatar">
+                            <div class="ms-1 d-flex flex-column">
+                                <h5 class="text-dark mb-0">{{i.hoTen}}</h5>
+                                <b class="fs-6 text-success" *ngIf="i.soLanXem>0">Xem {{i.soLanXem}} lần, lần cuối: {{i.thoiGianXem}}</b>
+                                <i class="fs-6 text-danger" *ngIf="i.soLanXem<1">Chưa xem</i>
+                            </div>
+                        </div>
+                        <!-- <div class="text-end">
+                            <span class="badge bg-primary me-1">Kĩ thuật</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card intro rounded ribbon-box">
+            <div class="card-body">
+                <h4 class="card-title mb-0 border-bottom border-3 text-dark users-status-title border-primary">
+                    Đang xử lý
+                </h4>
+                <div class="list-group mt-1">
+                    <div class="list-group-item" *ngFor="let i of dsDangXuLy">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="avatar">
+                            <div class="ms-1 d-flex flex-column">
+                                <h5 class="text-dark mb-0">{{i.hoTen}}</h5>
+                                <b class="fs-6 text-success" *ngIf="i.soLanXem>0">Xem {{i.soLanXem}} lần, lần cuối: {{i.thoiGianXem}}</b>
+                                <i class="fs-6 text-danger" *ngIf="i.soLanXem<1">Chưa xem</i>
+                            </div>
+                        </div>
+                        <!-- <div class="text-end">
+                            <span class="badge bg-primary me-1">Kĩ thuật</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div class="card intro rounded ribbon-box">
+            <div class="card-body">
+                <h4 class="card-title mb-0 border-bottom border-3 text-dark users-status-title border-danger">
+                    Chưa xử lý
+                </h4>
+                <div class="list-group mt-1">
+                    <div class="list-group-item" *ngFor="let i of dsChuaXuLy">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="avatar">
+                            <div class="ms-1 d-flex flex-column">
+                                <h5 class="text-dark mb-0">{{i.hoTen}}</h5>
+                                <b class="fs-6 text-success" *ngIf="i.soLanXem>0">Xem {{i.soLanXem}} lần, lần cuối: {{i.thoiGianXem}}</b>
+                                <i class="fs-6 text-danger" *ngIf="i.soLanXem<1">Chưa xem</i>
+                            </div>
+                        </div>
+                        <!-- <div class="text-end">
+                            <span class="badge bg-primary me-1">Kĩ thuật</span>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="d-flex justify-content-between">
+        <h3 class="text-dark">Danh sách được xem</h3>
+        <div class="w-40">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-text text-primary"><i class="uil-search-alt"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" *ngFor="let i of dsDuocXem">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <img src="assets/images/users/avatar-2.jpg" class="avatar-sm rounded-circle" alt="avatar">
+                    <div class="ms-1 d-flex flex-column">
+                        <h5 class="text-dark mb-0">{{i.hoTen}}</h5>
+                        <b class="fs-6 text-success" *ngIf="i.soLanXem>0">Xem {{i.soLanXem}} lần, lần cuối: {{i.thoiGianXem}}</b>
+                        <i class="fs-6 text-danger" *ngIf="i.soLanXem<1">Chưa xem</i>
+                    </div>
+                </div>
+                <!-- <div class="text-end">
+                    <span class="badge bg-primary me-1">Quản lý</span>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

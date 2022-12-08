@@ -1,0 +1,340 @@
+<div class="container-fluid">
+    <ngx-loading [show]="spinnerLoading"
+        [config]="{ primaryColour: 'whitesmoke', backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>
+    <!-- start page title -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thông Báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+                    <button type="button" class="btn btn-primary">Thử lại</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-9">
+            <div class="page-title-box">
+                <h4 class="page-title">{{getLabel('pageTitle')}}</h4>
+            </div>
+        </div>
+        <div class="col-3 my-auto">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success rounded" 
+            data-bs-toggle="modal" data-bs-target="#notification-manager-modal" 
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Nhập mới thông báo</button>
+            </div>
+        </div>
+    </div>
+    <!--End page title-->
+    <div class="row mb-3">
+        <div class="col-9">
+            <table  id = "basic-datatable"  class = "table table-bordered table-striped border
+            border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" >
+                <thead >
+                    <tr>
+                        <th >Thông báo</th>
+                        <th>Lượt xem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of notificationData | paginate: config" data-bs-toggle="modal"
+                        data-bs-target="#notification-modal" class="pointer">
+                        <td>
+                            <h4 class="text-primary">{{item.title}}</h4><label class="d-flex">Đăng bởi
+                                <div style="margin-left: 5px;margin-right:5px">
+                                    <app-avatar-tooltip [fullname]="item.author" [size]="'xs'"></app-avatar-tooltip>
+                                </div>
+                                vào lúc {{item.date|date:'dd/MM/yyyy'}}
+                            </label>
+                        </td>
+                        <td style="width: 10%;">
+                            <div class="h4 custom-color"><i class=" uil-eye"></i>50</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tiêu đề:
+                </div>
+                <div class="list-group-item">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                </div>
+                <a class="list-group-item list-group-item-primary hover mb-1" data-bs-toggle="collapse" href="#dateCollapse"
+                    aria-expanded="false">
+                    Theo ngày đăng
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="dateCollapse">
+                    <div class="list-group-item">
+                        <form class="form-horizontal">
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-5 col-form-label">Từ ngày:</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="example-date" type="date" name="date">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="inputEmail3" class="col-5 col-form-label">Đến ngày:</label>
+                                <div class="col-7">
+                                    <input class="form-control" id="example-date" type="date" name="date">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-primary hover" data-bs-toggle="collapse"
+                    href="#authorCollapse" aria-expanded="false">
+                    Theo người đăng
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="authorCollapse">
+                    <div class="list-group-item">
+                        <select class="form-select" id="example-select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL 1-->
+<div class="modal fade" id="notification-modal" tabindex="-1" role="dialog" aria-labelledby="scrollableModalTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-full-width" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scrollableModalTitle">Tiêu đề</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h4>Nội dung:</h4>
+                        <p data-simplebar style="max-height: 50vh;">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore odio nihil nulla!
+                            Obcaecati aut quasi, soluta ab assumenda tempora eaque ipsa tenetur fugit est aspernatur
+                            ipsum, magni quo. Dolor earum nemo et necessitatibus incidunt magni molestiae sit nesciunt,
+                            iste quis at facere alias eum repellat, ab deserunt? Repellendus quae officia numquam
+                            excepturi aut iure sapiente facilis tempore non. Beatae inventore eos neque tempore, ex
+                            omnis. Ad minus, ipsum dolor amet incidunt dolorum doloribus culpa molestiae natus ut cum
+                            explicabo voluptas laborum, ex quae ipsam saepe dolore. Aut alias reprehenderit, provident
+                            harum fugiat, excepturi voluptatem distinctio, accusamus impedit amet officia reiciendis
+                            delectus quia! Veniam hic et soluta cumque sunt ab alias commodi officiis. Fuga mollitia
+                            maxime ratione labore et illo iste natus asperiores fugiat, nobis ipsa ipsum aut laboriosam?
+                            Reprehenderit dicta, voluptatibus non consequuntur molestiae placeat aperiam quis
+                            repudiandae odio minus ab debitis, aliquam a maiores repellendus atque esse eos labore rem
+                            similique? Assumenda aperiam similique in illo numquam ducimus harum totam ut temporibus,
+                            aspernatur culpa quod provident, aut quia accusamus rerum impedit incidunt debitis repellat
+                            ratione soluta minus hic doloremque? Laudantium distinctio fugiat mollitia rerum inventore
+                            magni! Consectetur, dolore? Aliquid numquam porro quae sapiente praesentium nisi pariatur
+                            similique ab eligendi enim, a quas voluptatibus iusto corporis aut deleniti aperiam
+                            exercitationem quo quod cupiditate? Aspernatur, quos velit? Quidem, eaque? Vel debitis est
+                            harum eligendi rem dolore animi voluptas quasi corporis architecto et eius labore quibusdam
+                            dolor, iusto ducimus. Ipsam adipisci iure sit ducimus maiores, unde voluptas molestiae. Ea
+                            quos distinctio adipisci qui, eligendi sequi sint quisquam, dolore ratione officiis fuga,
+                            alias odit soluta eius cumque veritatis placeat! Nisi cumque rem temporibus voluptatum
+                            dolorum placeat voluptates libero in dignissimos illum doloremque ipsum deleniti itaque
+                            voluptate obcaecati distinctio blanditiis, nam, maiores adipisci eos nihil eveniet est quas!
+                            Quia impedit tenetur laudantium repellat error commodi reiciendis voluptatum, officia soluta
+                            odio, unde quae, recusandae doloribus similique porro magnam vitae assumenda quos. Incidunt,
+                            alias. Possimus officiis ut saepe quos sint repellat doloremque ea ratione ipsa sapiente.
+                            Reprehenderit illo, expedita magnam tempora ex, fugit corporis accusamus ipsum voluptate
+                            obcaecati maxime labore hic voluptatum architecto aliquid sapiente itaque eius perferendis
+                            sed iste soluta quibusdam. Beatae doloribus dolorum illo error obcaecati, fuga similique
+                            repudiandae ipsum deserunt voluptate alias. Quos, itaque quidem repudiandae veritatis
+                            corrupti dicta, consectetur similique ipsa et obcaecati eveniet amet quibusdam eaque error
+                            ab sequi nemo? Nulla nam beatae facilis, cupiditate non eum voluptatem? Modi temporibus
+                            provident, possimus commodi eius quibusdam laboriosam, non, aliquam quasi exercitationem
+                            blanditiis. Iusto, molestias? Soluta neque voluptates labore deserunt at maxime, eveniet
+                            esse sapiente alias nemo, qui consequuntur quaerat dolorem voluptatem sed placeat minus
+                            similique explicabo dolore expedita ipsa aperiam. Veniam voluptas maiores quos libero
+                            assumenda nemo saepe porro, modi tenetur, necessitatibus commodi fuga eaque maxime
+                            perferendis labore earum natus dolore culpa iusto! In deleniti et esse repellat expedita ad
+                            aspernatur animi, iste, molestiae cupiditate porro soluta eligendi sunt enim eius! Odio
+                            dolorem consequatur qui enim aspernatur, saepe, placeat dolor dolores excepturi, nemo
+                            eligendi voluptatum ipsa unde earum quas iure error magni?</p>
+                        <h6 class="d-flex align-items-center justify-content-end">
+                            đăng bởi
+                            <div style="margin-left: 5px; margin-right: 5px;">
+                                <app-avatar-tooltip [fullname]="'Nhân viên B'" [size]="'xs'"> </app-avatar-tooltip>
+                            </div>
+                            ngày 18/04/2000
+                        </h6>
+                    </div>
+                    <div class="col-lg-3 col-sm-12">
+                        <div class="row mb-3">
+                            <div class="list-group">
+                                <div class="list-group-item list-group-item-custom-dark">
+                                    Tệp tin
+                                </div>
+                                <div data-simplebar style="max-height: 23vh;" class="list-group-item list-group">
+                                    <div *ngFor="let i of [1,2,3,4,5]"
+                                        class="list-group-item d-flex justify-content-between align-items-center pointer">
+                                        <label class="d-flex">
+                                            {{lorem|slice:0:10}}...pdf
+                                        </label>
+                                        <i class="uil-cloud-download h3 text-success"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class="list-group">
+                                <div class="list-group-item list-group-item-custom-dark">
+                                    Danh sách được xem
+                                </div>
+                                <div data-simplebar style="max-height: 23vh;" class="list-group-item list-group">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <app-avatar-tooltip class="me-1" [fullname]="'NHT'" [size]="'xs'">
+                                            </app-avatar-tooltip>
+                                            Nguyễn Hoài Thương
+                                        </div>
+                                        <i class="uil-eye h4 text-success"></i>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <app-avatar-tooltip class="me-1" [fullname]="'NHT'" [size]="'xs'">
+                                            </app-avatar-tooltip>
+                                            Nguyễn Hoài Thương
+                                        </div>
+                                        <i class="uil-eye-slash h4 text-danger"></i>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <app-avatar-tooltip class="me-1" [fullname]="'NHT'" [size]="'xs'">
+                                            </app-avatar-tooltip>
+                                            Nguyễn Hoài Thương
+                                        </div>
+                                        <i class="uil-eye h4 text-success"></i>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="d-flex">
+                                            <app-avatar-tooltip class="me-1" [fullname]="'NHT'" [size]="'xs'">
+                                            </app-avatar-tooltip>
+                                            Nguyễn Hoài Thương
+                                        </div>
+                                        <i class="uil-eye-slash h4 text-danger"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#notification-manager-modal"
+                    data-bs-dismiss="modal" class="btn btn-primary">Sửa thông báo</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--MODAL 2-->
+<div class="modal fade" id="notification-manager-modal" tabindex="-1" role="dialog"
+    aria-labelledby="scrollableModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scrollableModalTitle">Tiêu đề</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+                    <li class="nav-item">
+                        <a href="#detailTab" data-bs-toggle="tab" aria-expanded="false"
+                            class="nav-link rounded-0 active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Nội dung</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tab2" data-bs-toggle="tab" aria-expanded="true" class="nav-link rounded-0">
+                            <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Danh sách được xem</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="detailTab">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <h4>Tiêu đề</h4>
+                                <input type="text" id="simpleinput" class="form-control">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h4>Nội dung</h4>
+                                <angular-editor>
+                                </angular-editor>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <h4>Tệp tin:</h4>
+                                <div data-simplebar style="max-height: 200px;">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center"
+                                        *ngFor="let i of [1,2,3,4]">
+                                        <div class="d-flex align-items-center">
+                                            <i class="uil-file me-1 h2"></i>
+                                            file.png
+                                        </div>
+                                        <i class="uil-times h3 text-danger pointer"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <app-dropzone></app-dropzone>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="tab2">
+                        <p>WORKING</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#notification-modal"
+                    data-bs-dismiss="modal" class="btn btn-primary">Quay lại</button>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-primary">Đóng</button>
+                <button type="button" class="btn btn-success">Lưu</button>
+                <button type="button" class="btn btn-danger">Xoá thông báo này</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /////////////////// Pagination -->
+<div class="list row col-9">
+    <div class="col-md-8">
+        <pagination-controls id="paging" [previousLabel]="getLabel('previousBtn')" [nextLabel]="getLabel('nextBtn')"
+            responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+    </div>
+    <div class="col-md-4">
+        {{getLabel("itemsPerPage")}}:
+        <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+            <option *ngFor="let size of pageSizes" [ngValue]="size">
+                {{ size }}
+            </option>
+        </select>
+    </div>
+</div>

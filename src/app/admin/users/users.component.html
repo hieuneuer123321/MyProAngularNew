@@ -1,0 +1,112 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-10">
+            <div class="page-title-box">
+                <h4 class="page-title">Danh sách người dùng</h4>
+            </div>
+        </div>
+    </div>
+    <!--Tìm kiếm-->
+    <div class="row">
+        <div class="col-9"></div>
+        <div class="col-3 my-auto mb-2">
+            <div class="list-group">
+                <button  type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#user-manager-modal-new"
+            style="cursor: pointer;"src="assets/imgs/plus.png"> 
+            Thêm mới</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9 order-md-1">
+            <table id="basic-datatable" class="table table-bordered table-striped
+                    border
+                    border-style table-hover table-centered mb-2 dt-responsive nowrap
+                    w-100 content-table">
+                <thead >
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Tên đăng nhập</th>
+                        <th>Họ và tên</th>
+                        <th>Phòng ban</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="users!=null">
+                    <tr (click)="userDetail(item)" class="pointer" data-bs-toggle="modal" data-bs-target="#user-manager-modal"
+                        *ngFor="let item of users |paginate: paginationConfig">
+                        <td></td>
+                        <td>{{item.userName}}</td>
+                        <td>{{item.fullName}}</td>
+                        <td>
+                            {{item.groupChinhName}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Phân trang tại đây-->
+            <div class="list row">
+                <div class="col-md-8">
+                    <pagination-controls id="paginationControl" [previousLabel]="' << Quay lại '" [nextLabel]="'Tiếp tục >>'"
+                    responsive="true" responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+                </div>
+                <div class="col-md-4">
+                Số lượng thư mục
+                <select style="border: solid 1px rgb(230, 229, 229);" (change)="handlePageSizeChange($event)">
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">{{ size }}</option>
+                </select>
+                </div>
+            </div>
+            <!---->
+        </div>
+        <div class="col-lg-3 col-sm-12 col-md-12 order-lg-3">
+            <div class="list-group">
+                <div class="list-group-item list-group-item background">
+                    Bộ lọc
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo tên:
+                </div>
+                <div class="list-group-item">
+                    <input (keyup)="search()" type="text" class="form-control"
+                    [placeholder]="getLabel('searchPlaceholer')" (click)="search()" [(ngModel)]="searchKey" />
+                </div>
+                <div class="list-group-item list-group-item-primary">
+                    Tìm theo trạng thái:
+                </div>
+                <div class="list-group-item mb-1">
+                    <select class="form-select" id="example-select">
+                        <option>Đang hoạt động</option>
+                        <option>Đã khóa</option>
+                    </select>
+                </div>
+                <a class="list-group-item list-group-item-primary pointer" data-bs-toggle="collapse" href="#department"
+                    aria-expanded="false">
+                    Theo phòng ban
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="department">
+                    <div class="list-group-item" *ngFor="let item of userData; let i = groupChinhName">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="departmentCheck{{i}}">
+                            <label class="form-check-label pointer" for="departmentCheck{{i}}">{{item.groupChinhName}}</label>
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item list-group-item-primary pointer" data-bs-toggle="collapse" href="#permission"
+                    aria-expanded="false">
+                    Theo chức vụ
+                    <i class="mdi mdi-chevron-down accordion-arrow"></i>
+                </a>
+                <div class="collapse list-group" id="permission">
+                    <div class="list-group-item" *ngFor="let item of userData; let i = title">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="permissionCheck{{i}}">
+                            <label class="form-check-label pointer" for="permissionCheck{{i}}">{{item.title}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-user-manager [user]="usereditDetail"></app-user-manager>

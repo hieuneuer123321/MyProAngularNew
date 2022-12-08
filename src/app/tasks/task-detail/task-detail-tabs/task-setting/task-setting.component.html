@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card rounded">
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a href="#setting_overview" data-bs-toggle="tab" aria-expanded="true" class="nav-link active">
+                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Thông tin cơ bản</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#setting_users" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-account-multiple d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Danh sách tham gia</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#setting_watching" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            <i class="mdi mdi-account-multiple d-md-none d-block"></i>
+                            <span class="d-none d-md-block">Danh sách liên quan</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="setting_overview">
+                        <form class="form-horizontal">
+                            <div class="row mb-3">
+                                <b class="col-3 col-form-label">Tên công việc:</b>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" name="TenCongViec"
+                                        (change)="edit.tencv = true" [(ngModel)]="tenCV" placeholder="Tên công việc">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <b class="col-3 col-form-label">Người thực hiện chính:</b>
+                                <div class="col-9">
+                                    <select class="form-select" id="example-select"
+                                        [(ngModel)]="NguoiThucHienChinh.userId"
+                                        (change)="edit.nguoithuchienchinh = true" name="NguoiChinh">
+                                        <option *ngFor="let item of DsThamGia" [value]="item.userId">{{item.hoTen}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <b class="col-3 col-form-label">Nhóm công việc:</b>
+                                <div class="col-9">
+                                    <select class="form-select" id="example-select" (change)="edit.nhomcv = true"
+                                        [(ngModel)]="nhomCV.nhomId" name="NhomCV">
+                                        <option [value]="null">Chọn nhóm công việc</option>
+                                        <option [value]="i.idnhomCv" *ngFor="let i of TaskCategory">
+                                            {{i.tenNhomCv}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <b class="col-3 col-form-label">Ngày kết thúc:</b>
+                                <div class="col-9">
+                                    <div class="input-group">
+                                        <input class="form-control" [(ngModel)]="ngayKT" (change)="edit.ngayKT = true"
+                                            id="example-date" type="date" name="date">
+                                    </div>
+                                    <div class="form-check mt-2">
+                                        <input type="checkbox" class="form-check-input" id="customCheck1">
+                                        <label class="form-check-label" for="customCheck1">Không giới hạn</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="setting_users">
+                        <app-dual-list (updateLists)="dualListUpdateForAssignee($event)" [leftList]="allUser"
+                            [rightList]="chosenAssigneeList"></app-dual-list>
+                    </div>
+                    <div class="tab-pane" id="setting_watching">
+                        <app-dual-list (updateLists)="dualListUpdateForViewer($event)" [leftList]="allUser"
+                            [rightList]="chosenViewerList"></app-dual-list>
+                    </div>
+                </div>
+
+                <div class="justify-content-center d-flex mt-3">
+                    <button type="submit" class="btn btn-success" (click)="saveChange()">Lưu</button>
+                    <button type="submit" class="btn btn-danger ms-2">Xoá công việc này</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

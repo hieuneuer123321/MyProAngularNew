@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="mb-3">
+        <label for="simpleinput" class="form-label">Tên Album</label>
+        <input type="text" id="simpleinput" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="simpleinput" class="form-label">Thư mục</label>
+        <div class="row">
+            <div class="col-10">
+                <select class="form-select" id="example-select">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" data-bs-toggle="modal"
+                    data-bs-target="#image-folder-modal"><i class="uil-folder-medical"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <h4>Tệp tin:</h4>
+        <div data-simplebar style="max-height: 200px;">
+            <div class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let i of [1,2]">
+                <div class="d-flex align-items-center">
+                    <i class="uil-file me-1 h2"></i>
+                    file.png
+                </div>
+                <i class="uil-times h3 text-danger pointer"></i>
+            </div>
+        </div>
+        <div (click)="uploadFile()"
+            class="list-group-item pointer mt-2 file-update-area d-flex justify-content-center align-items-center">
+            <i class="uil-file-upload me-1 h2"></i>
+            <label>Thêm tập tin mới</label>
+            <input type="file" id="files_upload" style="display:none">
+        </div>
+    </div>
+</div>

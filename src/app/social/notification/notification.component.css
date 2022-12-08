@@ -1,0 +1,13 @@
+.custom-color {
+    color: #0064b2;
+}
+.content-table thead tr {
+    background-color: #0091ff;
+    color: aliceblue;
+    text-align: left;
+    font-weight: bold;
+}
+.background{
+    background-color: #24358c;
+    color: aliceblue;
+}
