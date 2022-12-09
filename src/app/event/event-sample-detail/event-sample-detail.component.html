@@ -29,7 +29,7 @@
           <span>{{
             sampleDataDetail
               ? sampleDataDetail.tgbatdau
-              : ("" | date : "dd/MM/yyyy HH:mm:ss ")
+              : ("" | date : "dd/MM/yyyy   HH:mm:ss ")
           }}</span>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <span>{{
             sampleDataDetail
               ? sampleDataDetail.tgketthuc
-              : ("" | date : "dd/MM/yyyy HH:mm:ss ")
+              : ("" | date : "dd/MM/yyyy   HH:mm:ss ")
           }}</span>
         </div>
       </div>
@@ -50,7 +50,13 @@
           <span>Lặp lại</span>
         </div>
         <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.laplai : "" }}</span>
+          <span>{{
+            sampleDataDetail
+              ? sampleDataDetail.laplai
+                ? "Lặp Lại"
+                : "Không Lặp Lại"
+              : ""
+          }}</span>
         </div>
       </div>
       <div class="container">
@@ -132,7 +138,7 @@
       ><button
         [routerLink]="[
           '/event/update-event-sample/',
-          sampleDataDetail.lichtuanid
+          sampleDataDetail ? sampleDataDetail.lichtuanid : ''
         ]"
         type="button"
         class="btn btn-info btn-right"

@@ -26,14 +26,12 @@ export class LocationComponent implements OnInit {
     nameLocation: '',
     description: '',
   };
+
   idLocationDelete!: string;
   spinnerLoading = false;
   eventListData;
-  page = 0;
-  pageSize = 10;
-  pageSizes = [10, 20, 30];
-  count = 500;
   locationListAll: any;
+  ///pa
   config;
 
   constructor(

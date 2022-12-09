@@ -32,6 +32,15 @@
             <th>Lặp Lại</th>
           </tr>
         </thead>
+        <tr *ngIf="spinnerLoading">
+          <td colspan="3" style="background-color: white">
+            <div class="lds-facebook" style="width: 100%; margin-left: 20%">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </td>
+        </tr>
         <tbody>
           <tr
             *ngFor="let i of eventSampleData | paginate : config; index as in"
@@ -42,6 +51,7 @@
                   '/event/new-event-sample/detail',
                   i ? i.lichtuanid : null
                 ]"
+                style="text-decoration: none"
                 >{{ in + 1 }}</a
               >
             </td>
@@ -52,36 +62,37 @@
                   '/event/new-event-sample/detail',
                   i ? i.lichtuanid : null
                 ]"
+                style="text-decoration: none"
               >
                 {{ i.tieude }}</a
               >
             </td>
-            <td>{{ i.laplai }}</td>
+            <td>{{ i.laplai ? "Lặp Lại" : " Không Lặp Lại" }}</td>
           </tr>
         </tbody>
       </table>
-      <div class="list row">
-        <div class="col-md-9">
-          <pagination-controls
-            id="paging"
-            [previousLabel]="'Quay lại'"
-            [nextLabel]="'Tiếp tục'"
-            responsive="true"
-            responsive="true"
-            (pageChange)="handlePageChange($event)"
-          ></pagination-controls>
-        </div>
-        <div class="col-md-3">
-          Số lượng thư mục
-          <select
-            style="border: solid 1px rgb(230, 229, 229)"
-            (change)="handlePageSizeChange($event)"
-          >
-            <option *ngFor="let size of pageSizes" [ngValue]="size">
-              {{ size }}
-            </option>
-          </select>
-        </div>
+    </div>
+    <div class="list row">
+      <div class="col-md-9">
+        <pagination-controls
+          id="paging"
+          [previousLabel]="'Quay lại'"
+          [nextLabel]="'Tiếp tục'"
+          responsive="true"
+          responsive="true"
+          (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
+      </div>
+      <div class="col-md-3">
+        Số lượng thư mục
+        <select
+          style="border: solid 1px rgb(230, 229, 229)"
+          (change)="handlePageSizeChange($event)"
+        >
+          <option *ngFor="let size of pageSizes" [ngValue]="size">
+            {{ size }}
+          </option>
+        </select>
       </div>
     </div>
   </div>

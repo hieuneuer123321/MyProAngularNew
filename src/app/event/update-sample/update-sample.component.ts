@@ -23,6 +23,8 @@ import { setDefaults } from 'sweetalert/typings/modules/options';
 export class UpdateSampleComponent implements OnInit {
   @ViewChild(WizardComponent)
   public wizard: WizardComponent;
+  checkDiaDiem = false;
+  inputDiaDiem;
   locationListAll;
   evenSample = new EventSampleUpdate();
   idLichTuanMau;
@@ -44,6 +46,7 @@ export class UpdateSampleComponent implements OnInit {
     note: '',
     file: [],
   };
+  readonlyInput = false;
   chosenAssigneelList: any[];
   allUserInStep2List;
   majorAssignee;
@@ -61,7 +64,7 @@ export class UpdateSampleComponent implements OnInit {
     this.idLichTuanMau = this.routerAc.snapshot.params['id'];
     console.log(this.generalService);
     // this.dualListUpdateForAssignee(null);
-    this.getListLocationAll();
+    this.getListLocationAll(null);
     this.getById(this.routerAc.snapshot.params['id']);
     // Wed, 22 Dec 2021 00:31:25 GMT
 
@@ -78,6 +81,7 @@ export class UpdateSampleComponent implements OnInit {
         'get',
         true
       );
+      this.getListLocationAll(this.eventSampleDataUpdate.diadiem);
       this.evenSample.noidung = this.eventSampleDataUpdate.noidung;
       this.evenSample.chutri = this.eventSampleDataUpdate.chutri;
       this.evenSample.chuanbi = this.eventSampleDataUpdate.chuanbi;
@@ -104,8 +108,13 @@ export class UpdateSampleComponent implements OnInit {
   }
   changeDiaDiem(values: any) {
     this.eventSampleDataUpdate.diadiem = values;
+    this.inputDiaDiem = '';
+    console.log(values);
+    values == '0'
+      ? ((this.readonlyInput = false), (this.checkDiaDiem = false))
+      : ((this.readonlyInput = true), (this.checkDiaDiem = true));
   }
-  async getListLocationAll() {
+  async getListLocationAll(localCheck) {
     try {
       this.locationListAll = await this.api.httpCall(
         this.api.apiLists.GetAllLocations,
@@ -114,6 +123,18 @@ export class UpdateSampleComponent implements OnInit {
         'get',
         true
       );
+      if (localCheck) {
+        this.checkDiaDiem =
+          this.locationListAll.filter(
+            (location) => location.tenDiaDiem == localCheck
+          ).length === 0
+            ? false
+            : true;
+        if (!this.checkDiaDiem) {
+          this.inputDiaDiem = localCheck;
+        }
+      }
+
       // console.log(this.locationListAll.length);
     } catch (e) {
       console.log(e.message);
@@ -194,48 +215,62 @@ export class UpdateSampleComponent implements OnInit {
     const date = new Date(this.dateStart);
     const hourS = this.hourStart;
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
+    const month = date.getMonth();
     const day = date.getDate();
+    const arrHourS = hourS.split('');
     const hour = Number(hourS.substring(0, 2));
-    const minute = Number(hourS.substring(5, 7));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
     const newDateStart = new Date(year, month, day, hour, minute);
-    const dateTimeFormatter = dateFormat(newDateStart, 'isoUtcDateTime');
-    console.log(dateTimeFormatter);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
     ////format date time end
     const date2 = new Date(this.dateEnd);
     const hourS2 = this.hourEnd;
     const year2 = date2.getFullYear();
-    const month2 = date2.getMonth() + 1;
+    const month2 = date2.getMonth();
     const day2 = date2.getDate();
+    const arrHour = hourS2.split('');
     const hour2 = Number(hourS2.substring(0, 2));
-    const minute2 = Number(hourS2.substring(5, 7));
+    const minute2 = Number(
+      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    );
     const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
-    const dateTimeFormatter2 = dateFormat(newDateEnd, 'isoUtcDateTime');
+    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    const dateTimeFormatter2 = temp2.substring(0, 19);
     this.eventSampleDataUpdate.tgbatdau = dateTimeFormatter;
     this.eventSampleDataUpdate.tgketthuc = dateTimeFormatter2;
+    const arrUserId = [];
+    this.chosenAssigneelList.forEach((i) => {
+      arrUserId.push(i.userId);
+    });
+    this.eventSampleDataUpdate.dsLienQuan = arrUserId;
     this.eventSampleDataUpdate.idLichTuanMau = this.idLichTuanMau;
     this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
     this.eventSampleDataUpdate.chutri = this.evenSample.chutri;
     this.eventSampleDataUpdate.chuanbi = this.evenSample.chuanbi;
     this.eventSampleDataUpdate.khachmoi = this.evenSample.khachmoi;
-    this.eventSampleDataUpdate.diadiem = this.evenSample.diadiem;
     this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
     this.eventSampleDataUpdate.ghichu = this.evenSample.ghichu;
     this.eventSampleDataUpdate.thanhphan = this.evenSample.thanhphan;
+    this.eventSampleDataUpdate.diadiem = this.inputDiaDiem
+      ? this.inputDiaDiem
+      : this.eventSampleDataUpdate.diadiem;
     console.log(this.eventSampleDataUpdate);
-    // try {
-    //   await this.api.httpCall(
-    //     this.api.apiLists.UpdateEventSample,
-    //     {},
-    //     this.evenSample,
-    //     'post',
-    //     true
-    //   );
-    //   this.router.navigate([
-    //     `event/new-event-sample/detail/${this.idLichTuanMau}`,
-    //   ]);
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      await this.api.httpCall(
+        this.api.apiLists.UpdateEventSample,
+        {},
+        this.eventSampleDataUpdate,
+        'post',
+        true
+      );
+      this.router.navigate([
+        `event/new-event-sample/detail/${this.idLichTuanMau}`,
+      ]);
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

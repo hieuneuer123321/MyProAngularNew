@@ -14,7 +14,7 @@ import { TaskSampleDetailResponseModel } from '../../Model/TaskSampleModel';
 export class EventSampleComponent implements OnInit {
   eventSampleData;
   sampleDataDetail;
-  spinnerLoading = false;
+  spinnerLoading = true;
   editable = true;
   page = 0;
   pageSize = 5;
@@ -88,12 +88,14 @@ export class EventSampleComponent implements OnInit {
         'get',
         true
       );
+      this.eventSampleData = this.eventSampleData.reverse();
       this.config = {
         id: 'paging',
         itemsPerPage: this.pageSize,
         currentPage: this.page,
         totalItems: this.eventSampleData.length,
       };
+      this.spinnerLoading = false;
     } catch (e) {
       console.log(e.message);
     }

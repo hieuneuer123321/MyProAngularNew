@@ -7,6 +7,7 @@ import { ApiservicesService } from 'src/app/services/api.service';
 import { EventSample } from 'src/app/Model/Event_Sample';
 import dateFormat, { masks } from 'dateformat';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-new-event-sample',
   templateUrl: './new-event-sample.component.html',
@@ -17,7 +18,8 @@ export class NewEventSampleComponent implements OnInit {
   public wizard: WizardComponent;
   locationListAll;
   evenSample = new EventSample();
-  dateStart = new Date();
+  inputDiaDiem: string;
+  dateStart;
   dateEnd = new Date();
   hourStart: any;
   hourEnd: any;
@@ -52,7 +54,13 @@ export class NewEventSampleComponent implements OnInit {
     console.log(this.generalService);
     this.dualListUpdateForAssignee(null);
     this.getListLocationAll();
-
+    const now = new Date();
+    this.dateStart = dateFormat(now, 'isoDate');
+    this.dateEnd = dateFormat(now, 'isoDate');
+    const test = dateFormat(now, 'isoTime');
+    this.hourStart = test.substring(0, 5);
+    this.hourEnd = test.substring(0, 5);
+    this.evenSample.diadiem = '0';
     // Wed, 22 Dec 2021 00:31:25 GMT
 
     // T4 ngày 22/12/2021
@@ -168,23 +176,30 @@ export class NewEventSampleComponent implements OnInit {
     const date = new Date(this.dateStart);
     const hourS = this.hourStart;
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
+    const month = date.getMonth();
     const day = date.getDate();
+    const arrHourS = hourS.split('');
     const hour = Number(hourS.substring(0, 2));
-    const minute = Number(hourS.substring(5, 7));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
     const newDateStart = new Date(year, month, day, hour, minute);
-    const dateTimeFormatter = dateFormat(newDateStart, 'isoUtcDateTime');
-    console.log(dateTimeFormatter);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
     ////format date time end
     const date2 = new Date(this.dateEnd);
     const hourS2 = this.hourEnd;
     const year2 = date2.getFullYear();
-    const month2 = date2.getMonth() + 1;
+    const month2 = date2.getMonth();
     const day2 = date2.getDate();
+    const arrHour = hourS2.split('');
     const hour2 = Number(hourS2.substring(0, 2));
-    const minute2 = Number(hourS2.substring(5, 7));
+    const minute2 = Number(
+      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    );
     const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
-    const dateTimeFormatter2 = dateFormat(newDateEnd, 'isoUtcDateTime');
+    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    const dateTimeFormatter2 = temp2.substring(0, 19);
     this.evenSample.tgbatdau = dateTimeFormatter;
     this.evenSample.tgketthuc = dateTimeFormatter2;
     const arrUserId = [];
@@ -192,8 +207,10 @@ export class NewEventSampleComponent implements OnInit {
       arrUserId.push(i.userId);
     });
     this.evenSample.dsLienQuan = arrUserId;
+    this.evenSample.diadiem = this.inputDiaDiem
+      ? this.inputDiaDiem
+      : this.evenSample.diadiem;
     console.log(this.evenSample);
-
     try {
       await this.api.httpCall(
         this.api.apiLists.AddNewEventSample,

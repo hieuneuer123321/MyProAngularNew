@@ -61,8 +61,8 @@
               #laplai
               (change)="changeLapLai(laplai.value)"
             >
-              <option value="Không Lập Lại" selected>Không Lặp Lại</option>
-              <option value="Lập Lại">Lặp Lại</option>
+              <option value="0" selected>Không Lặp Lại</option>
+              <option value="1">Lặp Lại</option>
             </select>
           </div>
           <div class="mb-3">
@@ -119,7 +119,7 @@
               #diadiem
               (change)="changeDiaDiem(diadiem.value)"
             >
-              <option selected>Địa Điểm Khác</option>
+              <option selected value="0">Địa Điểm Khác</option>
               <option
                 *ngFor="let item of locationListAll"
                 [value]="item.diaDiemId"
@@ -127,7 +127,12 @@
                 {{ item.tenDiaDiem }} - {{ item.moTa }}
               </option>
             </select>
-            <input type="text" class="form-control" />
+            <input
+              [readOnly]="this.evenSample.diadiem != '0'"
+              type="text"
+              class="form-control"
+              [(ngModel)]="inputDiaDiem"
+            />
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Mời:</label>
