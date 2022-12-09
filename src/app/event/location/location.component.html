@@ -53,7 +53,7 @@
       </td>
     </tr>
     <tbody>
-      <tr *ngFor="let item of locationListAll">
+      <tr *ngFor="let item of locationListAll | paginate : config">
         <td class="table-stt text-center">{{ item.stt }}</td>
         <td>{{ item.tenDiaDiem }}</td>
         <td>{{ item.moTa }}</td>
@@ -91,7 +91,7 @@
             <i class="uil-edit-alt"></i>
           </button>
         </td>
-        <!--Start Modal Update Location--->
+
         <div
           class="modal fade"
           id="scrollable-modal2"
@@ -161,14 +161,18 @@
                 </button>
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
-        <!--End Modal Update Location--->
       </tr>
     </tbody>
   </table>
+</div>
+<div class="list row">
+  <pagination-controls
+    previousLabel="Quay Lại"
+    nextLabel="Tiếp Tục"
+    (pageChange)="pageChanged($event)"
+  ></pagination-controls>
 </div>
 <!-- Modal AddLocation -->
 <div

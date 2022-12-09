@@ -15,7 +15,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { SignDocumentsComponent } from './sign-documents/sign-documents.component';
 import { SearchComponent } from './search/search/search.component';
 import { AdminComponent } from './admin/admin/admin.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +33,7 @@ import { AdminComponent } from './admin/admin/admin.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
     UtilitiesModule,

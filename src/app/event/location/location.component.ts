@@ -16,7 +16,6 @@ export class LocationComponent implements OnInit {
   @ViewChild('closebutton') closebutton;
   @ViewChild('closebuttonAdd') closebuttonAdd;
   isLoading = true;
-  editable = true;
   deletetable = true;
   nameLocationAdd!: string;
   desLocationAdd!: string;
@@ -33,7 +32,14 @@ export class LocationComponent implements OnInit {
   locationListAll: any;
   ///pa
   config;
+  editable = true;
+  page = 0;
+  pageSize = 5;
+  pageSizes = [5, 10, 15];
+  count = 500;
+  currentTab = true;
 
+  collection = { count: 60, data: [] };
   constructor(
     private httpClient: HttpClient,
     private el: ElementRef,
@@ -47,6 +53,9 @@ export class LocationComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getListLocationAll();
+  }
+  pageChanged(event) {
+    this.config.currentPage = event;
   }
   goBack() {
     this._location.back();
@@ -67,6 +76,18 @@ export class LocationComponent implements OnInit {
       this.locationListAll.sort(function (a, b) {
         return b.stt - a.stt;
       });
+      ///
+      this.config = {
+        itemsPerPage: 6,
+        currentPage: 1,
+        totalItems: this.locationListAll.count,
+      };
+      // this.config = {
+      //   id: 'paging2',
+      //   itemsPerPage: this.pageSize,
+      //   currentPage: this.page,
+      //   totalItems: this.locationListAll.length,
+      // };
       this.isLoading = false;
     } catch (e) {
       console.log(e.message);
@@ -160,5 +181,23 @@ export class LocationComponent implements OnInit {
         }
       }
     });
+  }
+
+  ////pageSizes
+  handlePageChange(event): void {
+    this.page = event;
+    this.getListLocationAll();
+  }
+  handlePageSizeChange(event): void {
+    this.pageSize = event.target.value;
+    this.page = 0;
+    this.getListLocationAll();
+  }
+  changeTabs(tab) {
+    this.currentTab = tab;
+    this.page = 0;
+    this.count = 0;
+    this.pageSize = 10;
+    this.getListLocationAll();
   }
 }

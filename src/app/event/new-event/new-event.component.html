@@ -34,12 +34,19 @@
         <div class="row">
           <div class="mb-3">
             <label for="simpleinput" class="form-label">Chọn lịch mẫu:</label>
-            <select class="form-select" id="example-select">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+            <select
+              class="form-select"
+              id="example-select"
+              #lichmau
+              (change)="changeLichMau(lichmau.value)"
+            >
+              <option selected value="0">Chọn Lịch Tuần Mẫu</option>
+              <option
+                *ngFor="let item of listEventSample"
+                [value]="item.lichtuanid"
+              >
+                {{ item.tieude }}
+              </option>
             </select>
           </div>
           <div class="mb-3 col-lg-6 col-sm-12 row">
@@ -50,6 +57,7 @@
                 id="example-date"
                 type="date"
                 name="date"
+                [(ngModel)]="dateStart"
               />
             </div>
             <div class="col-lg-4 col-sm-12">
@@ -57,7 +65,9 @@
                 class="form-control col"
                 id="example-time"
                 type="time"
+                [(ngModel)]="hourStart"
                 name="time"
+                style="width: 150px"
               />
             </div>
           </div>
@@ -68,6 +78,7 @@
                 class="form-control"
                 id="example-date"
                 type="date"
+                [(ngModel)]="dateEnd"
                 name="date"
               />
             </div>
@@ -76,7 +87,9 @@
                 class="form-control col"
                 id="example-time"
                 type="time"
+                [(ngModel)]="hourEnd"
                 name="time"
+                style="width: 150px"
               />
             </div>
           </div>
@@ -88,39 +101,83 @@
               class="form-control"
               id="example-textarea"
               rows="5"
+              [(ngModel)]="eventNew.noidung"
             ></textarea>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
               >Chủ trì:</label
             >
-            <input type="text" id="simpleinput" class="form-control" />
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="eventNew.chutri"
+            />
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
               >Thành phần:</label
             >
-            <input type="text" id="simpleinput" class="form-control" />
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="eventNew.thanhphan"
+            />
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
               >Chuẩn bị:</label
             >
-            <input type="text" id="simpleinput" class="form-control" />
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="eventNew.chuanbi"
+            />
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Địa điểm:</label>
-            <select class="form-select" id="example-select">
-              <option>1</option>
-              <option>2</option>
+            <select
+              class="form-select"
+              id="example-select"
+              #diadiem2
+              (change)="changeDiaDiem(diadiem2.value)"
+            >
+              <option value="0">Địa Điểm Khác</option>
+              <option
+                *ngFor="let item of locationListAll"
+                [value]="item.diaDiemId"
+              >
+                {{ item.tenDiaDiem }} - {{ item.moTa }}
+              </option>
             </select>
+            <input
+              type="text"
+              class="form-control"
+              [readOnly]="eventNew ? eventNew.diadiem != '0' : false"
+              type="text"
+              class="form-control"
+              [(ngModel)]="inputDiaDiem"
+            />
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Mời:</label>
-            <input type="text" id="simpleinput" class="form-control" />
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="eventNew.khachmoi"
+            />
           </div>
           <div class="mb-3">
-            <label for="example-textarea" class="form-label">Ghi chú:</label>
+            <label
+              for="example-textarea"
+              class="form-label"
+              [(ngModel)]="eventNew.ghichu"
+              >Ghi chú:</label
+            >
             <textarea
               class="form-control"
               id="example-textarea"
@@ -159,7 +216,7 @@
       </div>
       <div class="btn_list">
         <button type="button" awNextStep class="btn btn-primary">
-          Next Step
+          Bước Tiếp Theo
         </button>
       </div>
     </aw-wizard-step>
@@ -214,9 +271,9 @@
       </div>
       <div class="btn_list">
         <button type="button" class="btn btn-warning" awPreviousStep>
-          Previous Step
+          Trở Lại
         </button>
-        <button type="button" class="btn btn-success">Finish</button>
+        <button type="button" class="btn btn-success">Thêm Lịch Tuần</button>
       </div>
     </aw-wizard-step>
   </aw-wizard>
