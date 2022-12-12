@@ -7,7 +7,10 @@ import { ApiservicesService } from 'src/app/services/api.service';
 import { EventSample } from 'src/app/Model/Event_Sample';
 import dateFormat, { masks } from 'dateformat';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
+
 import * as moment from 'moment';
+// import swal from 'sweetalert';
 @Component({
   selector: 'app-new-event-sample',
   templateUrl: './new-event-sample.component.html',
@@ -16,6 +19,7 @@ import * as moment from 'moment';
 export class NewEventSampleComponent implements OnInit {
   @ViewChild(WizardComponent)
   public wizard: WizardComponent;
+  checkInput = false;
   locationListAll;
   evenSample = new EventSample();
   inputDiaDiem: string;
@@ -40,6 +44,14 @@ export class NewEventSampleComponent implements OnInit {
   allUserInStep2List;
   majorAssignee;
   groupKeyChosenInStep2 = 'all';
+  //Validate
+  errors = {
+    noidung: '',
+    diadiem: '',
+    chutri: '',
+    thanhphan: '',
+  };
+  //
   constructor(
     private _location: Location,
     public generalService: GeneralService,
@@ -60,16 +72,27 @@ export class NewEventSampleComponent implements OnInit {
     const test = dateFormat(now, 'isoTime');
     this.hourStart = test.substring(0, 5);
     this.hourEnd = test.substring(0, 5);
-    this.evenSample.diadiem = '0';
+    this.checkInput = false;
+    this.evenSample.diadiem = '';
     // Wed, 22 Dec 2021 00:31:25 GMT
+    //////////////////////////////// Validate
 
+    ////////////////////////////////
     // T4 ngày 22/12/2021
   }
+
   changeLapLai(value) {
     this.evenSample.laplai = value;
   }
   changeDiaDiem(values: any) {
-    this.evenSample.diadiem = values;
+    console.log(values);
+    if (values) {
+      this.checkInput = true;
+      this.evenSample.diadiem = values;
+    } else {
+      this.checkInput = false;
+      this.evenSample.diadiem = '';
+    }
   }
   async getListLocationAll() {
     try {
@@ -207,21 +230,96 @@ export class NewEventSampleComponent implements OnInit {
       arrUserId.push(i.userId);
     });
     this.evenSample.dsLienQuan = arrUserId;
-    this.evenSample.diadiem = this.inputDiaDiem
-      ? this.inputDiaDiem
-      : this.evenSample.diadiem;
+    this.evenSample.diadiem =
+      this.inputDiaDiem || this.evenSample.diadiem == ''
+        ? this.inputDiaDiem
+        : this.evenSample.diadiem;
     console.log(this.evenSample);
-    try {
-      await this.api.httpCall(
-        this.api.apiLists.AddNewEventSample,
-        {},
-        this.evenSample,
-        'post',
-        true
-      );
-      this.router.navigate(['/event/event-sample']);
-    } catch (e) {
-      console.log(e);
+    // Validate
+    if (this.evenSample.noidung) {
+      this.errors.noidung = '';
+    }
+    if (this.evenSample.chutri) {
+      this.errors.chutri = '';
+    }
+    if (this.evenSample.thanhphan) {
+      this.errors.thanhphan = '';
+    }
+    if (this.evenSample.diadiem) {
+      this.errors.diadiem = '';
+    }
+    ///////////////
+    if (
+      this.evenSample.diadiem &&
+      this.evenSample.noidung &&
+      this.evenSample.chutri &&
+      this.evenSample.thanhphan
+    ) {
+      this.errors.chutri =
+        this.errors.diadiem =
+        this.errors.noidung =
+        this.errors.thanhphan =
+          '';
+      try {
+        await this.api.httpCall(
+          this.api.apiLists.AddNewEventSample,
+          {},
+          this.evenSample,
+          'post',
+          true
+        );
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Thêm Thành Công',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.router.navigate(['/event/event-sample']);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Swal.fire({
+        title: '<strong>Thiếu Thông Tin ?</strong>',
+        icon: 'warning',
+        html: `Vui lòng nhập đầy đủ các thông tin bắt buộc ! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (
+          !this.evenSample.diadiem &&
+          !this.evenSample.noidung &&
+          !this.evenSample.chutri &&
+          !this.evenSample.thanhphan
+        ) {
+          this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+        } else {
+          if (!this.evenSample.noidung) {
+            this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.evenSample.chutri) {
+            this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.evenSample.thanhphan) {
+            this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.evenSample.diadiem) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.evenSample.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkInput == false) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.evenSample.diadiem == '';
+          }
+        }
+      });
     }
   }
 }

@@ -201,7 +201,9 @@
       <form (ngSubmit)="AddLocation()">
         <div class="modal-body">
           <div class="form-group">
-            <label for="nameLocation">Tên Địa Điểm</label><br />
+            <label for="nameLocation"
+              >Tên Địa Điểm <span class="required_input">(*)</span></label
+            ><br />
             <input
               type="text"
               name="nameLocation"
@@ -209,6 +211,9 @@
               required
               [(ngModel)]="nameLocationAdd"
             />
+            <span class="input_error" *ngIf="errors">
+              {{ errors }}
+            </span>
           </div>
           <pre></pre>
           <div class="form-group">

@@ -77,6 +77,9 @@
               rows="5"
               [(ngModel)]="evenSample.noidung"
             ></textarea>
+            <span class="input_error" *ngIf="errors.noidung">
+              {{ errors.noidung }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -88,6 +91,9 @@
               class="form-control"
               [(ngModel)]="evenSample.chutri"
             />
+            <span class="input_error" *ngIf="errors.chutri">
+              {{ errors.chutri }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -99,6 +105,9 @@
               class="form-control"
               [(ngModel)]="evenSample.thanhphan"
             />
+            <span class="input_error" *ngIf="errors.thanhphan">
+              {{ errors.thanhphan }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -115,12 +124,13 @@
             <label for="example-textarea" class="form-label"
               >Địa điểm: <span class="required_input">(*)</span></label
             >
+
             <select
               class="form-select"
               #diadiem
               (change)="changeDiaDiem(diadiem.value)"
             >
-              <option [selected]="!evenSample.diadiem" value="0">
+              <option [selected]="!evenSample.diadiem" value="">
                 Địa Điểm Khác
               </option>
               <option
@@ -137,6 +147,9 @@
               [readOnly]="readonlyInput || checkDiaDiem"
               [(ngModel)]="inputDiaDiem"
             />
+            <span class="input_error" *ngIf="errors.diadiem">
+              {{ errors.diadiem }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Mời:</label>

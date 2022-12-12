@@ -71,6 +71,13 @@ export class EventSampleDetailComponent implements OnInit {
             'post',
             true
           );
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Xóa Thành Công',
+            showConfirmButton: false,
+            timer: 1000,
+          });
           this.router.navigate(['/event/event-sample']);
         } catch (e) {
           console.log(e);

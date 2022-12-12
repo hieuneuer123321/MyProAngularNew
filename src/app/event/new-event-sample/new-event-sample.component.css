@@ -1,3 +1,14 @@
+.wizard-steps.horizontal {
+  display: block;
+}
+aw-wizard .wizard-steps {
+  display: block;
+}
+.input_error {
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
 .required_input {
   color: red;
 }

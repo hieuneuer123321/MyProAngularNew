@@ -15,6 +15,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { setDefaults } from 'sweetalert/typings/modules/options';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-update-sample',
   templateUrl: './update-sample.component.html',
@@ -24,6 +25,7 @@ export class UpdateSampleComponent implements OnInit {
   @ViewChild(WizardComponent)
   public wizard: WizardComponent;
   checkDiaDiem = false;
+  readonlyInput = false;
   inputDiaDiem;
   locationListAll;
   evenSample = new EventSampleUpdate();
@@ -46,11 +48,18 @@ export class UpdateSampleComponent implements OnInit {
     note: '',
     file: [],
   };
-  readonlyInput = false;
   chosenAssigneelList: any[];
   allUserInStep2List;
   majorAssignee;
   groupKeyChosenInStep2 = 'all';
+  //Validate
+  errors = {
+    noidung: '',
+    diadiem: '',
+    chutri: '',
+    thanhphan: '',
+  };
+  //
   constructor(
     private _location: Location,
     public generalService: GeneralService,
@@ -110,7 +119,7 @@ export class UpdateSampleComponent implements OnInit {
     this.eventSampleDataUpdate.diadiem = values;
     this.inputDiaDiem = '';
     console.log(values);
-    values == '0'
+    values == ''
       ? ((this.readonlyInput = false), (this.checkDiaDiem = false))
       : ((this.readonlyInput = true), (this.checkDiaDiem = true));
   }
@@ -258,19 +267,91 @@ export class UpdateSampleComponent implements OnInit {
       ? this.inputDiaDiem
       : this.eventSampleDataUpdate.diadiem;
     console.log(this.eventSampleDataUpdate);
-    try {
-      await this.api.httpCall(
-        this.api.apiLists.UpdateEventSample,
-        {},
-        this.eventSampleDataUpdate,
-        'post',
-        true
-      );
-      this.router.navigate([
-        `event/new-event-sample/detail/${this.idLichTuanMau}`,
-      ]);
-    } catch (e) {
-      console.log(e);
+    if (this.eventSampleDataUpdate.noidung) {
+      this.errors.noidung = '';
+    }
+    if (this.eventSampleDataUpdate.chutri) {
+      this.errors.chutri = '';
+    }
+    if (this.eventSampleDataUpdate.thanhphan) {
+      this.errors.thanhphan = '';
+    }
+    if (this.eventSampleDataUpdate.diadiem) {
+      this.errors.diadiem = '';
+    }
+    if (
+      this.eventSampleDataUpdate.diadiem &&
+      this.eventSampleDataUpdate.noidung &&
+      this.eventSampleDataUpdate.chutri &&
+      this.eventSampleDataUpdate.thanhphan
+    ) {
+      this.errors.chutri =
+        this.errors.diadiem =
+        this.errors.noidung =
+        this.errors.thanhphan =
+          '';
+      try {
+        await this.api.httpCall(
+          this.api.apiLists.UpdateEventSample,
+          {},
+          this.eventSampleDataUpdate,
+          'post',
+          true
+        );
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Sửa Thành Công',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.router.navigate([
+          `event/new-event-sample/detail/${this.idLichTuanMau}`,
+        ]);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Swal.fire({
+        title: '<strong>Thiếu Thông Tin ?</strong>',
+        icon: 'warning',
+        html: `Vui lòng nhập đầy đủ các thông tin bắt buộc ! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (
+          !this.eventSampleDataUpdate.diadiem &&
+          !this.eventSampleDataUpdate.noidung &&
+          !this.eventSampleDataUpdate.chutri &&
+          !this.eventSampleDataUpdate.thanhphan
+        ) {
+          this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+        } else {
+          if (!this.eventSampleDataUpdate.noidung) {
+            this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventSampleDataUpdate.chutri) {
+            this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventSampleDataUpdate.thanhphan) {
+            this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventSampleDataUpdate.diadiem) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.eventSampleDataUpdate.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkDiaDiem == false) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.eventSampleDataUpdate.diadiem == '';
+          }
+        }
+      });
     }
   }
 }

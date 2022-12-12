@@ -14,7 +14,7 @@ import { LocationComponent } from './location/location.component';
 import { NewEventSampleComponent } from './new-event-sample/new-event-sample.component';
 import { EventSampleDetailComponent } from './event-sample-detail/event-sample-detail.component';
 import { UpdateSampleComponent } from './update-sample/update-sample.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,16 +25,17 @@ import { UpdateSampleComponent } from './update-sample/update-sample.component';
     EventSampleComponent,
     NewEventSampleComponent,
     EventSampleDetailComponent,
-    UpdateSampleComponent
+    UpdateSampleComponent,
   ],
   imports: [
+    ReactiveFormsModule,
     CommonModule,
     EventRoutingModule,
     ArchwizardModule,
     NgxPaginationModule,
     NgxLoadingModule,
     UtilitiesModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class EventModule { }
+export class EventModule {}

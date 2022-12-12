@@ -1,47 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
 .myTableRow {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .requiredField {
-    color: tomato
+  color: tomato;
 }
 
 .fixLoginPageMargin {
-    margin: 0 !important;
-    padding: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .list-group-item-custom-dark {
-    background-color: #474d56;
-    color: #fff;
-    font-weight: bold;
+  background-color: #474d56;
+  color: #fff;
+  font-weight: bold;
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .paragraph_ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @keyframes intro {
-    0% {
-        opacity: 0;
-        margin-top: 10px;
-    }
+  0% {
+    opacity: 0;
+    margin-top: 10px;
+  }
 
-    100% {
-        opacity: 1;
-        margin-top: 0;
-    }
+  100% {
+    opacity: 1;
+    margin-top: 0;
+  }
 }
 
 .intro {
-    animation: intro 0.3s ease-out;
-    animation-timing-function: cubic-bezier(0.25,0.1,0.25,1)
+  animation: intro 0.3s ease-out;
+  animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.input_error {
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
+.required_input {
+  color: red;
 }

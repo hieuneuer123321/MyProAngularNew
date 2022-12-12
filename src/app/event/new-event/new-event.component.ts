@@ -13,6 +13,8 @@ import { Event_Week } from 'src/app/Model/Event_Week';
 export class NewEventComponent implements OnInit {
   @ViewChild(WizardComponent)
   public wizard: WizardComponent;
+  checkDiaDiem = false;
+  readonlyInput = false;
   inputDiaDiem;
   dateStart;
   dateEnd;
@@ -32,7 +34,7 @@ export class NewEventComponent implements OnInit {
     note: '',
     file: [],
   };
-  updateEventSample;
+
   chosenAssigneelList: any[] = [];
   allUserInStep2List;
   majorAssignee;
@@ -62,9 +64,9 @@ export class NewEventComponent implements OnInit {
   }
   async changeLichMau(values) {
     console.log(values);
-    if (values) {
+    if (values != '0') {
       try {
-        const chooseEventSample = await this.api.httpCall(
+        const chooseEventSample: any = await this.api.httpCall(
           this.api.apiLists.GetEventDetailById,
           {},
           { ltid: values },
@@ -72,16 +74,47 @@ export class NewEventComponent implements OnInit {
           true
         );
 
+        this.eventNew = chooseEventSample;
+        this.dateStart = chooseEventSample.tgbatdau.substring(0, 10);
+        this.hourStart = chooseEventSample.tgbatdau.substring(11, 16);
+        this.dateEnd = chooseEventSample.tgketthuc.substring(0, 10);
+        this.hourEnd = chooseEventSample.tgketthuc.substring(11, 16);
+        const arrLocationFilter = this.locationListAll.filter((item) => {
+          console.log(item);
+          return item.tenDiaDiem == chooseEventSample.diadiem;
+        });
         console.log(chooseEventSample);
+        console.log(arrLocationFilter);
+        if (arrLocationFilter.length == 0) {
+          this.inputDiaDiem = this.eventNew.diadiem;
+          this.readonlyInput = false;
+          this.checkDiaDiem = false;
+        } else {
+          this.inputDiaDiem = '';
+          this.readonlyInput = true;
+          this.checkDiaDiem = true;
+        }
       } catch (e) {
         console.log(e);
       }
     } else {
+      this.eventNew = new Event_Week();
+      const now = new Date();
+      const test = dateFormat(now, 'isoTime');
+      this.hourStart = test.substring(0, 5);
+      this.hourEnd = test.substring(0, 5);
+      this.changeDiaDiem('0');
+      this.inputDiaDiem = '';
     }
   }
   changeDiaDiem(values: any) {
-    console.log(values, this.eventNew.diadiem);
     this.eventNew.diadiem = values;
+    console.log(values);
+    values == '0'
+      ? ((this.readonlyInput = false),
+        (this.checkDiaDiem = false),
+        (this.inputDiaDiem = this.eventNew.diadiem))
+      : ((this.readonlyInput = true), (this.checkDiaDiem = true));
   }
   async getListLocationAll() {
     try {

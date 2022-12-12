@@ -16,6 +16,7 @@ import { SignDocumentsComponent } from './sign-documents/sign-documents.componen
 import { SearchComponent } from './search/search/search.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AdminComponent,
   ],
   imports: [
+    CommonModule,
     BrowserAnimationsModule,
     NgChartsModule,
     BrowserModule,
@@ -44,5 +46,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   providers: [],
   bootstrap: [AppComponent],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class AppModule {}

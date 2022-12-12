@@ -1,3 +1,4 @@
+import { Event } from './../Model/Event';
 import { UpdateSampleComponent } from './../event/update-sample/update-sample.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -79,6 +80,8 @@ export class ApiservicesService {
     AddNewEventSample: '/api/Event/AddNewEventSample',
     DeleteEventSample: '/api/Event/DeleteEventSample',
     UpdateEventSample: '/api/Event/UpdateEventSample',
+    //// Event
+    GetAllEventByType: '/api/Event/GetAllEventByType',
   };
 
   constructor(

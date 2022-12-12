@@ -25,7 +25,7 @@ export class LocationComponent implements OnInit {
     nameLocation: '',
     description: '',
   };
-
+  errors = '';
   idLocationDelete!: string;
   spinnerLoading = false;
   eventListData;
@@ -99,22 +99,45 @@ export class LocationComponent implements OnInit {
     this.desLocationAdd = '';
   }
   async AddLocation() {
-    try {
-      await this.api.httpCall(
-        this.api.apiLists.AddLocation,
-        {},
-        {
-          stt: this.locationListAll.length + 1,
-          tenĐiaiem: this.nameLocationAdd,
-          moTa: this.desLocationAdd,
-        },
-        'post',
-        true
-      );
-      this.getListLocationAll();
-      this.closebuttonAdd.nativeElement.click();
-    } catch (e) {
-      console.log(e.message);
+    if (this.nameLocationAdd) {
+      try {
+        this.errors = '';
+        await this.api.httpCall(
+          this.api.apiLists.AddLocation,
+          {},
+          {
+            stt: this.locationListAll.length + 1,
+            tenĐiaiem: this.nameLocationAdd,
+            moTa: this.desLocationAdd,
+          },
+          'post',
+          true
+        );
+        this.getListLocationAll();
+        this.closebuttonAdd.nativeElement.click();
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Thêm Thành Công',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (e) {
+        console.log(e.message);
+      }
+    } else {
+      Swal.fire({
+        title: '<strong>Thiếu Thông Tin ?</strong>',
+        icon: 'warning',
+        html: `Vui lòng nhập đầy đủ các thông tin bắt buộc ! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        this.errors = 'Vui lòng nhập vào ô này !';
+      });
     }
   }
   GetLocationById(id: any, location: any, description: any, stt: any) {
@@ -144,6 +167,13 @@ export class LocationComponent implements OnInit {
         'post',
         true
       );
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Sửa Thành Công',
+        showConfirmButton: false,
+        timer: 1000,
+      });
       this.getListLocationAll();
     } catch (e) {
       console.log(e.message);
@@ -176,6 +206,13 @@ export class LocationComponent implements OnInit {
             true
           );
           this.getListLocationAll();
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Xóa Thành Công',
+            showConfirmButton: false,
+            timer: 1000,
+          });
         } catch (e) {
           console.log(e.message);
         }

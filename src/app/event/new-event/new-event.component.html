@@ -138,17 +138,22 @@
             />
           </div>
           <div class="mb-3">
-            <label for="example-textarea" class="form-label">Địa điểm:</label>
+            <label for="example-textarea" class="form-label"
+              >Địa điểm: {{ readonlyInput }}{{ checkDiaDiem }}</label
+            >
             <select
               class="form-select"
               id="example-select"
               #diadiem2
               (change)="changeDiaDiem(diadiem2.value)"
             >
-              <option value="0">Địa Điểm Khác</option>
+              <option [selected]="!eventNew.diadiem" value="0">
+                Địa Điểm Khác
+              </option>
               <option
                 *ngFor="let item of locationListAll"
                 [value]="item.diaDiemId"
+                [selected]="eventNew.diadiem == item.tenDiaDiem"
               >
                 {{ item.tenDiaDiem }} - {{ item.moTa }}
               </option>
@@ -156,7 +161,7 @@
             <input
               type="text"
               class="form-control"
-              [readOnly]="eventNew ? eventNew.diadiem != '0' : false"
+              [readOnly]="readonlyInput || checkDiaDiem"
               type="text"
               class="form-control"
               [(ngModel)]="inputDiaDiem"

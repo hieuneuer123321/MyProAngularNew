@@ -1,0 +1,24 @@
+export class Event {
+  lichtuanid: string = '';
+  tgbatdau: string = '';
+  tgketthuc: string = '';
+  noidung: string = '';
+  chutri: string = '';
+  chuanbi: string = '';
+  thanhphan: string = '';
+  khachmoi: string = '';
+  ghichu: string = '';
+  diadiem: string = '';
+  ngaytao: string = '';
+  dsLienQuan: Array<string> = [];
+  nguoidangky: string = '';
+  tennguoidangky: string = '';
+  nguoipheduyet: string = '';
+  tennguoipheduyet: string = '';
+  nguoihuy: string = '';
+  tennguoihuy: string = '';
+  pheduyet: string = '0';
+  huy: string = '0';
+  hopkhan: string = '0';
+  soComment: number = 0;
+}

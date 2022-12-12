@@ -1,0 +1,8 @@
+.input_error {
+  font-size: 14px;
+  color: red;
+  font-weight: bold;
+}
+.required_input {
+  color: red;
+}

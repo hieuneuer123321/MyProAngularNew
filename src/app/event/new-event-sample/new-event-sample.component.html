@@ -19,12 +19,15 @@
       </div>
     </div>
   </div>
+
   <aw-wizard>
     <aw-wizard-step stepTitle="1. Nhập thông tin lịch">
       <div class="container">
-        <div class="row">
+        <div class="row" style="width: 100%">
           <div class="mb-3 col-lg-6 col-sm-12 row">
-            <label for="simpleinput" class="form-label ipt">Bắt đầu:</label>
+            <label for="simpleinput" class="form-label ipt"
+              >Bắt đầu: <span class="required_input">(*)</span></label
+            >
             <div class="col-lg-6 col-sm-12">
               <input class="form-control" type="date" [(ngModel)]="dateStart" />
             </div>
@@ -38,7 +41,9 @@
             </div>
           </div>
           <div class="mb-3 col-lg-6 col-sm-12 row">
-            <label for="simpleinput" class="form-label ipt">Kết thúc:</label>
+            <label for="simpleinput" class="form-label ipt"
+              >Kết thúc: <span class="required_input">(*)</span></label
+            >
             <div class="col-lg-6 col-sm-12">
               <input class="form-control" type="date" [(ngModel)]="dateEnd" />
             </div>
@@ -75,6 +80,9 @@
               rows="5"
               [(ngModel)]="evenSample.noidung"
             ></textarea>
+            <span class="input_error" *ngIf="errors.noidung">
+              {{ errors.noidung }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -86,6 +94,9 @@
               class="form-control"
               [(ngModel)]="evenSample.chutri"
             />
+            <span class="input_error" *ngIf="errors.chutri">
+              {{ errors.chutri }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -97,6 +108,9 @@
               class="form-control"
               [(ngModel)]="evenSample.thanhphan"
             />
+            <span class="input_error" *ngIf="errors.thanhphan">
+              {{ errors.thanhphan }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
@@ -119,7 +133,7 @@
               #diadiem
               (change)="changeDiaDiem(diadiem.value)"
             >
-              <option selected value="0">Địa Điểm Khác</option>
+              <option selected value="">Địa Điểm Khác</option>
               <option
                 *ngFor="let item of locationListAll"
                 [value]="item.diaDiemId"
@@ -128,11 +142,14 @@
               </option>
             </select>
             <input
-              [readOnly]="this.evenSample.diadiem != '0'"
+              [readOnly]="checkInput"
               type="text"
               class="form-control"
               [(ngModel)]="inputDiaDiem"
             />
+            <span class="input_error" *ngIf="errors.diadiem">
+              {{ errors.diadiem }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Mời:</label>

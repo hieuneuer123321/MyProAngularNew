@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   password = 'oo1234@2018';
   isRememberPassword = true;
   isLoggingIn = false;
-
   content = {
     element: null,
     margin: null,

@@ -102,16 +102,14 @@
             <th>{{ getLabel("timeCol") }}</th>
             <th>{{ getLabel("descriptionCol") }}</th>
             <th>{{ getLabel("locationCol") }}</th>
-            <th>Action</th>
+            <th>Thao Tác</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr
             class="myTableRow"
             *ngFor="let item of eventListData | paginate : config"
-            data-bs-toggle="modal"
-            data-bs-target="#scrollable-modal"
-            (click)="seeDetail(item)"
           >
             <td>{{ item.date | date : "dd/MM/yyyy" }}</td>
             <td>
@@ -184,211 +182,8 @@
                 </button>
               </div>
             </td>
+            <td><input type="checkbox" /></td>
           </tr>
-          <div
-            class="modal fade"
-            id="scrollable-modal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="scrollableModalTitle"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-scrollable modal-lg"
-              role="document"
-            >
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="scrollableModalTitle">
-                    Event detail
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-hidden="true"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-                    <li class="nav-item">
-                      <a
-                        href="#detailTab"
-                        data-bs-toggle="tab"
-                        aria-expanded="false"
-                        class="nav-link rounded-0 active"
-                      >
-                        <i class="mdi mdi-information d-md-none d-block"></i>
-                        <span class="d-none d-md-block">Thông tin</span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a
-                        href="#assigneeTab"
-                        data-bs-toggle="tab"
-                        aria-expanded="true"
-                        class="nav-link rounded-0"
-                      >
-                        <i class="mdi mdi-key d-md-none d-block"></i>
-                        <span class="d-none d-md-block"
-                          >Danh sách tham gia</span
-                        >
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="tab-content">
-                    <div class="tab-pane show active" id="detailTab">
-                      <div class="row">
-                        <div class="mb-3 col-12">
-                          <label for="simpleinput" class="form-label"
-                            >Tiêu đề:</label
-                          >
-                          <input
-                            [readonly]="editable"
-                            type="text"
-                            id="simpleinput"
-                            [(ngModel)]="eventDetail.title"
-                            class="form-control"
-                          />
-                        </div>
-                        <div class="mb-3 col-lg-6 col-sm-12 row">
-                          <label for="simpleinput" class="form-label"
-                            >Bắt đầu:</label
-                          >
-                          <div class="col-lg-6 col-sm-12">
-                            <input
-                              [readonly]="editable"
-                              class="form-control"
-                              id="example-date"
-                              value="{{
-                                eventDetail.time_start | slice : 0 : 10
-                              }}"
-                              type="date"
-                              name="date"
-                            />
-                          </div>
-                          <div class="col-lg-6 col-sm-12">
-                            <input
-                              [readonly]="editable"
-                              class="form-control"
-                              id="example-time"
-                              value="{{
-                                eventDetail.time_start | slice : 11 : 16
-                              }}"
-                              type="time"
-                              name="time"
-                            />
-                          </div>
-                        </div>
-                        <div class="mb-3 col-lg-6 col-sm-12 row">
-                          <label for="simpleinput" class="form-label"
-                            >Kết thúc:</label
-                          >
-                          <div class="col-lg-6 col-sm-12">
-                            <input
-                              [readonly]="editable"
-                              class="form-control"
-                              id="example-date"
-                              value="{{
-                                eventDetail.time_start | slice : 0 : 10
-                              }}"
-                              type="date"
-                              name="date"
-                            />
-                          </div>
-                          <div class="col-lg-6 col-sm-12">
-                            <input
-                              [readonly]="editable"
-                              class="form-control"
-                              id="example-time"
-                              value="{{
-                                eventDetail.time_end | slice : 11 : 16
-                              }}"
-                              type="time"
-                              name="time"
-                            />
-                          </div>
-                        </div>
-                        <div class="mb-3 col-12">
-                          <label for="simpleinput" class="form-label"
-                            >Nội dung:</label
-                          >
-                          <textarea
-                            class="form-control"
-                            [readonly]="editable"
-                            id="example-textarea"
-                            [(ngModel)]="eventDetail.description"
-                            rows="5"
-                          ></textarea>
-                        </div>
-                        <div class="mb-3 col-12">
-                          <label for="simpleinput" class="form-label"
-                            >Địa điểm:</label
-                          >
-                          <select
-                            id="example-multiselect"
-                            [disabled]="editable"
-                            class="form-control"
-                          >
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="tab-pane" id="assigneeTab">
-                      <p>{{ "working" | uppercase }}</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Đóng
-                  </button>
-                  <button
-                    *ngIf="!editable"
-                    type="button"
-                    class="btn btn-warning"
-                    (click)="cancelEditEvent()"
-                  >
-                    Huỷ
-                  </button>
-                  <button
-                    *ngIf="!editable"
-                    (click)="close()"
-                    type="button"
-                    class="btn btn-success"
-                  >
-                    Lưu
-                  </button>
-                  <button
-                    *ngIf="editable"
-                    type="button"
-                    class="btn btn-primary"
-                    (click)="editEvent()"
-                  >
-                    Sửa
-                  </button>
-                  <button
-                    *ngIf="!eventDetail.status"
-                    type="button"
-                    class="btn btn-success"
-                  >
-                    Duyệt
-                  </button>
-                </div>
-              </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
           <!-- /.modal -->
         </tbody>
       </table>
