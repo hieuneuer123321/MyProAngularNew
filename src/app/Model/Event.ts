@@ -1,5 +1,4 @@
 export class Event {
-  lichtuanid: string = '';
   tgbatdau: string = '';
   tgketthuc: string = '';
   noidung: string = '';
@@ -9,16 +8,6 @@ export class Event {
   khachmoi: string = '';
   ghichu: string = '';
   diadiem: string = '';
-  ngaytao: string = '';
-  dsLienQuan: Array<string> = [];
-  nguoidangky: string = '';
-  tennguoidangky: string = '';
-  nguoipheduyet: string = '';
-  tennguoipheduyet: string = '';
-  nguoihuy: string = '';
-  tennguoihuy: string = '';
-  pheduyet: string = '0';
-  huy: string = '0';
+  dsLienQuan: Array<any> = [];
   hopkhan: string = '0';
-  soComment: number = 0;
 }

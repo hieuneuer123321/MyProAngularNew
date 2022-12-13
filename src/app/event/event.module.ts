@@ -15,7 +15,7 @@ import { NewEventSampleComponent } from './new-event-sample/new-event-sample.com
 import { EventSampleDetailComponent } from './event-sample-detail/event-sample-detail.component';
 import { UpdateSampleComponent } from './update-sample/update-sample.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { CalendarComponent } from '../utilities/calendar/calendar.component';
 @NgModule({
   declarations: [
     EventComponent,

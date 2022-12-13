@@ -1,71 +1,93 @@
 <div class="wrapper">
-    <div class="leftside-menu">
-        <!-- LOGO -->
-        <a href="index.html" class="logo text-center logo-light">
-            <span class="logo-lg">
-                <img src="assets/imgs/logoOO.jpg" alt="" height="45" style="border-radius: 10px;">
-            </span>
-            <span class="logo-sm">
-                <img src="assets/images/oo_logo_sm.png" alt="" height="16">
-            </span>
-        </a>
+  <div class="leftside-menu">
+    <!-- LOGO -->
+    <a href="index.html" class="logo text-center logo-light">
+      <span class="logo-lg">
+        <img
+          src="assets/imgs/logoOO.jpg"
+          alt=""
+          height="45"
+          style="border-radius: 10px"
+        />
+      </span>
+      <span class="logo-sm">
+        <img src="assets/images/oo_logo_sm.png" alt="" height="16" />
+      </span>
+    </a>
 
-        <div class="h-100" id="leftside-menu-container" data-simplebar>
-
-            <!--- Sidemenu -->
-            <ul class="side-nav">
-                <!--
-                <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarWorks" aria-expanded="false" aria-controls="sidebarEmail"
-                        class="side-nav-link">
-                        <i class="uil-calendar-alt"></i>
-                        <span> nothing </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="sidebarWorks">
-                        <ul class="side-nav-second-level">
-                            <li>
-                                <a (click)="routeNavigator('/tasks/task-list')">a</a>
-                            </li>
-                            <li>
-                                <a>Chưa Duyệt</a>
-                            </li>
-                            <li>
-                                <a>Đăng Ký</a>
-                            </li>
-                            <li>
-                                <a>Lịch Tuần Mẫu</a>
-                            </li>
-                            <li>
-                                <a>Địa Điểm</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            -->
-                <li class="side-nav-item" *ngFor="let item of items">
-                    <a data-bs-toggle="collapse" href="#{{item.id}}" aria-expanded="false" aria-controls="sidebarEmail"
-                        class="side-nav-link">
-                        <i class="{{item.icon}}"></i>
-                        <span> {{item[this.generalService.currentLanguage.Code].title}} </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="{{item.id}}">
-                        <ul class="side-nav-second-level">
-                            <li *ngFor="let child of item[this.generalService.currentLanguage.Code].items; let i = index"
-                                [routerLinkActive]="['menuitem-active']">
-                                <a [routerLink]="item.id + item.routing[i]"
-                                    [routerLinkActiveOptions]="{exact:true}">{{child}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+      <!--- Sidemenu -->
+      <ul class="side-nav">
+        <!-- <li class="side-nav-item">
+          <a
+            data-bs-toggle="collapse"
+            href="#sidebarWorks"
+            aria-expanded="false"
+            aria-controls="sidebarEmail"
+            class="side-nav-link"
+          >
+            <i class="uil-calendar-alt"></i>
+            <span> nothing </span>
+            <span class="menu-arrow"></span>
+          </a>
+          <div class="collapse" id="sidebarWorks">
+            <ul class="side-nav-second-level">
+              <li>
+                <a (click)="routeNavigator('/tasks/task-list')">a</a>
+              </li>
+              <li>
+                <a>Chưa Duyệt</a>
+              </li>
+              <li>
+                <a>Đăng Ký</a>
+              </li>
+              <li>
+                <a>Lịch Tuần Mẫu</a>
+              </li>
+              <li>
+                <a>Địa Điểm</a>
+              </li>
             </ul>
+          </div>
+        </li> -->
 
-            <div class="clearfix"></div>
+        <li class="side-nav-item" *ngFor="let item of items">
+          <a
+            data-bs-toggle="collapse"
+            href="#{{ item.id }}"
+            aria-expanded="false"
+            aria-controls="sidebarEmail"
+            class="side-nav-link"
+          >
+            <i class="{{ item.icon }}"></i>
+            <span>
+              {{ item[this.generalService.currentLanguage.Code].title }}
+            </span>
+            <span class="menu-arrow"></span>
+          </a>
+          <div class="collapse" id="{{ item.id }}">
+            <ul class="side-nav-second-level">
+              <li
+                *ngFor="
+                  let child of item[this.generalService.currentLanguage.Code]
+                    .items;
+                  let i = index
+                "
+                [routerLinkActive]="['menuitem-active']"
+              >
+                <a
+                  [routerLink]="item.id + item.routing[i]"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  >{{ child }}</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
 
-        </div>
-        <!-- Sidebar -left -->
-
+      <div class="clearfix"></div>
     </div>
+    <!-- Sidebar -left -->
+  </div>
 </div>

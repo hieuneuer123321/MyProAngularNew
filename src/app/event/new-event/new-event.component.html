@@ -72,7 +72,7 @@
             </div>
           </div>
           <div class="mb-3 col-lg-6 col-sm-12 row">
-            <label for="simpleinput" class="form-label ipt">Kết thúc:</label>
+            <label for="simpleinput" class="form-label ipt">Kết thúc: </label>
             <div class="col-lg-6 col-sm-12">
               <input
                 class="form-control"
@@ -106,30 +106,33 @@
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
-              >Chủ trì:</label
-            >
+              >Chủ trì:
+            </label>
             <input
               type="text"
               id="simpleinput"
               class="form-control"
               [(ngModel)]="eventNew.chutri"
-            />
+            /><span class="input_error" *ngIf="errors.chutri">
+              {{ errors.chutri }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label ipt"
-              >Thành phần:</label
-            >
+              >Thành phần:
+            </label>
             <input
               type="text"
               id="simpleinput"
               class="form-control"
               [(ngModel)]="eventNew.thanhphan"
             />
+            <span class="input_error" *ngIf="errors.thanhphan">
+              {{ errors.thanhphan }}
+            </span>
           </div>
           <div class="mb-3">
-            <label for="example-textarea" class="form-label ipt"
-              >Chuẩn bị:</label
-            >
+            <label for="example-textarea" class="form-label">Chuẩn bị:</label>
             <input
               type="text"
               id="simpleinput"
@@ -139,7 +142,7 @@
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label"
-              >Địa điểm: {{ readonlyInput }}{{ checkDiaDiem }}</label
+              >Địa điểm: <span class="required_input">(*)</span></label
             >
             <select
               class="form-select"
@@ -147,7 +150,7 @@
               #diadiem2
               (change)="changeDiaDiem(diadiem2.value)"
             >
-              <option [selected]="!eventNew.diadiem" value="0">
+              <option [selected]="!eventNew.diadiem" value="">
                 Địa Điểm Khác
               </option>
               <option
@@ -166,6 +169,9 @@
               class="form-control"
               [(ngModel)]="inputDiaDiem"
             />
+            <span class="input_error" *ngIf="errors.diadiem">
+              {{ errors.diadiem }}
+            </span>
           </div>
           <div class="mb-3">
             <label for="example-textarea" class="form-label">Mời:</label>
@@ -177,16 +183,12 @@
             />
           </div>
           <div class="mb-3">
-            <label
-              for="example-textarea"
-              class="form-label"
-              [(ngModel)]="eventNew.ghichu"
-              >Ghi chú:</label
-            >
+            <label for="example-textarea" class="form-label">Ghi chú:</label>
             <textarea
               class="form-control"
               id="example-textarea"
               rows="5"
+              [(ngModel)]="eventNew.ghichu"
             ></textarea>
           </div>
           <div class="mb-3">
@@ -237,6 +239,7 @@
               [(ngModel)]="groupKeyChosenInStep2"
               class="form-select"
               id="groupOfAssignee"
+              (change)="onChange($event.target.value)"
             >
               <option value="all" selected>Tất cả nhân viên</option>
               <option
@@ -253,7 +256,7 @@
             [leftList]="allUserInStep2List"
             [rightList]="chosenAssigneelList"
           ></app-dual-list>
-          <div style="margin: 0 10px 30px 30px">
+          <!-- <div style="margin: 0 10px 30px 30px">
             <label class="form-label" for="majorAssignee"
               ><span style="color: tomato">(*)</span> Người Xử lý Chính:
             </label>
@@ -271,14 +274,16 @@
                 {{ assignee.fullName }}
               </option>
             </select>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="btn_list">
         <button type="button" class="btn btn-warning" awPreviousStep>
           Trở Lại
         </button>
-        <button type="button" class="btn btn-success">Thêm Lịch Tuần</button>
+        <button type="button" class="btn btn-success" (click)="addEvent()">
+          Thêm Lịch Tuần
+        </button>
       </div>
     </aw-wizard-step>
   </aw-wizard>

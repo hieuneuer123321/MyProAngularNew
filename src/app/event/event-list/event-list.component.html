@@ -1,4 +1,24 @@
 <div class="container-fluid">
+  <div class="row">
+    <div class="col-1 my-auto">
+      <img
+        (click)="goBack()"
+        style="
+          cursor: pointer;
+          opacity: 0.5;
+          width: 30px;
+          height: auto;
+          margin: auto;
+        "
+        src="assets/imgs/left.png"
+      />
+    </div>
+    <div class="col-11">
+      <div class="page-title-box">
+        <h4 class="page-title">Danh Sách Lịch Tuần Mẫu</h4>
+      </div>
+    </div>
+  </div>
   <ngx-loading
     [show]="spinnerLoading"
     [config]="{
@@ -54,7 +74,7 @@
   <div class="row">
     <div class="col-9">
       <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-        <li (click)="changeTabs(true)" class="nav-item">
+        <li (click)="changeTabs(true)" class="nav-item" style="cursor: pointer">
           <a
             data-bs-toggle="tab"
             aria-expanded="false"
@@ -72,7 +92,11 @@
             >
           </a>
         </li>
-        <li (click)="changeTabs(false)" class="nav-item">
+        <li
+          (click)="changeTabs(false)"
+          class="nav-item"
+          style="cursor: pointer"
+        >
           <a
             data-bs-toggle="tab"
             aria-expanded="true"
@@ -98,30 +122,141 @@
       >
         <thead>
           <tr>
-            <th>{{ getLabel("dateCol") }}</th>
-            <th>{{ getLabel("timeCol") }}</th>
+            <th width="20%">{{ getLabel("dateCol") }}</th>
+            <th width="10%">{{ getLabel("timeCol") }}</th>
             <th>{{ getLabel("descriptionCol") }}</th>
-            <th>{{ getLabel("locationCol") }}</th>
-            <th>Thao Tác</th>
-            <th></th>
+            <th width="15%">{{ getLabel("locationCol") }}</th>
+            <th width="8%">Thao Tác</th>
+            <th width="3%">
+              <input
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Chọn để đánh dấu tất cả hoặc hủy tất cả"
+                type="checkbox"
+              />
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr
-            class="myTableRow"
-            *ngFor="let item of eventListData | paginate : config"
+            class=""
+            *ngFor="let item of EventNotApproved | paginate : config"
           >
-            <td>{{ item.date | date : "dd/MM/yyyy" }}</td>
-            <td>
-              {{ item.time_start | slice : 11 : 16 }} {{ getLabel("to") }}
-              {{ item.time_end | slice : 11 : 16 }}
+            <td class="col-ngay">
+              <span class="col_ngay_content">
+                {{ getDate(item.tgbatdau) }} ({{
+                  item.tgbatdau | slice : 0 : 10 | date : "dd/MM/yyyy"
+                }})</span
+              ><br />
+              Đến<br />
+              <span class="col_ngay_content">
+                {{ getDate(item.tgketthuc) }}
+                ({{
+                  item.tgketthuc | slice : 0 : 10 | date : "dd/MM/yyyy"
+                }})</span
+              >
             </td>
-            <td>
-              <b>{{ item.title }}</b>
+            <td class="col-ngay">
+              <span class="col_tg">{{
+                item.tgbatdau | date : "shortTime"
+              }}</span>
               <br />
-              {{ item.description }}
+              Tới <br />
+              <span class="col_tg">
+                {{ item.tgketthuc | date : "shortTime" }}
+              </span>
             </td>
-            <td>{{ item.location }}</td>
+            <td>
+              <div class="col_nd">
+                {{ item.noidung }}
+              </div>
+              <div>
+                <span class="col_lable_title">Chủ trì: </span>
+                <span class="col_nd_content">{{ item.chutri }}</span>
+              </div>
+              <div *ngIf="item.chuanbi">
+                <span class="col_lable_title">Chuẩn bị: </span>
+                <span class="col_nd_content">{{ item.chuanbi }}</span>
+              </div>
+              <div *ngIf="item.thanhphan">
+                <span class="col_lable_title">Thành Phần: </span>
+                <span class="col_nd_content">{{ item.thanhphan }}</span>
+              </div>
+              <div>
+                <span class="col_lable_title">Danh sách liên quan: </span>
+                <span
+                  style="cursor: pointer"
+                  class="col_nd_content"
+                  (click)="showDSLQ(item.lichtuanid)"
+                  ><img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Danh sách liên quan"
+                    src="../../../assets/images/icon/iconEvent/hand_point.png"
+                /></span>
+              </div>
+
+              <div>
+                <span class="col_lable_title"
+                  >(<img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người đăng ký"
+                    src="../../../assets/images/icon/iconEvent/AddNew.png"
+                  /><img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người đăng ký"
+                    src="../../../assets/images/icon/iconEvent/cal-private.gif"
+                  /><span style="color: #85888d" *ngIf="!currentTab"
+                    >{{ item.tennguoidangky }},
+                    {{ layThoiGianChenhLech(item.ngaytao) }}
+                    , lúc
+                    {{ item.ngaytao | date : "shortTime" }}
+                  </span>
+                  <span style="color: #85888d" *ngIf="currentTab"
+                    >{{ item.tennguoidangky }},
+                    {{ item.ngaytao | date : "short" }}
+                  </span>
+                  )
+                  <img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Xem phản hồi"
+                    src="../../../assets/images/icon/iconEvent/forum.gif"
+                  /><span style="font-weight: bold; color: red">
+                    ({{ item.soComment }})</span
+                  >
+                </span>
+              </div>
+              <div *ngIf="currentTab">
+                <span class="col_lable_title"
+                  >(<img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người Duyệt"
+                    src="../../../assets/images/icon/iconEvent/accept.png"
+                  /><img
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người Duyệt"
+                    src="../../../assets/images/icon/iconEvent/cal-private.gif"
+                  /><span style="color: #85888d" *ngIf="!currentTab"
+                    >{{ item.tennguoipheduyet }},
+                    {{ layThoiGianChenhLech(item.ngaytao) }}
+                    , lúc
+                    {{ item.ngaytao | date : "shortTime" }}
+                  </span>
+                  <span style="color: #85888d" *ngIf="currentTab"
+                    >{{ item.tennguoidangky }},
+                    {{ item.ngaytao | date : "short" }}
+                  </span>
+                  )
+                </span>
+              </div>
+              <br />
+            </td>
+            <td class="col_diadiem">{{ item.diadiem }}</td>
             <!-- <td class="text-center" >
                             <div id="tooltip-container1">
                                 <span class="d-inline-block" tabindex="0" data-bs-container="#tooltip-container1"
@@ -131,6 +266,16 @@
                             </div>
                         </td> -->
             <td>
+              <div class="align-items-center" *ngIf="!currentTab">
+                <button
+                  class="btn-icon"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Duyệt"
+                >
+                  <img src="../../../assets/images/icon/iconEvent/accept.png" />
+                </button>
+              </div>
               <div class="align-items-center">
                 <button
                   class="btn-icon"
@@ -138,7 +283,7 @@
                   data-bs-placement="bottom"
                   title="Sửa"
                 >
-                  <i class="fa-solid fa-pen"></i>
+                  <img src="../../../assets/images/icon/iconEvent/edit.gif" />
                 </button>
               </div>
               <div class="align-items-center">
@@ -148,41 +293,52 @@
                   data-bs-placement="bottom"
                   title="Xóa"
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <img src="../../../assets/images/icon/iconEvent/delete.gif" />
                 </button>
               </div>
-              <div class="align-items-center">
+              <div class="align-items-center" *ngIf="currentTab">
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
                   title="Hủy"
                 >
-                  <i class="fa-solid fa-ban"></i>
+                  <img src="../../../assets/images/icon/iconEvent/Cancel.png" />
                 </button>
               </div>
-              <div class="align-items-center">
+              <div class="align-items-center" *ngIf="currentTab">
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
                   title="Chuyển thành lịch cá nhân"
                 >
-                  <i class="fa-regular fa-calendar-days"></i>
+                  <img
+                    src="../../../assets/images/icon/iconEvent/LichCaNhan.png"
+                  />
                 </button>
               </div>
-              <div class="align-items-center">
+              <div class="align-items-center" *ngIf="currentTab">
                 <button
-                  style="border: none"
+                  class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
                   title="Chuyển thành công việc"
                 >
-                  <i class="fa-sharp fa-solid fa-share"></i>
+                  <img
+                    src="../../../assets/images/icon/iconEvent/task_tree.gif"
+                  />
                 </button>
               </div>
             </td>
-            <td><input type="checkbox" /></td>
+            <td>
+              <input
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Chọn để đánh dấu"
+                type="checkbox"
+              />
+            </td>
           </tr>
           <!-- /.modal -->
         </tbody>
@@ -245,6 +401,7 @@
           In Lịch
         </button>
       </div>
+      <div style="border: 1px solid black"><app-calendar></app-calendar></div>
     </div>
   </div>
 </div>

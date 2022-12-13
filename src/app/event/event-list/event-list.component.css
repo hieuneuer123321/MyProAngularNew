@@ -10,4 +10,43 @@
 .btn-icon {
   border: none !important;
   border-bottom: 1.4px black solid !important;
+  background-color: white;
+  margin-bottom: 3px;
+  width: 30px;
+  height: 30px;
 }
+.col_ngay_content {
+  color: #9c0000;
+}
+.col-ngay {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+.col_tg {
+  color: #000082;
+}
+th {
+  text-align: center;
+}
+.col_nd {
+  color: #000080;
+  font-weight: bold;
+  font-size: 16px;
+}
+.col_lable_title {
+  color: #bf8080;
+  font-style: italic;
+  font-size: 14px;
+}
+.col_nd_content {
+  color: #271e8b;
+  font-size: 15px;
+}
+.col_diadiem {
+  color: #271e8b;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+/*  */

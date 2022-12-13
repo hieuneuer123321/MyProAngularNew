@@ -1,3 +1,4 @@
+import { Event } from './../../Model/Event';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { WizardComponent } from 'angular-archwizard';
@@ -5,6 +6,8 @@ import { GeneralService } from 'src/app/services/general.service';
 import { ApiservicesService } from 'src/app/services/api.service';
 import dateFormat, { masks } from 'dateformat';
 import { Event_Week } from 'src/app/Model/Event_Week';
+import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
@@ -34,7 +37,14 @@ export class NewEventComponent implements OnInit {
     note: '',
     file: [],
   };
-
+  //Validate
+  errors = {
+    noidung: '',
+    diadiem: '',
+    chutri: '',
+    thanhphan: '',
+  };
+  //
   chosenAssigneelList: any[] = [];
   allUserInStep2List;
   majorAssignee;
@@ -42,7 +52,9 @@ export class NewEventComponent implements OnInit {
   constructor(
     private _location: Location,
     public generalService: GeneralService,
-    private api: ApiservicesService
+    public api: ApiservicesService,
+    public routerAc: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +69,7 @@ export class NewEventComponent implements OnInit {
     const test = dateFormat(now, 'isoTime');
     this.hourStart = test.substring(0, 5);
     this.hourEnd = test.substring(0, 5);
-    this.eventNew.diadiem = '0';
+    this.eventNew.diadiem = '';
   }
   goBack() {
     this._location.back();
@@ -110,11 +122,14 @@ export class NewEventComponent implements OnInit {
   changeDiaDiem(values: any) {
     this.eventNew.diadiem = values;
     console.log(values);
-    values == '0'
+    values == ''
       ? ((this.readonlyInput = false),
         (this.checkDiaDiem = false),
         (this.inputDiaDiem = this.eventNew.diadiem))
       : ((this.readonlyInput = true), (this.checkDiaDiem = true));
+  }
+  onChange(e: any) {
+    this.onAsigneeGroupChange(e);
   }
   async getListLocationAll() {
     try {
@@ -157,6 +172,15 @@ export class NewEventComponent implements OnInit {
     }
   }
   dualListUpdateForAssignee(event) {
+    console.log(event);
+    if (event) {
+      this.allUserInStep2List = event.leftList;
+      this.chosenAssigneelList = event.rightList;
+      this.eventNew.dsLienQuan = event.rightList;
+    } else {
+      this.chosenAssigneelList = [];
+    }
+    console.log(this.chosenAssigneelList);
     // this.allUserInStep2List = event.leftList;
     // this.chosenAssigneelList = event.rightList;
     // if(this.groupKeyChosenInStep2 == 'all')
@@ -177,16 +201,16 @@ export class NewEventComponent implements OnInit {
     // }
 
     //kiem tra xem majorAssignee đã chọn trước đó còn trong list chosen hay ko.
-    if (this.majorAssignee != null) {
-      let check = false;
-      for (let i = 0; i < this.chosenAssigneelList.length; ++i) {
-        if (this.majorAssignee == this.chosenAssigneelList[i]) {
-          check = true;
-          break;
-        }
-      }
-      if (!check) this.majorAssignee = null;
-    }
+    // if (this.majorAssignee != null) {
+    //   let check = false;
+    //   for (let i = 0; i < this.chosenAssigneelList.length; ++i) {
+    //     if (this.majorAssignee == this.chosenAssigneelList[i]) {
+    //       check = true;
+    //       break;
+    //     }
+    //   }
+    //   if (!check) this.majorAssignee = null;
+    // }
   }
   removeFile(index) {
     this.newEventData.file.splice(index, 1);
@@ -208,5 +232,134 @@ export class NewEventComponent implements OnInit {
   wizardGoodToGo(numb) {
     this.wizard.goToStep(numb);
   }
-  finish() {}
+  async addEvent() {
+    /// format date time start
+    const date = new Date(this.dateStart);
+    const hourS = this.hourStart;
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const arrHourS = hourS.split('');
+    const hour = Number(hourS.substring(0, 2));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
+    const newDateStart = new Date(year, month, day, hour, minute);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
+    ////format date time end
+    const date2 = new Date(this.dateEnd);
+    const hourS2 = this.hourEnd;
+    const year2 = date2.getFullYear();
+    const month2 = date2.getMonth();
+    const day2 = date2.getDate();
+    const arrHour = hourS2.split('');
+    const hour2 = Number(hourS2.substring(0, 2));
+    const minute2 = Number(
+      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    );
+    const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
+    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    const dateTimeFormatter2 = temp2.substring(0, 19);
+    this.eventNew.tgbatdau = dateTimeFormatter;
+    this.eventNew.tgketthuc = dateTimeFormatter2;
+    this.eventNew.hopkhan = '0';
+    if (this.eventNew.dsLienQuan && this.eventNew.dsLienQuan.length > 0) {
+      const arrUserId: any = [];
+      this.eventNew.dsLienQuan.forEach((i: any) => {
+        arrUserId.push(i.userId);
+      });
+      this.eventNew.dsLienQuan = arrUserId;
+    }
+    this.eventNew.diadiem =
+      this.inputDiaDiem || this.eventNew.diadiem == ''
+        ? this.inputDiaDiem
+        : this.eventNew.diadiem;
+    console.log(this.eventNew);
+    if (this.eventNew.noidung) {
+      this.errors.noidung = '';
+    }
+    if (this.eventNew.chutri) {
+      this.errors.chutri = '';
+    }
+    if (this.eventNew.thanhphan) {
+      this.errors.thanhphan = '';
+    }
+    if (this.eventNew.diadiem) {
+      this.errors.diadiem = '';
+    }
+    ///////////////
+    if (
+      this.eventNew.diadiem &&
+      this.eventNew.noidung &&
+      this.eventNew.chutri &&
+      this.eventNew.thanhphan
+    ) {
+      this.errors.chutri =
+        this.errors.diadiem =
+        this.errors.noidung =
+        this.errors.thanhphan =
+          '';
+      try {
+        await this.api.httpCall(
+          this.api.apiLists.CreateNewEvent,
+          {},
+          this.eventNew,
+          'post',
+          true
+        );
+        // Swal.fire({
+        //   position: 'center',
+        //   icon: 'success',
+        //   title: 'Thêm Thành Công',
+        //   showConfirmButton: false,
+        //   timer: 1000,
+        // });
+        // this.router.navigate(['/event/event-list']);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      Swal.fire({
+        title: '<strong>Thiếu Thông Tin ?</strong>',
+        icon: 'warning',
+        html: `Vui lòng nhập đầy đủ các thông tin bắt buộc ! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (
+          !this.eventNew.diadiem &&
+          !this.eventNew.noidung &&
+          !this.eventNew.chutri &&
+          !this.eventNew.thanhphan
+        ) {
+          this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+        } else {
+          if (!this.eventNew.noidung) {
+            this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventNew.chutri) {
+            this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventNew.thanhphan) {
+            this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.eventNew.diadiem) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.eventNew.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.readonlyInput == false) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.eventNew.diadiem == '';
+          }
+        }
+      });
+    }
+  }
 }

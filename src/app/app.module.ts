@@ -17,6 +17,7 @@ import { SearchComponent } from './search/search/search.component';
 import { AdminComponent } from './admin/admin/admin.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
