@@ -8,6 +8,7 @@ import { LocationComponent } from './location/location.component';
 import { NewEventSampleComponent } from './new-event-sample/new-event-sample.component';
 import { UpdateSampleComponent } from './update-sample/update-sample.component';
 import { EventSampleDetailComponent } from './event-sample-detail/event-sample-detail.component';
+import { EventUpdateComponent } from './event-update/event-update.component';
 const routes: Routes = [
   {
     path: '',
@@ -48,6 +49,11 @@ const routes: Routes = [
         data: { link: '/event/update-event-sample/:id' },
         path: 'update-event-sample/:id',
         component: UpdateSampleComponent,
+      },
+      {
+        data: { link: '/event/event-list/update-event/:id' },
+        path: 'event-list/update-event/:id',
+        component: EventUpdateComponent,
       },
     ],
   },

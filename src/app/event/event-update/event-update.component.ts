@@ -7,34 +7,27 @@ import { ApiservicesService } from 'src/app/services/api.service';
 import { EventSample, EventSampleUpdate } from 'src/app/Model/Event_Sample';
 import dateFormat, { masks } from 'dateformat';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import { setDefaults } from 'sweetalert/typings/modules/options';
+import { EventUpdate } from 'src/app/Model/Event';
 import Swal from 'sweetalert2';
+
 @Component({
-  selector: 'app-update-sample',
-  templateUrl: './update-sample.component.html',
-  styleUrls: ['./update-sample.component.css'],
+  selector: 'app-event-update',
+  templateUrl: './event-update.component.html',
+  styleUrls: ['./event-update.component.css'],
 })
-export class UpdateSampleComponent implements OnInit {
+export class EventUpdateComponent implements OnInit {
   @ViewChild(WizardComponent)
   public wizard: WizardComponent;
   checkDiaDiem = false;
   readonlyInput = false;
   inputDiaDiem;
   locationListAll;
-  evenSample = new EventSampleUpdate();
-  idLichTuanMau;
+  event = new EventUpdate();
+  idLichTuan;
   dateStart;
   dateEnd;
   hourStart: any;
   hourEnd: any;
-  eventSampleDataUpdate;
   name = 'Angular ';
   today = Date.now();
   wizardStep = 0;
@@ -70,53 +63,53 @@ export class UpdateSampleComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.wizardStep);
-    this.idLichTuanMau = this.routerAc.snapshot.params['id'];
+    this.idLichTuan = this.routerAc.snapshot.params['id'];
     console.log(this.generalService);
     // this.dualListUpdateForAssignee(null);
     this.getListLocationAll(null);
     this.getById(this.routerAc.snapshot.params['id']);
     // Wed, 22 Dec 2021 00:31:25 GMT
-
+    // console.log(this.chosenAssigneelList);
     // T4 ngày 22/12/2021
   }
 
   async getById(id: string) {
     console.log(id);
     try {
-      this.eventSampleDataUpdate = await this.api.httpCall(
-        this.api.apiLists.GetEventDetailById,
+      let EventNotApproved: any;
+      EventNotApproved = await this.api.httpCall(
+        this.api.apiLists.GetAllEventByType + '?type=0',
         {},
-        { ltid: id },
+        {},
         'get',
         true
       );
-      this.getListLocationAll(this.eventSampleDataUpdate.diadiem);
-      this.evenSample.noidung = this.eventSampleDataUpdate.noidung;
-      this.evenSample.chutri = this.eventSampleDataUpdate.chutri;
-      this.evenSample.chuanbi = this.eventSampleDataUpdate.chuanbi;
-      this.evenSample.khachmoi = this.eventSampleDataUpdate.khachmoi;
-      this.evenSample.diadiem = this.eventSampleDataUpdate.diadiem;
-      this.evenSample.noidung = this.eventSampleDataUpdate.noidung;
-      this.evenSample.ghichu = this.eventSampleDataUpdate.ghichu;
-      this.evenSample.thanhphan = this.eventSampleDataUpdate.thanhphan;
-      console.log(this.eventSampleDataUpdate);
-      this.chosenAssigneelList = this.eventSampleDataUpdate.dsLienQuan;
-      this.dateStart = this.eventSampleDataUpdate.tgbatdau.substring(0, 10);
-      this.hourStart = this.eventSampleDataUpdate.tgbatdau.substring(11, 16);
-      this.dateEnd = this.eventSampleDataUpdate.tgketthuc.substring(0, 10);
-      this.hourEnd = this.eventSampleDataUpdate.tgketthuc.substring(11, 16);
+      let EventApproved: any;
+      EventApproved = await this.api.httpCall(
+        this.api.apiLists.GetAllEventByType + '?type=1',
+        {},
+        {},
+        'get',
+        true
+      );
+      const AllEvents = [...EventNotApproved, ...EventApproved];
+      this.event = AllEvents.find((item) => item.lichtuanid == id);
+      console.log(this.event);
+      this.getListLocationAll(this.event.diadiem);
+      this.dateStart = this.event.tgbatdau.substring(0, 10);
+      this.hourStart = this.event.tgbatdau.substring(11, 16);
+      this.dateEnd = this.event.tgketthuc.substring(0, 10);
+      this.hourEnd = this.event.tgketthuc.substring(11, 16);
+      this.chosenAssigneelList = this.event.dsLienQuan;
       console.log(this.chosenAssigneelList);
       this.onAsigneeGroupChange(null, this.chosenAssigneelList);
-      // this.onAsigneeGroupChange2(null, 'U0005');
     } catch (e) {
       console.log(e);
     }
   }
-  changeLapLai(values: any) {
-    this.eventSampleDataUpdate.laplai = values;
-  }
+
   changeDiaDiem(values: any) {
-    this.eventSampleDataUpdate.diadiem = values;
+    this.event.diadiem = values;
     this.inputDiaDiem = '';
     console.log(values);
     values == ''
@@ -152,9 +145,9 @@ export class UpdateSampleComponent implements OnInit {
   goBack() {
     this._location.back();
   }
-  // setDefaults(arr) {
-  //   this.chosenAssigneelList = arr;
-  // }
+  setDefaults(arr) {
+    this.chosenAssigneelList = arr;
+  }
   filterItemvsArr(arr1, arr2) {
     const arrtemp = [];
     arr2.forEach((i) => {
@@ -194,7 +187,7 @@ export class UpdateSampleComponent implements OnInit {
     } else {
       this.chosenAssigneelList = [];
     }
-    console.log(this.eventSampleDataUpdate);
+    console.log(this.event);
     console.log(this.chosenAssigneelList);
   }
 
@@ -220,7 +213,7 @@ export class UpdateSampleComponent implements OnInit {
   }
   finish() {}
   async updateEventSample() {
-    /// format date time start
+    //   /// format date time start
     const date = new Date(this.dateStart);
     const hourS = this.hourStart;
     const year = date.getFullYear();
@@ -248,42 +241,36 @@ export class UpdateSampleComponent implements OnInit {
     const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
     const temp2 = dateFormat(newDateEnd, 'isoDateTime');
     const dateTimeFormatter2 = temp2.substring(0, 19);
-    this.eventSampleDataUpdate.tgbatdau = dateTimeFormatter;
-    this.eventSampleDataUpdate.tgketthuc = dateTimeFormatter2;
+    this.event.tgbatdau = dateTimeFormatter;
+    this.event.tgketthuc = dateTimeFormatter2;
     const arrUserId = [];
+    console.log(this.chosenAssigneelList);
     this.chosenAssigneelList.forEach((i) => {
       arrUserId.push(i.userId);
     });
-    this.eventSampleDataUpdate.dsLienQuan = arrUserId;
-    this.eventSampleDataUpdate.idLichTuanMau = this.idLichTuanMau;
-    this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
-    this.eventSampleDataUpdate.chutri = this.evenSample.chutri;
-    this.eventSampleDataUpdate.chuanbi = this.evenSample.chuanbi;
-    this.eventSampleDataUpdate.khachmoi = this.evenSample.khachmoi;
-    this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
-    this.eventSampleDataUpdate.ghichu = this.evenSample.ghichu;
-    this.eventSampleDataUpdate.thanhphan = this.evenSample.thanhphan;
-    this.eventSampleDataUpdate.diadiem = this.inputDiaDiem
+    this.event.dsLienQuan = arrUserId;
+    this.event.idLich = this.idLichTuan;
+
+    this.event.diadiem = this.inputDiaDiem
       ? this.inputDiaDiem
-      : this.eventSampleDataUpdate.diadiem;
-    console.log(this.eventSampleDataUpdate);
-    if (this.eventSampleDataUpdate.noidung) {
+      : this.event.diadiem;
+    if (this.event.noidung) {
       this.errors.noidung = '';
     }
-    if (this.eventSampleDataUpdate.chutri) {
+    if (this.event.chutri) {
       this.errors.chutri = '';
     }
-    if (this.eventSampleDataUpdate.thanhphan) {
+    if (this.event.thanhphan) {
       this.errors.thanhphan = '';
     }
-    if (this.eventSampleDataUpdate.diadiem) {
+    if (this.event.diadiem) {
       this.errors.diadiem = '';
     }
     if (
-      this.eventSampleDataUpdate.diadiem &&
-      this.eventSampleDataUpdate.noidung &&
-      this.eventSampleDataUpdate.chutri &&
-      this.eventSampleDataUpdate.thanhphan
+      this.event.diadiem &&
+      this.event.noidung &&
+      this.event.chutri &&
+      this.event.thanhphan
     ) {
       this.errors.chutri =
         this.errors.diadiem =
@@ -291,10 +278,25 @@ export class UpdateSampleComponent implements OnInit {
         this.errors.thanhphan =
           '';
       try {
+        console.log(this.event);
+        const obj = {
+          ltid: this.event.idLich,
+          tgbatdau: this.event.tgbatdau,
+          tgketthuc: this.event.tgketthuc,
+          noidung: this.event.noidung,
+          ghichu: this.event.ghichu,
+          chutri: this.event.chutri,
+          thanhphan: this.event.thanhphan,
+          chuanbi: this.event.chuanbi,
+          khachmoi: this.event.khachmoi,
+          diadiem: this.event.diadiem,
+          hopkhan: this.event.hopkhan,
+          dsLienQuan: this.event.dsLienQuan,
+        };
         await this.api.httpCall(
-          this.api.apiLists.UpdateEventSample,
+          this.api.apiLists.UpdateEvent,
           {},
-          this.eventSampleDataUpdate,
+          obj,
           'post',
           true
         );
@@ -305,9 +307,7 @@ export class UpdateSampleComponent implements OnInit {
           showConfirmButton: false,
           timer: 1000,
         });
-        this.router.navigate([
-          `event/new-event-sample/detail/${this.idLichTuanMau}`,
-        ]);
+        this.router.navigate([`event/event-list`]);
       } catch (e) {
         console.log(e);
       }
@@ -323,32 +323,32 @@ export class UpdateSampleComponent implements OnInit {
         confirmButtonText: `Hủy`,
       }).then(async (result) => {
         if (
-          !this.eventSampleDataUpdate.diadiem &&
-          !this.eventSampleDataUpdate.noidung &&
-          !this.eventSampleDataUpdate.chutri &&
-          !this.eventSampleDataUpdate.thanhphan
+          !this.event.diadiem &&
+          !this.event.noidung &&
+          !this.event.chutri &&
+          !this.event.thanhphan
         ) {
           this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
           this.errors.chutri = 'Vui lòng nhập vào ô này !';
           this.errors.noidung = 'Vui lòng nhập vào ô này !';
           this.errors.diadiem = 'Vui lòng nhập vào ô này !';
         } else {
-          if (!this.eventSampleDataUpdate.noidung) {
+          if (!this.event.noidung) {
             this.errors.noidung = 'Vui lòng nhập vào ô này !';
           }
-          if (!this.eventSampleDataUpdate.chutri) {
+          if (!this.event.chutri) {
             this.errors.chutri = 'Vui lòng nhập vào ô này !';
           }
-          if (!this.eventSampleDataUpdate.thanhphan) {
+          if (!this.event.thanhphan) {
             this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
           }
-          if (!this.eventSampleDataUpdate.diadiem) {
+          if (!this.event.diadiem) {
             this.errors.diadiem = 'Vui lòng nhập vào ô này !';
-            this.eventSampleDataUpdate.diadiem == '';
+            this.event.diadiem == '';
           }
           if (!this.inputDiaDiem && this.checkDiaDiem == false) {
             this.errors.diadiem = 'Vui lòng nhập vào ô này !';
-            this.eventSampleDataUpdate.diadiem == '';
+            this.event.diadiem == '';
           }
         }
       });

@@ -1,0 +1,258 @@
+{{ event | json }}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-1 my-auto">
+      <img
+        (click)="goBack()"
+        style="
+          cursor: pointer;
+          opacity: 0.5;
+          width: 30px;
+          height: auto;
+          margin: auto;
+        "
+        src="assets/imgs/left.png"
+      />
+    </div>
+    <div class="col-11">
+      <div class="page-title-box">
+        <h4 class="page-title">Sửa Lịch Tuần</h4>
+      </div>
+    </div>
+  </div>
+  <aw-wizard>
+    <aw-wizard-step stepTitle="1. Nhập thông tin lịch">
+      <div class="container">
+        <div class="row">
+          <div class="mb-3 col-lg-6 col-sm-12 row">
+            <label for="simpleinput" class="form-label ipt">Bắt đầu:</label>
+            <div class="col-lg-6 col-sm-12">
+              <input class="form-control" type="date" [(ngModel)]="dateStart" />
+            </div>
+            <div class="col-lg-4 col-sm-12">
+              <input
+                class="form-control col"
+                type="time"
+                style="width: 150px"
+                [(ngModel)]="hourStart"
+              />
+            </div>
+          </div>
+          <div class="mb-3 col-lg-6 col-sm-12 row">
+            <label for="simpleinput" class="form-label ipt">Kết thúc:</label>
+            <div class="col-lg-6 col-sm-12">
+              <input class="form-control" type="date" [(ngModel)]="dateEnd" />
+            </div>
+            <div class="col-lg-4 col-sm-12">
+              <input
+                class="form-control col"
+                type="time"
+                style="width: 150px"
+                [(ngModel)]="hourEnd"
+              />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label ipt"
+              >Nội dung: <span class="required_input">(*)</span>
+            </label>
+            <textarea
+              class="form-control"
+              id="example-textarea"
+              rows="5"
+              [(ngModel)]="event.noidung"
+            ></textarea>
+            <span class="input_error" *ngIf="errors.noidung">
+              {{ errors.noidung }}
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label ipt"
+              >Chủ trì: <span class="required_input">(*)</span></label
+            >
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="event.chutri"
+            />
+            <span class="input_error" *ngIf="errors.chutri">
+              {{ errors.chutri }}
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label ipt"
+              >Thành phần: <span class="required_input">(*)</span></label
+            >
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="event.thanhphan"
+            />
+            <span class="input_error" *ngIf="errors.thanhphan">
+              {{ errors.thanhphan }}
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label ipt"
+              >Chuẩn bị:</label
+            >
+            <input
+              type="text"
+              id="simpleinput"
+              class="form-control"
+              [(ngModel)]="event.chuanbi"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label"
+              >Địa điểm: <span class="required_input">(*)</span></label
+            >
+
+            <select
+              class="form-select"
+              #diadiem
+              (change)="changeDiaDiem(diadiem.value)"
+            >
+              <option [selected]="!event.diadiem" value="">
+                Địa Điểm Khác
+              </option>
+              <option
+                *ngFor="let item of locationListAll"
+                [value]="item.diaDiemId"
+                [selected]="event.diadiem == item.tenDiaDiem"
+              >
+                {{ item.tenDiaDiem }} - {{ item.moTa }}
+              </option>
+            </select>
+            <input
+              type="text"
+              class="form-control"
+              [readOnly]="readonlyInput || checkDiaDiem"
+              [(ngModel)]="inputDiaDiem"
+            />
+            <span class="input_error" *ngIf="errors.diadiem">
+              {{ errors.diadiem }}
+            </span>
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label">Mời:</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="event.khachmoi"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="example-textarea" class="form-label">Ghi chú:</label>
+            <textarea
+              class="form-control"
+              id="example-textarea"
+              rows="5"
+              [(ngModel)]="event.ghichu"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="example-fileinput" class="form-label">Thêm file:</label>
+            <input
+              type="file"
+              multiple
+              (change)="handleFileInput($event.target.files)"
+              id="fileList"
+              class="form-control"
+            />
+            <ol class="list-group list-group-numbered">
+              <li
+                *ngFor="let file of newEventData.file; index as i"
+                class="list-group-item"
+              >
+                {{ file.name
+                }}<span
+                  (click)="removeFile(i)"
+                  style="
+                    float: right;
+                    font-weight: bold;
+                    cursor: pointer;
+                    color: #fa6767;
+                  "
+                  >X</span
+                >
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="btn_list">
+        <button type="button" awNextStep class="btn btn-primary">
+          Chọn Danh Sách Liên Quan
+        </button>
+      </div>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="2. Danh sách liên quan" awOptionalStep>
+      <div class="card">
+        <div class="card-body">
+          <div style="margin: 0 10px 30px 30px">
+            <label class="form-label" for="groupOfAssignee">
+              Lựa chọn danh sách từ:
+            </label>
+            <select
+              style="width: 50%"
+              [(ngModel)]="groupKeyChosenInStep2"
+              class="form-select"
+              id="groupOfAssignee"
+              (change)="onChange($event.target.value)"
+            >
+              <option value="all" selected>Tất cả nhân viên</option>
+              <option
+                *ngFor="let groupKey of generalService.allUserGroupsKey"
+                value="{{ groupKey }}"
+              >
+                {{ groupKey }}
+              </option>
+            </select>
+          </div>
+
+          <app-dual-list
+            (updateLists)="dualListUpdateForAssignee($event)"
+            [leftList]="allUserInStep2List"
+            [rightList]="chosenAssigneelList"
+          ></app-dual-list>
+
+          <!-- <div style="margin: 0 10px 30px 30px">
+              <label class="form-label" for="majorAssignee"
+                ><span style="color: tomato">(*)</span> Người Xử lý Chính:
+              </label>
+              <select
+                style="width: 50%"
+                [(ngModel)]="majorAssignee"
+                class="form-select"
+                id="majorAssignee"
+                (change)="onChangeUser($event.target.value)"
+              >
+                <option selected>Chọn...</option>
+                <option
+                  value="{{ assignee.fullName }}"
+                  *ngFor="let assignee of chosenAssigneelList"
+                >
+                  {{ assignee.fullName }}
+                </option>
+              </select>
+            </div> -->
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-warning me-2" awPreviousStep>
+          Trở Lại
+        </button>
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="updateEventSample()"
+        >
+          Sửa Lịch Tuần Mẫu
+        </button>
+      </div>
+    </aw-wizard-step>
+  </aw-wizard>
+</div>

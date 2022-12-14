@@ -290,6 +290,7 @@ export class NewEventSampleComponent implements OnInit {
         focusCancel: false,
         confirmButtonText: `Hủy`,
       }).then(async (result) => {
+        this.chosenAssigneelList = [];
         if (
           !this.evenSample.diadiem &&
           !this.evenSample.noidung &&

@@ -45,6 +45,7 @@ export class NewEventComponent implements OnInit {
     thanhphan: '',
   };
   //
+  saveChooseListNV;
   chosenAssigneelList: any[] = [];
   allUserInStep2List;
   majorAssignee;
@@ -59,7 +60,7 @@ export class NewEventComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.wizardStep);
-    this.onAsigneeGroupChange(null);
+    this.onAsigneeGroupChange(null, this.chosenAssigneelList);
     this.dualListUpdateForAssignee(null);
     this.gData();
     this.getListLocationAll();
@@ -106,6 +107,21 @@ export class NewEventComponent implements OnInit {
           this.readonlyInput = true;
           this.checkDiaDiem = true;
         }
+        this.chosenAssigneelList = chooseEventSample.dsLienQuan;
+        this.saveChooseListNV = chooseEventSample.dsLienQuan;
+        console.log(this.chosenAssigneelList);
+        this.onAsigneeGroupChange(null, this.chosenAssigneelList);
+        if (this.eventNew.dsLienQuan && this.eventNew.dsLienQuan.length > 0) {
+          const arrUserId: any = [];
+          this.eventNew.dsLienQuan.forEach((i: any) => {
+            if (i.uid) {
+              arrUserId.push(i.uid);
+            }
+          });
+          console.log(arrUserId);
+          this.eventNew.dsLienQuan = arrUserId;
+          console.log(this.eventNew.dsLienQuan);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -129,7 +145,7 @@ export class NewEventComponent implements OnInit {
       : ((this.readonlyInput = true), (this.checkDiaDiem = true));
   }
   onChange(e: any) {
-    this.onAsigneeGroupChange(e);
+    this.onAsigneeGroupChange(e, null);
   }
   async getListLocationAll() {
     try {
@@ -160,15 +176,28 @@ export class NewEventComponent implements OnInit {
       console.log(e);
     }
   }
-  onAsigneeGroupChange(e) {
-    console.log(this.groupKeyChosenInStep2);
+  filterItemvsArr(arr1, arr2) {
+    const arrtemp = [];
+    arr2.forEach((i) => {
+      arrtemp.push(arr1.find((item) => item.userId == i.uid));
+    });
+    return arrtemp;
+  }
+  onAsigneeGroupChange(e, values: any) {
+    console.log(e);
     if (e == null || this.groupKeyChosenInStep2 == 'all') {
-      this.allUserInStep2List = this.generalService.cloneAnything(
+      (this.allUserInStep2List = this.generalService.cloneAnything(
         this.generalService.allUsers
+      )),
+        console.log(values);
+      this.chosenAssigneelList = this.filterItemvsArr(
+        this.generalService.cloneAnything(this.generalService.allUsers),
+        values
       );
     } else {
-      this.allUserInStep2List =
-        this.generalService.allUsersWithGroups[`${this.groupKeyChosenInStep2}`];
+      this.allUserInStep2List = this.generalService.allUsersWithGroups[`${e}`];
+    }
+    if (values) {
     }
   }
   dualListUpdateForAssignee(event) {
@@ -264,11 +293,20 @@ export class NewEventComponent implements OnInit {
     this.eventNew.tgbatdau = dateTimeFormatter;
     this.eventNew.tgketthuc = dateTimeFormatter2;
     this.eventNew.hopkhan = '0';
+    console.log(this.eventNew.dsLienQuan);
     if (this.eventNew.dsLienQuan && this.eventNew.dsLienQuan.length > 0) {
       const arrUserId: any = [];
       this.eventNew.dsLienQuan.forEach((i: any) => {
-        arrUserId.push(i.userId);
+        console.log(i);
+        if (i.uid) {
+          arrUserId.push(i.uid);
+        } else if (i.userId) {
+          arrUserId.push(i.userId);
+        } else {
+          arrUserId.push(i);
+        }
       });
+      console.log(arrUserId);
       this.eventNew.dsLienQuan = arrUserId;
     }
     this.eventNew.diadiem =
@@ -308,14 +346,14 @@ export class NewEventComponent implements OnInit {
           'post',
           true
         );
-        // Swal.fire({
-        //   position: 'center',
-        //   icon: 'success',
-        //   title: 'Thêm Thành Công',
-        //   showConfirmButton: false,
-        //   timer: 1000,
-        // });
-        // this.router.navigate(['/event/event-list']);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Thêm Thành Công',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        this.router.navigate(['/event/event-list']);
       } catch (e) {
         console.log(e);
       }
@@ -330,6 +368,9 @@ export class NewEventComponent implements OnInit {
         focusCancel: false,
         confirmButtonText: `Hủy`,
       }).then(async (result) => {
+        this.chosenAssigneelList = [];
+        console.log(this.chosenAssigneelList);
+
         if (
           !this.eventNew.diadiem &&
           !this.eventNew.noidung &&

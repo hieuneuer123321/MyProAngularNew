@@ -133,6 +133,8 @@
                 data-bs-placement="bottom"
                 title="Chọn để đánh dấu tất cả hoặc hủy tất cả"
                 type="checkbox"
+                [(ngModel)]="masterSelectedApproved"
+                (change)="selectAll(masterSelectedApproved, EventNotApproved)"
               />
             </th>
           </tr>
@@ -140,7 +142,11 @@
         <tbody>
           <tr
             class=""
-            *ngFor="let item of EventNotApproved | paginate : config"
+            *ngFor="
+              let item of EventNotApproved
+                ? EventNotApproved
+                : ([] | paginate : config)
+            "
           >
             <td class="col-ngay">
               <span class="col_ngay_content">
@@ -167,10 +173,19 @@
               </span>
             </td>
             <td>
-              <div class="col_nd">
+              <div
+                class="col_nd"
+                [ngStyle]="{
+                  'text-decoration': checkhuy(item.huy)
+                }"
+              >
                 {{ item.noidung }}
               </div>
-              <div>
+              <div
+                [ngStyle]="{
+                  'text-decoration': checkhuy(item.huy)
+                }"
+              >
                 <span class="col_lable_title">Chủ trì: </span>
                 <span class="col_nd_content">{{ item.chutri }}</span>
               </div>
@@ -178,7 +193,12 @@
                 <span class="col_lable_title">Chuẩn bị: </span>
                 <span class="col_nd_content">{{ item.chuanbi }}</span>
               </div>
-              <div *ngIf="item.thanhphan">
+              <div
+                *ngIf="item.thanhphan"
+                [ngStyle]="{
+                  'text-decoration': checkhuy(item.huy)
+                }"
+              >
                 <span class="col_lable_title">Thành Phần: </span>
                 <span class="col_nd_content">{{ item.thanhphan }}</span>
               </div>
@@ -187,7 +207,7 @@
                 <span
                   style="cursor: pointer"
                   class="col_nd_content"
-                  (click)="showDSLQ(item.lichtuanid)"
+                  (click)="showDSLQ(item.dsLienQuan)"
                   ><img
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
@@ -256,7 +276,14 @@
               </div>
               <br />
             </td>
-            <td class="col_diadiem">{{ item.diadiem }}</td>
+            <td
+              class="col_diadiem"
+              [ngStyle]="{
+                'text-decoration': checkhuy(item.huy)
+              }"
+            >
+              {{ item.diadiem }}
+            </td>
             <!-- <td class="text-center" >
                             <div id="tooltip-container1">
                                 <span class="d-inline-block" tabindex="0" data-bs-container="#tooltip-container1"
@@ -266,18 +293,26 @@
                             </div>
                         </td> -->
             <td>
-              <div class="align-items-center" *ngIf="!currentTab">
+              <div
+                class="align-items-center"
+                *ngIf="!currentTab || item.huy == '1'"
+              >
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
                   title="Duyệt"
+                  (click)="Approved(item.lichtuanid)"
                 >
                   <img src="../../../assets/images/icon/iconEvent/accept.png" />
                 </button>
               </div>
               <div class="align-items-center">
                 <button
+                  [routerLink]="[
+                    '/event/event-list/update-event/',
+                    item.lichtuanid
+                  ]"
                   class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
@@ -296,17 +331,24 @@
                   <img src="../../../assets/images/icon/iconEvent/delete.gif" />
                 </button>
               </div>
-              <div class="align-items-center" *ngIf="currentTab">
+              <div
+                class="align-items-center"
+                *ngIf="currentTab && item.huy == '0'"
+              >
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
                   data-bs-placement="bottom"
                   title="Hủy"
+                  (click)="CancelEvent(item.lichtuanid)"
                 >
                   <img src="../../../assets/images/icon/iconEvent/Cancel.png" />
                 </button>
               </div>
-              <div class="align-items-center" *ngIf="currentTab">
+              <div
+                class="align-items-center"
+                *ngIf="currentTab && item.huy == '0'"
+              >
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
@@ -318,7 +360,10 @@
                   />
                 </button>
               </div>
-              <div class="align-items-center" *ngIf="currentTab">
+              <div
+                class="align-items-center"
+                *ngIf="currentTab && item.huy == '0'"
+              >
                 <button
                   class="btn-icon"
                   data-bs-toggle="tooltip"
@@ -337,6 +382,8 @@
                 data-bs-placement="bottom"
                 title="Chọn để đánh dấu"
                 type="checkbox"
+                [(ngModel)]="item.status"
+                (change)="onChangeChecked(item.status, item.lichtuanid)"
               />
             </td>
           </tr>
@@ -383,7 +430,11 @@
         >
           Thêm mới lịch tuần
         </button>
-        <button type="button" class="btn btn-success rounded mb-1">
+        <button
+          type="button"
+          class="btn btn-success rounded mb-1"
+          (click)="ApprovedMultiple()"
+        >
           Phê Duyệt
         </button>
         <button type="button" class="btn btn-success rounded mb-1">Hủy</button>
