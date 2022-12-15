@@ -2,23 +2,28 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { GeneralService } from 'src/app/services/general.service';
 import { HttpClient } from '@angular/common/http';
 import data from './event.language';
-import { Router } from '@angular/router';
+
 import { Event } from 'src/app/Model/Event';
 import { ApiservicesService } from 'src/app/services/api.service';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 @Component({
-  selector: 'app-event-list',
-  templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.css'],
+  selector: 'app-load-comment',
+  templateUrl: './load-comment.component.html',
+  styleUrls: ['./load-comment.component.css'],
 })
-export class EventListComponent implements OnInit {
+export class LoadCommentComponent implements OnInit {
   date14: Date;
   masterSelectedApproved: boolean;
   masterSelectedNotApproved: boolean;
   checkListNotApproved: Array<any> = [];
   test = 'line-through';
+  EventComments;
+  comment = {
+    noidung: '',
+  };
   checkListApproved: Array<any> = [];
   EventNotApproved;
   editable = true;
@@ -32,36 +37,17 @@ export class EventListComponent implements OnInit {
     status: null,
   };
   eventSandbox;
-  currentTab = true;
-  arrDateSelect;
+
   spinnerLoading = false;
   eventListData;
-  page = 0;
-  pageSize = 5;
-  pageSizes = [5, 10, 15];
-  count = 500;
-  events = [
-    {
-      fulldate: '2022-12-12',
-      items: [
-        {
-          title: 'User Module Testing',
-          id: 'idk',
-          author: 'Nguyen Hoai Thuong',
-        },
-      ],
-    },
-  ];
-  // events;
-  config = {
-    id: 'paging',
-    itemsPerPage: 5,
-    currentPage: 0,
-    totalItems: 0,
+  editorConfig: AngularEditorConfig = {
+    height: '150px',
+    editable: true,
   };
   constructor(
     private httpClient: HttpClient,
     private el: ElementRef,
+    public routerAc: ActivatedRoute,
     public generalService: GeneralService,
     private router: Router,
     private _location: Location,
@@ -70,20 +56,41 @@ export class EventListComponent implements OnInit {
     this.masterSelectedApproved = false;
     this.masterSelectedNotApproved = false;
   }
-  dateSelectedEvents;
-  getEvents(a) {
-    this.dateSelectedEvents = a;
-    console.log(this.dateSelectedEvents);
+
+  ngOnInit(): void {
+    this.getById(this.routerAc.snapshot.params['id']);
   }
-  ngOnInit() {
-    this.getDateEventInMonth();
-    console.log(this.events);
-    console.log(this.currentTab);
-    if (this.currentTab) {
-      this.gData(1);
-    } else {
-      this.gData(0);
-    }
+  async getById(id) {
+    this.spinnerLoading = true;
+    const NotApproved: any = await this.api.httpCall(
+      this.api.apiLists.GetAllEventByType + `?type=0`,
+      {},
+      {},
+      'get',
+      true
+    );
+    const Approved: any = await this.api.httpCall(
+      this.api.apiLists.GetAllEventByType + `?type=1`,
+      {},
+      {},
+      'get',
+      true
+    );
+    const All = [...NotApproved, ...Approved];
+    this.EventComments = All.filter((x) => x.lichtuanid == id)[0];
+    this.EventComments.status = false;
+    this.spinnerLoading = false;
+  }
+  async addAComment(): Promise<void> {
+    // if (this.taskHistory.noiDung !== "" && this.taskHistory.noiDung !== undefined) {
+    //   this.taskHistory.mscv = this.TaskDetail.mscv;
+    //   this.taskHistory.danhSachNguoiXuLyKeTiepHoTen = "";
+    //   this.taskHistory.nguoiPhanHoi = this.generalService.userData.userID;
+    //   this.taskHistory.thoiGian = new Date().toISOString();
+    //   var res = await this.api.httpCall(this.api.apiLists.AddNewTaskHistory, {}, this.taskHistory, 'post', true);
+    //   this.reloadData.emit();
+    // }
+    alert(this.comment.noidung);
   }
   checkhuy(string) {
     if (string == '0') {
@@ -160,60 +167,7 @@ export class EventListComponent implements OnInit {
       return result + ' ngày trước';
     }
   }
-  async getDateEventInMonth() {
-    console.log();
-    const ArrDate = [];
-    if (this.currentTab) {
-      const arrAllApp: any = await this.api.httpCall(
-        this.api.apiLists.GetAllEventByType + `?type=1`,
-        {},
-        {},
-        'get',
-        true
-      );
-      console.log(arrAllApp);
-      arrAllApp.forEach((item) => {
-        ArrDate.push({
-          fulldate: item.tgbatdau.substring(0, 10),
-          items: [
-            {
-              title: 'User Module Testing',
-              id: 'idk',
-              author: 'Nguyen Hoai Thuong',
-            },
-          ],
-        });
-      });
-      console.log(ArrDate);
-      this.events = ArrDate;
-      console.log(this.events);
-    } else {
-      const arrAllApp2: any = await this.api.httpCall(
-        this.api.apiLists.GetAllEventByType + `?type=0`,
-        {},
-        {},
-        'get',
-        true
-      );
-      const ArrDate2 = [];
-      console.log(arrAllApp2);
-      arrAllApp2.forEach((item) => {
-        ArrDate2.push({
-          fulldate: item.tgbatdau.substring(0, 10),
-          items: [
-            {
-              title: 'User Module Testing',
-              id: 'idk',
-              author: 'Nguyen Hoai Thuong',
-            },
-          ],
-        });
-      });
-      console.log(ArrDate2);
-      this.events = ArrDate2;
-      console.log(this.events);
-    }
-  }
+
   seeDetail(obj) {
     this.editable = true;
     this.eventDetail = { ...obj };
@@ -226,82 +180,14 @@ export class EventListComponent implements OnInit {
     this.editable = true;
     this.eventDetail = { ...this.eventSandbox };
   }
-  changeTabs(tab) {
-    this.currentTab = tab;
-    this.masterSelectedApproved = false;
-    console.log(tab);
-    console.log(this.masterSelectedApproved);
-    if (tab) {
-      this.masterSelectedApproved = false;
-      this.page = 0;
-      this.count = 0;
-      this.pageSize = this.pageSize;
-      this.gData(1);
-    } else {
-      this.masterSelectedApproved = false;
-      this.page = 0;
-      this.count = 0;
-      this.pageSize = this.pageSize;
-      this.gData(0);
-    }
-  }
+
   goBack() {
     this._location.back();
   }
   openNewEvent() {
     this.router.navigate(['/event/new-event']);
   }
-  async gData(n: number) {
-    this.spinnerLoading = true;
-    this.EventNotApproved = await this.api.httpCall(
-      this.api.apiLists.GetAllEventByType + `?type=${n}`,
-      {},
-      {},
-      'get',
-      true
-    );
-    this.EventNotApproved = this.EventNotApproved.reverse();
-    console.log(this.EventNotApproved);
-    console.log(this.config);
-    this.config = {
-      id: 'paging',
-      itemsPerPage: this.pageSize,
-      currentPage: this.page,
-      totalItems: this.EventNotApproved.length,
-    };
-    console.log(this.config);
 
-    // this.EventNotApproved.filter((i) => i.pheduyet == '0').forEach((item) => {
-    //   this.checkListNotApproved.push({
-    //     id: item.lichtuanid,
-    //     isSelected: false,
-    //   });
-    // });
-    // this.EventNotApproved.filter((i) => i.pheduyet == '1').forEach((item) => {
-    //   this.checkListApproved.push({
-    //     id: item.lichtuanid,
-    //     isSelected: false,
-    //   });
-    // });
-    //  ( n == 0)
-    //     ? (this.EventNotApproved.status = this.checkListApproved)
-    //     : this.checkListNotApproved;
-
-    this.EventNotApproved.forEach((i) => {
-      i.status = false;
-    });
-    console.log(this.EventNotApproved);
-    this.spinnerLoading = false;
-  }
-  handlePageChange(event): void {
-    this.page = event;
-    this.masterSelectedApproved = false;
-    if (this.currentTab) {
-      this.gData(1);
-    } else {
-      this.gData(0);
-    }
-  }
   showDSLQ(arrList: any) {
     console.log(arrList);
     let html = '';
@@ -318,63 +204,61 @@ export class EventListComponent implements OnInit {
   getLabel(key) {
     return data[`${this.generalService.currentLanguage.Code}`][`${key}`];
   }
-  handlePageSizeChange(event): void {
-    this.pageSize = event.target.value;
-    console.log(this.pageSize);
-    this.page = 0;
-    if (this.currentTab) {
-      this.gData(1);
-    } else {
-      this.gData(0);
-    }
-  }
 
   /// check
   onChangeChecked(check, values) {
     console.log(check, values);
-    if (this.currentTab) {
-      if (check) {
-        this.checkListApproved.push(values);
-      } else {
-        if (this.checkListApproved.filter((i) => i == values).length > 0) {
-          const arrTam = this.checkListApproved.filter((i) => i != values);
-          this.checkListApproved = arrTam;
-        } else return false;
-      }
-    } else {
-      if (check) {
-        this.checkListNotApproved.push(values);
-      } else {
-        if (this.checkListNotApproved.filter((i) => i == values).length > 0) {
-          const arrTam = this.checkListNotApproved.filter((i) => i != values);
-          this.checkListNotApproved = arrTam;
-        } else return false;
-      }
-    }
+    // if (this.currentTab) {
+    //   if (check) {
+    //     this.checkListApproved.push(values);
+    //   } else {
+    //     if (this.checkListApproved.filter((i) => i == values).length > 0) {
+    //       const arrTam = this.checkListApproved.filter((i) => i != values);
+    //       this.checkListApproved = arrTam;
+    //     } else return false;
+    //   }
+    // } else {
+    //   if (check) {
+    //     this.checkListNotApproved.push(values);
+    //   } else {
+    //     if (this.checkListNotApproved.filter((i) => i == values).length > 0) {
+    //       const arrTam = this.checkListNotApproved.filter((i) => i != values);
+    //       this.checkListNotApproved = arrTam;
+    //     } else return false;
+    //   }
+    // }
     console.log(this.checkListNotApproved);
   }
   selectAll(check, arr) {
     console.log(check, arr);
-    if (check) {
-      if (this.currentTab) {
-        this.checkListApproved = [];
-        arr.forEach((item) => {
-          item.status = true;
-          this.checkListApproved.push(item.lichtuanid);
-        });
-      } else {
-        this.checkListApproved = [];
-        arr.forEach((item) => {
-          item.status = true;
-          this.checkListNotApproved.push(item.lichtuanid);
-        });
-      }
-    } else {
-      this.checkListApproved = [];
-      arr.forEach((item) => {
-        item.status = false;
-      });
-    }
+    // if (check) {
+    //   this.checkListApproved = [];
+    //   arr.forEach((item) => {
+    //     item.status = true;
+    //     this.checkListApproved.push(item.lichtuanid);
+    //   });
+    // }
+    check ? (arr.status = true) : (arr.status = false);
+    // if (check) {
+    //   if (this.currentTab) {
+    //     this.checkListApproved = [];
+    //     arr.forEach((item) => {
+    //       item.status = true;
+    //       this.checkListApproved.push(item.lichtuanid);
+    //     });
+    //   } else {
+    //     this.checkListApproved = [];
+    //     arr.forEach((item) => {
+    //       item.status = true;
+    //       this.checkListNotApproved.push(item.lichtuanid);
+    //     });
+    //   }
+    // } else {
+    //   this.checkListApproved = [];
+    //   arr.forEach((item) => {
+    //     item.status = false;
+    //   });
+    // }
   }
   /// Hủy
   async CancelEvent(id: any) {
@@ -400,11 +284,6 @@ export class EventListComponent implements OnInit {
             'post',
             true
           );
-          if (this.currentTab) {
-            this.gData(1);
-          } else {
-            this.gData(0);
-          }
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -468,13 +347,7 @@ export class EventListComponent implements OnInit {
             'post',
             true
           );
-          if (this.currentTab) {
-            this.changeTabs(true);
-            this.gData(1);
-          } else {
-            this.changeTabs(false);
-            this.gData(0);
-          }
+
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -504,55 +377,41 @@ export class EventListComponent implements OnInit {
       confirmButtonText: `Duyệt`,
     }).then(async (result) => {
       if (result.value) {
-        try {
-          if (this.currentTab) {
-            await this.api.httpCall(
-              this.api.apiLists.AcceptAllEventRequest,
-              {},
-              this.checkListApproved,
-              'post',
-              true
-            );
-            if (this.currentTab) {
-              this.changeTabs(true);
-              this.gData(1);
-            } else {
-              this.changeTabs(false);
-              this.gData(0);
-            }
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Duyệt lịch Thành Công',
-              showConfirmButton: false,
-              timer: 1000,
-            });
-          } else {
-            await this.api.httpCall(
-              this.api.apiLists.AcceptAllEventRequest,
-              {},
-              this.checkListNotApproved,
-              'post',
-              true
-            );
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Duyệt lịch Thành Công',
-              showConfirmButton: false,
-              timer: 1000,
-            });
-            if (this.currentTab) {
-              this.changeTabs(true);
-              this.gData(1);
-            } else {
-              this.changeTabs(false);
-              this.gData(0);
-            }
-          }
-        } catch (e) {
-          console.log(e);
-        }
+        // try {
+        //   if (this.currentTab) {
+        //     await this.api.httpCall(
+        //       this.api.apiLists.AcceptAllEventRequest,
+        //       {},
+        //       this.checkListApproved,
+        //       'post',
+        //       true
+        //     );
+        //     Swal.fire({
+        //       position: 'center',
+        //       icon: 'success',
+        //       title: 'Duyệt lịch Thành Công',
+        //       showConfirmButton: false,
+        //       timer: 1000,
+        //     });
+        //   } else {
+        //     await this.api.httpCall(
+        //       this.api.apiLists.AcceptAllEventRequest,
+        //       {},
+        //       this.checkListNotApproved,
+        //       'post',
+        //       true
+        //     );
+        //     Swal.fire({
+        //       position: 'center',
+        //       icon: 'success',
+        //       title: 'Duyệt lịch Thành Công',
+        //       showConfirmButton: false,
+        //       timer: 1000,
+        //     });
+        //   }
+        // } catch (e) {
+        //   console.log(e);
+        // }
       }
     });
   }
@@ -587,11 +446,6 @@ export class EventListComponent implements OnInit {
             showConfirmButton: false,
             timer: 1500,
           });
-          if (this.currentTab) {
-            this.gData(1);
-          } else {
-            this.gData(0);
-          }
         } catch (e) {
           console.log(e);
         }
@@ -615,40 +469,38 @@ export class EventListComponent implements OnInit {
     }).then(async (result) => {
       if (result.value) {
         try {
-          if (this.currentTab) {
-            await this.api.httpCall(
-              this.api.apiLists.DeleteEvent,
-              {},
-              this.checkListApproved,
-              'post',
-              true
-            );
-            this.gData(1);
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Xóa lịch Thành Công',
-              showConfirmButton: false,
-              timer: 1000,
-            });
-          } else {
-            console.log(this.checkListNotApproved);
-            await this.api.httpCall(
-              this.api.apiLists.DeleteEvent,
-              {},
-              this.checkListNotApproved,
-              'post',
-              true
-            );
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: 'Xóa lịch Thành Công',
-              showConfirmButton: false,
-              timer: 1000,
-            });
-            this.gData(0);
-          }
+          // if (this.currentTab) {
+          //   await this.api.httpCall(
+          //     this.api.apiLists.DeleteEvent,
+          //     {},
+          //     this.checkListApproved,
+          //     'post',
+          //     true
+          //   );
+          //   Swal.fire({
+          //     position: 'center',
+          //     icon: 'success',
+          //     title: 'Xóa lịch Thành Công',
+          //     showConfirmButton: false,
+          //     timer: 1000,
+          //   });
+          // } else {
+          //   console.log(this.checkListNotApproved);
+          //   await this.api.httpCall(
+          //     this.api.apiLists.DeleteEvent,
+          //     {},
+          //     this.checkListNotApproved,
+          //     'post',
+          //     true
+          //   );
+          //   Swal.fire({
+          //     position: 'center',
+          //     icon: 'success',
+          //     title: 'Xóa lịch Thành Công',
+          //     showConfirmButton: false,
+          //     timer: 1000,
+          //   });
+          // }
         } catch (e) {
           console.log(e);
         }

@@ -17,6 +17,8 @@ import { UpdateSampleComponent } from './update-sample/update-sample.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarComponent } from '../utilities/calendar/calendar.component';
 import { EventUpdateComponent } from './event-update/event-update.component';
+import { LoadCommentComponent } from './load-comment/load-comment.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 @NgModule({
   declarations: [
     EventComponent,
@@ -28,8 +30,10 @@ import { EventUpdateComponent } from './event-update/event-update.component';
     EventSampleDetailComponent,
     UpdateSampleComponent,
     EventUpdateComponent,
+    LoadCommentComponent,
   ],
   imports: [
+    AngularEditorModule,
     ReactiveFormsModule,
     CommonModule,
     EventRoutingModule,

@@ -85,6 +85,8 @@ export class ApiservicesService {
     CreateNewEvent: '/api/Event/CreateNewEvent',
     AcceptAllEventRequest: '/api/Event/AcceptAllEventRequest',
     UpdateEvent: '/api/Event/UpdateEvent',
+    CancelAllEvent: '/api/Event/CancelAllEvent',
+    DeleteEvent: '/api/Event/DeleteEvent',
   };
 
   constructor(

@@ -9,6 +9,7 @@ import { NewEventSampleComponent } from './new-event-sample/new-event-sample.com
 import { UpdateSampleComponent } from './update-sample/update-sample.component';
 import { EventSampleDetailComponent } from './event-sample-detail/event-sample-detail.component';
 import { EventUpdateComponent } from './event-update/event-update.component';
+import { LoadCommentComponent } from './load-comment/load-comment.component';
 const routes: Routes = [
   {
     path: '',
@@ -54,6 +55,11 @@ const routes: Routes = [
         data: { link: '/event/event-list/update-event/:id' },
         path: 'event-list/update-event/:id',
         component: EventUpdateComponent,
+      },
+      {
+        data: { link: '/event/event-list/LoadComment-event/:id' },
+        path: 'event-list/LoadComment-event/:id',
+        component: LoadCommentComponent,
       },
     ],
   },
