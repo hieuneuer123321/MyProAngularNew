@@ -87,6 +87,14 @@ export class ApiservicesService {
     UpdateEvent: '/api/Event/UpdateEvent',
     CancelAllEvent: '/api/Event/CancelAllEvent',
     DeleteEvent: '/api/Event/DeleteEvent',
+    //commment
+    GetAllCommentFromIdAndType: '/api/Comment/GetAllCommentFromIdAndType',
+    addComment: '/api/Comment/addComment',
+    //// Event User
+    GetUserEvent: '/api/UserEvents/GetUserEvent',
+    GetUserEventsByUserId: '/api/UserEvents/GetUserEventsByUserId',
+    CreateNewUserEvents: '/api/UserEvents/CreateNewUserEvents',
+    DeleteUserEvent: '/api/UserEvents/DeleteUserEvent',
   };
 
   constructor(

@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { ApiservicesService } from 'src/app/services/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-event-sample-detail',
   templateUrl: './event-sample-detail.component.html',
@@ -23,7 +24,8 @@ export class EventSampleDetailComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private api: ApiservicesService,
-    public routerAc: ActivatedRoute
+    public routerAc: ActivatedRoute,
+    private toaster: ToastrService
   ) {}
   goBack() {
     this._location.back();
@@ -71,12 +73,8 @@ export class EventSampleDetailComponent implements OnInit {
             'post',
             true
           );
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Xóa Thành Công',
-            showConfirmButton: false,
-            timer: 1000,
+          this.toaster.success('', 'Xóa lịch Thành Công!', {
+            timeOut: 2500,
           });
           this.router.navigate(['/event/event-sample']);
         } catch (e) {

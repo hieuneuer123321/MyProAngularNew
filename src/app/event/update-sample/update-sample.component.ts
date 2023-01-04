@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { setDefaults } from 'sweetalert/typings/modules/options';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-update-sample',
   templateUrl: './update-sample.component.html',
@@ -65,7 +66,8 @@ export class UpdateSampleComponent implements OnInit {
     public generalService: GeneralService,
     public api: ApiservicesService,
     public routerAc: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -183,9 +185,7 @@ export class UpdateSampleComponent implements OnInit {
   onChange(e: any) {
     this.onAsigneeGroupChange(e, null);
   }
-  // onChangeUser(e: any) {
-  //   console.log(e);
-  // }
+
   dualListUpdateForAssignee(event) {
     console.log(event);
     if (event) {
@@ -221,35 +221,44 @@ export class UpdateSampleComponent implements OnInit {
   finish() {}
   async updateEventSample() {
     /// format date time start
-    const date = new Date(this.dateStart);
-    const hourS = this.hourStart;
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    const arrHourS = hourS.split('');
-    const hour = Number(hourS.substring(0, 2));
-    const minute = Number(
-      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    // const date = new Date(this.dateStart);
+    // const hourS = this.hourStart;
+    // const year = date.getFullYear();
+    // const month = date.getMonth();
+    // const day = date.getDate();
+    // const arrHourS = hourS.split('');
+    // const hour = Number(hourS.substring(0, 2));
+    // const minute = Number(
+    //   `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    // );
+    // const newDateStart = new Date(year, month, day, hour, minute);
+    // const temp = dateFormat(newDateStart, 'isoDateTime');
+    // const dateTimeFormatter = temp.substring(0, 19);
+    // ////format date time end
+    // const date2 = new Date(this.dateEnd);
+    // const hourS2 = this.hourEnd;
+    // const year2 = date2.getFullYear();
+    // const month2 = date2.getMonth();
+    // const day2 = date2.getDate();
+    // const arrHour = hourS2.split('');
+    // const hour2 = Number(hourS2.substring(0, 2));
+    // const minute2 = Number(
+    //   `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    // );
+    // const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
+    // const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    // const dateTimeFormatter2 = temp2.substring(0, 19);
+    // this.eventSampleDataUpdate.tgbatdau = dateTimeFormatter;
+    // this.eventSampleDataUpdate.tgketthuc = dateTimeFormatter2;
+    /////////////
+    this.eventSampleDataUpdate.tgbatdau = this.convertDate(
+      this.dateStart,
+      this.hourStart
     );
-    const newDateStart = new Date(year, month, day, hour, minute);
-    const temp = dateFormat(newDateStart, 'isoDateTime');
-    const dateTimeFormatter = temp.substring(0, 19);
-    ////format date time end
-    const date2 = new Date(this.dateEnd);
-    const hourS2 = this.hourEnd;
-    const year2 = date2.getFullYear();
-    const month2 = date2.getMonth();
-    const day2 = date2.getDate();
-    const arrHour = hourS2.split('');
-    const hour2 = Number(hourS2.substring(0, 2));
-    const minute2 = Number(
-      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    this.eventSampleDataUpdate.tgketthuc = this.convertDate(
+      this.dateEnd,
+      this.hourEnd
     );
-    const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
-    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
-    const dateTimeFormatter2 = temp2.substring(0, 19);
-    this.eventSampleDataUpdate.tgbatdau = dateTimeFormatter;
-    this.eventSampleDataUpdate.tgketthuc = dateTimeFormatter2;
     const arrUserId = [];
     this.chosenAssigneelList.forEach((i) => {
       arrUserId.push(i.userId);
@@ -267,6 +276,98 @@ export class UpdateSampleComponent implements OnInit {
       ? this.inputDiaDiem
       : this.eventSampleDataUpdate.diadiem;
     console.log(this.eventSampleDataUpdate);
+
+    try {
+      await this.api.httpCall(
+        this.api.apiLists.UpdateEventSample,
+        {},
+        this.eventSampleDataUpdate,
+        'post',
+        true
+      );
+      this.toaster.success('', 'Sửa Thành Công!', {
+        timeOut: 2500,
+      });
+      this.router.navigate([
+        `event/new-event-sample/detail/${this.idLichTuanMau}`,
+      ]);
+    } catch (e) {
+      console.log(e);
+      this.toaster.success('', 'Sửa Thất Bại!', {
+        timeOut: 2500,
+      });
+    }
+  }
+
+  convertDate(dateString, hourS) {
+    const temp = dateFormat(
+      this.getDateFormat(dateString, hourS),
+      'isoDateTime'
+    );
+    const dateTimeFormatter = temp.substring(0, 19);
+    return dateTimeFormatter;
+  }
+  getDateFormat(dateParam, hourS) {
+    const date = new Date(dateParam);
+
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const arrHourS = hourS.split('');
+    const hour = Number(hourS.substring(0, 2));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
+    const newDateStart = new Date(year, month, day, hour, minute);
+    return newDateStart;
+  }
+  checkValidate() {
+    const newDateStart = this.getDateFormat(this.dateStart, this.hourStart);
+    const newDateEnd = this.getDateFormat(this.dateEnd, this.hourEnd);
+    /// format date time start
+    // const date = new Date(this.dateStart);
+    // const hourS = this.hourStart;
+    // const year = date.getFullYear();
+    // const month = date.getMonth();
+    // const day = date.getDate();
+    // const arrHourS = hourS.split('');
+    // const hour = Number(hourS.substring(0, 2));
+    // const minute = Number(
+    //   `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    // );
+    // const newDateStart = new Date(year, month, day, hour, minute);
+    // const temp = dateFormat(newDateStart, 'isoDateTime');
+    // const dateTimeFormatter = temp.substring(0, 19);
+    ////format date time end
+    // const date2 = new Date(this.dateEnd);
+    // const hourS2 = this.hourEnd;
+    // const year2 = date2.getFullYear();
+    // const month2 = date2.getMonth();
+    // const day2 = date2.getDate();
+    // const arrHour = hourS2.split('');
+    // const hour2 = Number(hourS2.substring(0, 2));
+    // const minute2 = Number(
+    //   `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    // );
+    // const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
+    // const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    // const dateTimeFormatter2 = temp2.substring(0, 19);
+    // this.eventSampleDataUpdate.tgketthuc = dateTimeFormatter2;
+    //////
+    this.eventSampleDataUpdate.tgbatdau = this.convertDate(
+      this.dateStart,
+      this.hourStart
+    );
+    this.eventSampleDataUpdate.tgketthuc = this.convertDate(
+      this.dateEnd,
+      this.hourEnd
+    );
+    this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
+    this.eventSampleDataUpdate.chutri = this.evenSample.chutri;
+    this.eventSampleDataUpdate.noidung = this.evenSample.noidung;
+    this.eventSampleDataUpdate.diadiem = this.inputDiaDiem
+      ? this.inputDiaDiem
+      : this.eventSampleDataUpdate.diadiem;
     if (this.eventSampleDataUpdate.noidung) {
       this.errors.noidung = '';
     }
@@ -279,38 +380,84 @@ export class UpdateSampleComponent implements OnInit {
     if (this.eventSampleDataUpdate.diadiem) {
       this.errors.diadiem = '';
     }
+    ///////////////
     if (
       this.eventSampleDataUpdate.diadiem &&
       this.eventSampleDataUpdate.noidung &&
       this.eventSampleDataUpdate.chutri &&
-      this.eventSampleDataUpdate.thanhphan
+      this.eventSampleDataUpdate.thanhphan &&
+      newDateStart <= newDateEnd &&
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) >=
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        )
     ) {
       this.errors.chutri =
         this.errors.diadiem =
         this.errors.noidung =
         this.errors.thanhphan =
           '';
-      try {
-        await this.api.httpCall(
-          this.api.apiLists.UpdateEventSample,
-          {},
-          this.eventSampleDataUpdate,
-          'post',
-          true
-        );
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Sửa Thành Công',
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        this.router.navigate([
-          `event/new-event-sample/detail/${this.idLichTuanMau}`,
-        ]);
-      } catch (e) {
-        console.log(e);
-      }
+      this.wizard.goToNextStep();
+    } else if (
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) <
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ) ||
+      newDateStart >= newDateEnd
+    ) {
+      Swal.fire({
+        title: '<strong>Ngày Giờ Không Hợp Lệ ?</strong>',
+        icon: 'warning',
+        html: `Ngày bắt đầu phải lớn hơn ngày hiện tại và nhỏ hơn ngày kết thúc! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        this.chosenAssigneelList = [];
+        if (
+          !this.eventSampleDataUpdate.diadiem &&
+          !this.eventSampleDataUpdate.noidung &&
+          !this.eventSampleDataUpdate.chutri &&
+          !this.eventSampleDataUpdate.thanhphan
+        ) {
+          this.errors.thanhphan = '';
+          this.errors.chutri = '';
+          this.errors.noidung = '';
+          this.errors.diadiem = '';
+        } else {
+          if (!this.eventSampleDataUpdate.noidung) {
+            this.errors.noidung = '';
+          }
+          if (!this.eventSampleDataUpdate.chutri) {
+            this.errors.chutri = '';
+          }
+          if (!this.eventSampleDataUpdate.thanhphan) {
+            this.errors.thanhphan = '';
+          }
+          if (!this.eventSampleDataUpdate.diadiem) {
+            this.errors.diadiem = '';
+            this.evenSample.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkDiaDiem == false) {
+            this.errors.diadiem = '';
+            this.evenSample.diadiem == '';
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: '<strong>Thiếu Thông Tin ?</strong>',
@@ -322,6 +469,7 @@ export class UpdateSampleComponent implements OnInit {
         focusCancel: false,
         confirmButtonText: `Hủy`,
       }).then(async (result) => {
+        this.chosenAssigneelList = [];
         if (
           !this.eventSampleDataUpdate.diadiem &&
           !this.eventSampleDataUpdate.noidung &&
@@ -344,11 +492,11 @@ export class UpdateSampleComponent implements OnInit {
           }
           if (!this.eventSampleDataUpdate.diadiem) {
             this.errors.diadiem = 'Vui lòng nhập vào ô này !';
-            this.eventSampleDataUpdate.diadiem == '';
+            this.evenSample.diadiem == '';
           }
           if (!this.inputDiaDiem && this.checkDiaDiem == false) {
             this.errors.diadiem = 'Vui lòng nhập vào ô này !';
-            this.eventSampleDataUpdate.diadiem == '';
+            this.evenSample.diadiem == '';
           }
         }
       });

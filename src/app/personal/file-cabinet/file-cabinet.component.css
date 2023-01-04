@@ -1,3 +1,23 @@
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
+}
+.rowFile {
+  margin: 0 0 20px 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(172, 159, 159);
+}
+.content {
+  font-size: 16px;
+  font-weight: bold;
+
+  color: rgb(56, 56, 212);
+}
+.sub_content {
+  margin-left: 50px;
+  color: #b7bbbc;
+  font-size: 14px;
+  font-style: italic;
+}
+.fa-user {
+  color: black;
 }

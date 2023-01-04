@@ -1,14 +1,121 @@
-<div class="border">
-    <div class="list-group-item active mb-3"><b>NHẬP NHÓM CÔNG VIỆC</b></div>
-    <section class="content" style="height: auto !important; min-height: 0px
-        !important;">
-        <div class="border">
-            <div>
-                <label for="simpleinput" class="form-label">Tên nhóm</label>
-                <input type="text" id="simpleinput" class="form-control">
-            </div>
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/event">Lịch Cá Nhân</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/business-card">Danh Thiếp</a>
+            </li>
+            <li class="breadcrumb-item">Nhóm Công Việc</li>
+          </ol>
         </div>
-        <!--ket thuc-->
-    </section>
+        <h4 class="page-title">Nhóm Công Việc</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <!--ket thuc-->
+          <div class="col-md-12">
+            <!-- /.box-header -->
+            <form [formGroup]="addForm" (ngSubmit)="addGroup()" class="row">
+              <div class="col-md-12">
+                <div class="form-group row" style="text-align: center">
+                  <label for="example-text-input" class="col-3 col-form-label">
+                    Tên Nhóm <span style="color: red">(*)</span> :
+                  </label>
+                  <div class="col-7">
+                    <input
+                      formControlName="name"
+                      class="form-control"
+                      type="text"
+                      [ngClass]="{
+                        'is-invalid': submitted && a.name.invalid
+                      }"
+                    />
+                    <div
+                      *ngIf="
+                        (a.name.invalid && a.name.touched) ||
+                        (submitted && a.name.invalid)
+                      "
+                    >
+                      <div *ngIf="a.name.errors" class="form-text text-mutted">
+                        <span style="color: red; font-weight: bold">
+                          Tên nhóm không được trống</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="col-md-12" style="margin-top: 10px">
+              <div style="margin: 0 10px 30px 30px">
+                <label class="form-label" for="groupOfAssignee">
+                  Lựa chọn danh sách từ:
+                </label>
+
+                <select
+                  style="width: 50%"
+                  [(ngModel)]="groupKeyChosenInStep2"
+                  class="form-select"
+                  id="groupOfAssignee"
+                  (change)="onChange($event.target.value)"
+                >
+                  <option value="all" selected>Tất cả nhân viên</option>
+                  <option
+                    *ngFor="let groupKey of generalService.allUserGroupsKey"
+                    value="{{ groupKey }}"
+                  >
+                    {{ groupKey }}
+                  </option>
+                </select>
+              </div>
+              <app-dual-list
+                (updateLists)="dualListUpdateForAssignee($event)"
+                [leftList]="allUserInStep2List"
+                [rightList]="chosenAssigneelList"
+              ></app-dual-list>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col-12 form-group row"
+          style="margin-top: 10px; text-align: center"
+        >
+          <div class="col-6">
+            <button
+              class="btn btn-danger"
+              style="width: 200px"
+              (click)="cancel()"
+            >
+              Bỏ Qua
+            </button>
+          </div>
+          <div class="col-6">
+            <button
+              class="btn btn-primary"
+              (click)="addGroup()"
+              style="width: 200px"
+            >
+              Lưu
+            </button>
+          </div>
+          <div class="col-md-3">
+            <div class="col_3">
+              <ul class="oolist">
+                <div class="btnOO"></div>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

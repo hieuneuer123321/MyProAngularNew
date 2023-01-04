@@ -1,197 +1,223 @@
-{{ sampleDataDetail | json }}
 <div class="container-fluid row">
+  <div class="row" style="margin: 0">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/event/event-list">Lịch Tuần</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/event/event-sample">Lịch Tuần Mẫu</a>
+            </li>
+            <li class="breadcrumb-item">Chi Tiết Lịch Tuần Mẫu</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Chi Tiết Lịch Tuần Mẫu</h4>
+      </div>
+    </div>
+  </div>
   <div class="row">
-    <div class="col-1 my-auto">
-      <img
-        (click)="goBack()"
-        style="
-          cursor: pointer;
-          opacity: 0.5;
-          width: 30px;
-          height: auto;
-          margin: auto;
-        "
-        src="assets/imgs/left.png"
-      />
-    </div>
-    <div class="col-11">
-      <div class="page-title-box">
-        <h4 class="page-title">Danh Sách Lịch Tuần Mẫu</h4>
-      </div>
-    </div>
-  </div>
-  <div class="col-9">
-    <div class="row">
-      <div class="container">
-        <div class="item item-container">
-          <span>Ngày Giờ Bắt Đầu</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{
-            sampleDataDetail
-              ? sampleDataDetail.tgbatdau
-              : ("" | date : "dd/MM/yyyy   HH:mm:ss ")
-          }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Ngày Giờ Kết Thúc</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{
-            sampleDataDetail
-              ? sampleDataDetail.tgketthuc
-              : ("" | date : "dd/MM/yyyy   HH:mm:ss ")
-          }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Lặp lại</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{
-            sampleDataDetail
-              ? sampleDataDetail.laplai
-                ? "Lặp Lại"
-                : "Không Lặp Lại"
-              : ""
-          }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Nội dung</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.noidung : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Chủ trì</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.chutri : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Thành Phần</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.thanhphan : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Chuẩn Bị</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.chuanbi : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Địa Điểm</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.diadiem : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Khách Mời</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.khachmoi : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Ghi Chú</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.ghichu : "" }}</span>
-        </div>
-      </div>
-      <div class="container">
-        <div class="item item-container">
-          <span>Đính Kèm</span>
-        </div>
-        <div class="item item-container2">
-          <span>{{ sampleDataDetail ? sampleDataDetail.dinhkem : "" }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!---->
-  <div class="col-3">
-    <div class="list-group">
-      <button
-        [routerLink]="['/event/new-event-sample']"
-        type="button"
-        class="btn btn-info btn-right"
-        style="margin-bottom: 10px"
-      >
-        Thêm mới</button
-      ><button
-        [routerLink]="[
-          '/event/update-event-sample/',
-          sampleDataDetail ? sampleDataDetail.lichtuanid : ''
-        ]"
-        type="button"
-        class="btn btn-info btn-right"
-        style="margin-bottom: 10px"
-      >
-        Chỉnh Sửa
-      </button>
-      <button
-        type="button"
-        class="btn btn-info btn-right"
-        style="margin-bottom: 10px"
-        (click)="deleteEventSample(sampleDataDetail.lichtuanid)"
-      >
-        Xóa
-      </button>
-      <button
-        [routerLink]="['/event/new-event-sample']"
-        type="button"
-        class="btn btn-info btn-right"
-        style="margin-bottom: 10px"
-      >
-        Bỏ Qua
-      </button>
-    </div>
-  </div>
-  <div
-    class="row"
-    style="color: white; border-radius: 10px; padding: 0; margin: 0"
-  >
-    <div>
-      <div class="page-title-box" style="background-color: rgb(33, 133, 197)">
-        <p class="page-title" style="line-height: 35px">
-          <span style="margin-left: 5px">Danh Sách Liên Quan</span>
-        </p>
-      </div>
-      <div class="page-title-box">
-        <div
-          style="
-            background-color: rgb(248, 248, 255);
-            height: auto;
-            width: 90%;
-            margin: 10px 5%;
-          "
-        >
-          <p
-            *ngFor="
-              let i of sampleDataDetail ? sampleDataDetail.dsLienQuan : []
-            "
-            style="color: black; text-align: center"
-          >
-            {{ i.hoTen }}
-          </p>
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-9 col-md-12">
+            <div class="row">
+              <div class="container">
+                <div class="item item-container">
+                  <span>Ngày Giờ Bắt Đầu</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail
+                      ? (sampleDataDetail.tgbatdau
+                        | date : "dd/MM/yyyy   HH:mm ")
+                      : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Ngày Giờ Kết Thúc</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail
+                      ? (sampleDataDetail.tgketthuc
+                        | date : "dd/MM/yyyy   HH:mm ")
+                      : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Lặp lại</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail
+                      ? sampleDataDetail.laplai
+                        ? "Lặp Lại"
+                        : "Không Lặp Lại"
+                      : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Nội dung</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.noidung : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Chủ trì</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.chutri : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Thành Phần</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.thanhphan : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Chuẩn Bị</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.chuanbi : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Địa Điểm</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.diadiem : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Khách Mời</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.khachmoi : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Ghi Chú</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.ghichu : ""
+                  }}</span>
+                </div>
+              </div>
+              <div class="container">
+                <div class="item item-container">
+                  <span>Đính Kèm</span>
+                </div>
+                <div class="item item-container2">
+                  <span>{{
+                    sampleDataDetail ? sampleDataDetail.dinhkem : ""
+                  }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row dsLQ">
+              <div>
+                <div
+                  class="page-title-box"
+                  style="background-color: rgb(33, 133, 197)"
+                >
+                  <p class="page-title" style="line-height: 35px">
+                    <span style="margin-left: 5px; padding-left: 10px"
+                      >Danh Sách Liên Quan</span
+                    >
+                  </p>
+                </div>
+                <div class="page-title-box">
+                  <div
+                    style="
+                      background-color: rgb(248, 248, 255);
+                      height: auto;
+                      width: 90%;
+                      margin: 10px 5%;
+                    "
+                  >
+                    <p
+                      *ngFor="
+                        let i of sampleDataDetail
+                          ? sampleDataDetail.dsLienQuan
+                          : []
+                      "
+                      style="color: black; text-align: center"
+                    >
+                      {{ i.hoTen }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-12">
+            <div class="list-group">
+              <button
+                [routerLink]="['/event/new-event-sample']"
+                type="button"
+                class="btn btn-info btn-right"
+                style="margin-bottom: 10px"
+              >
+                Thêm mới</button
+              ><button
+                [routerLink]="[
+                  '/event/update-event-sample/',
+                  sampleDataDetail ? sampleDataDetail.lichtuanid : ''
+                ]"
+                type="button"
+                class="btn btn-info btn-right"
+                style="margin-bottom: 10px"
+              >
+                Chỉnh Sửa
+              </button>
+              <button
+                type="button"
+                class="btn btn-info btn-right"
+                style="margin-bottom: 10px"
+                (click)="deleteEventSample(sampleDataDetail.lichtuanid)"
+              >
+                Xóa
+              </button>
+              <button
+                [routerLink]="['/event/new-event-sample']"
+                type="button"
+                class="btn btn-info btn-right"
+                style="margin-bottom: 10px"
+              >
+                Bỏ Qua
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <div class="container-fluid row">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-1 my-auto">
       <img
         (click)="goBack()"
@@ -18,94 +18,128 @@
         <h4 class="page-title">Danh Sách Lịch Tuần Mẫu</h4>
       </div>
     </div>
+  </div> -->
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/event/event-list">Lịch Tuần</a>
+            </li>
+            <li class="breadcrumb-item">Lịch Tuần Mẫu</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Lịch Tuần Mẫu</h4>
+      </div>
+    </div>
   </div>
-  <div class="col-9">
-    <div class="row">
-      <table
-        id="basic-datatable"
-        class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
-      >
-        <thead>
-          <tr>
-            <th width="5%">STT</th>
-            <th>Tiêu Đề</th>
-            <th>Lặp Lại</th>
-          </tr>
-        </thead>
-        <tr *ngIf="spinnerLoading">
-          <td colspan="3" style="background-color: white">
-            <div class="lds-facebook" style="width: 100%; margin-left: 20%">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </td>
-        </tr>
-        <tbody>
-          <tr
-            *ngFor="let i of eventSampleData | paginate : config; index as in"
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div
+            class="col-xl-2 col-md-12"
+            style="margin-bottom: 10px; margin-left: 0; padding-left: 0"
           >
-            <td>
-              <a
-                [routerLink]="[
-                  '/event/new-event-sample/detail',
-                  i ? i.lichtuanid : null
-                ]"
-                style="text-decoration: none"
-                >{{ in + 1 }}</a
+            <div class="list-group">
+              <button
+                [routerLink]="['/event/new-event-sample']"
+                type="button"
+                class="btn btn-info"
+                style="background-color: #395bb2; color: white"
               >
-            </td>
+                Thêm mới
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-12 col-md-12">
+            <div class="row">
+              <table
+                id="basic-datatable"
+                class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
+              >
+                <thead>
+                  <tr>
+                    <th width="5%">STT</th>
+                    <th>Tiêu Đề</th>
+                    <th>Lặp Lại</th>
+                  </tr>
+                </thead>
+                <tr *ngIf="spinnerLoading">
+                  <td colspan="3" style="background-color: white">
+                    <div
+                      class="lds-facebook"
+                      style="width: 100%; margin-left: 20%"
+                    >
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </td>
+                </tr>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let i of eventSampleData | paginate : config;
+                      index as in
+                    "
+                  >
+                    <td>
+                      <a
+                        [routerLink]="[
+                          '/event/new-event-sample/detail',
+                          i ? i.lichtuanid : null
+                        ]"
+                        style="text-decoration: none"
+                        >{{ in + 1 }}</a
+                      >
+                    </td>
 
-            <td style="color: rgb(46, 22, 169); font-weight: bold">
-              <a
-                [routerLink]="[
-                  '/event/new-event-sample/detail',
-                  i ? i.lichtuanid : null
-                ]"
-                style="text-decoration: none"
-              >
-                {{ i.tieude }}</a
-              >
-            </td>
-            <td>{{ i.laplai ? "Lặp Lại" : " Không Lặp Lại" }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="list row">
-      <div class="col-md-9">
-        <pagination-controls
-          id="paging"
-          [previousLabel]="'Quay lại'"
-          [nextLabel]="'Tiếp tục'"
-          responsive="true"
-          responsive="true"
-          (pageChange)="handlePageChange($event)"
-        ></pagination-controls>
+                    <td style="color: rgb(46, 22, 169); font-weight: bold">
+                      <a
+                        [routerLink]="[
+                          '/event/new-event-sample/detail',
+                          i ? i.lichtuanid : null
+                        ]"
+                        style="text-decoration: none"
+                      >
+                        {{ i.tieude }}</a
+                      >
+                    </td>
+                    <td>{{ i.laplai ? "Lặp Lại" : " Không Lặp Lại" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="list row">
+              <div class="col-md-9">
+                <pagination-controls
+                  id="paging"
+                  [previousLabel]="'Quay lại'"
+                  [nextLabel]="'Tiếp tục'"
+                  responsive="true"
+                  responsive="true"
+                  (pageChange)="handlePageChange($event)"
+                ></pagination-controls>
+              </div>
+              <div class="col-md-3">
+                Số lượng thư mục
+                <select
+                  style="border: solid 1px rgb(230, 229, 229)"
+                  (change)="handlePageSizeChange($event)"
+                >
+                  <option *ngFor="let size of pageSizes" [ngValue]="size">
+                    {{ size }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!---->
       </div>
-      <div class="col-md-3">
-        Số lượng thư mục
-        <select
-          style="border: solid 1px rgb(230, 229, 229)"
-          (change)="handlePageSizeChange($event)"
-        >
-          <option *ngFor="let size of pageSizes" [ngValue]="size">
-            {{ size }}
-          </option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <!---->
-  <div class="col-3">
-    <div class="list-group">
-      <button
-        [routerLink]="['/event/new-event-sample']"
-        type="button"
-        class="btn btn-info"
-      >
-        Thêm mới
-      </button>
     </div>
   </div>
 </div>

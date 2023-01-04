@@ -28,13 +28,12 @@
         </div>
         <div class="col-3 my-auto">
             <div class="list-group">
-                <button  type="button" class="btn btn-success rounded" 
-                [title]="getLabel('newTask')" (click)="openNewTaskModal()"
-            style="cursor: pointer;"src="assets/imgs/plus.png"> 
-            Thêm mới</button>
+                <button type="button" class="btn btn-success rounded" [title]="getLabel('newTask')"
+                    (click)="openNewTaskModal()" style="cursor: pointer;" src="assets/imgs/plus.png">
+                    Thêm mới</button>
             </div>
         </div>
-        
+
     </div>
     <!-- end page title -->
 
@@ -78,8 +77,8 @@
     <div class="list row">
         <div class="col-md-8">
             <div class="input-group mb-3">
-                <input (keyup)="search()" type="text" class="form-control"
-                    [placeholder]="getLabel('searchPlaceholer')" [(ngModel)]="searchKey" />
+                <input (keyup)="search()" type="text" class="form-control" [placeholder]="getLabel('searchPlaceholer')"
+                    [(ngModel)]="searchKey" />
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" (click)="search()">
                         <i class="uil-search-alt"></i> {{getLabel("searchBtn")}}
@@ -95,28 +94,39 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="basic-datatable" class="table table-bordered table-striped border
-                            border-style table-hover table-centered mb-2 dt-responsive nowrap
-                            w-100 content-table">
+                            <table id="basic-datatable" class="fw-bold table table-bordered border 
+                            table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table">
                                 <thead>
-                                    <tr >
+                                    <tr>
                                         <th>{{getLabel("taskNameCol")}}</th>
                                         <th>{{getLabel("creatorCol")}}</th>
                                         <th>{{getLabel("startDateCol")}}</th>
                                         <th>{{getLabel("endDateCol")}}</th>
-                                        <th>{{getLabel("progressCol")}}</th>
+                                        <!-- <th>{{getLabel("progressCol")}}</th> -->
                                         <th>{{getLabel("majorAssignerCol")}}</th>
                                     </tr>
                                 </thead>
 
                                 <tbody *ngIf="taskList!=null">
-                                    <tr class="myTableRow" (click)="taskItemClick(data)"
+                                    <tr class="myTableRow text-dark" (click)="taskItemClick(data)"
                                         *ngFor="let data of taskList | paginate: paginationConfig">
-                                        <td>{{data.chude}}</td>
-                                        <td>{{data.nguoiTaoHoTen}}</td>
-                                        <td>{{data.ngayBatDau}}</td>
-                                        <td>{{data.ngayKetThucDuKien}}</td>
                                         <td>
+                                            <circle-progress *ngIf="!data.progressInfo.isLate"
+                                                [percent]="data.progressInfo.percent" [radius]="20"
+                                                [outerStrokeWidth]="4" [innerStrokeWidth]="2"
+                                                [outerStrokeColor]="data.progressInfo.outerStrokeColor"
+                                                [innerStrokeColor]="'#C7E596'" [animation]="true"
+                                                [animationDuration]="100" [showSubtitle]="false" [backgroundPadding]="0"
+                                                [titleFontSize]="10">
+                                            </circle-progress>
+                                            {{data.chude}}
+                                            <p class="fw-bold text-danger" *ngIf="data.progressInfo.isLate">
+                                                {{data.progressInfo.displayText}}</p>
+                                        </td>
+                                        <td>{{data.nguoiTaoHoTen}}</td>
+                                        <td>{{data.ngayBatDau|slice:0:10}}</td>
+                                        <td>{{data.ngayKetThucDuKien|slice:0:10}}</td>
+                                        <!-- <td>
                                             <p style="font-weight: bold;
                                         color: rgb(218, 92, 47);" *ngIf="data.progressInfo.isLate">
                                                 {{data.progressInfo.displayText}}</p>
@@ -127,7 +137,7 @@
                                                 [innerStrokeColor]="'#C7E596'" [animation]="true"
                                                 [animationDuration]="100" [showSubtitle]="false" [backgroundPadding]="0"
                                                 [titleFontSize]="10"></circle-progress>
-                                        </td>
+                                        </td> -->
                                         <td>{{data.nguoiXuLyChinhHoTen}}</td>
                                     </tr>
                                 </tbody>

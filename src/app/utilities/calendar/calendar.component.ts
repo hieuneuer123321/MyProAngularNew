@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+} from '@angular/core';
 import * as moment from 'moment';
 @Component({
   selector: 'app-calendar',
@@ -25,8 +32,6 @@ export class CalendarComponent implements OnInit {
 
   getEvent(fulldate) {
     let i = [];
-    console.log(this.eventList);
-
     this.eventList.forEach((x) => {
       if (x.fulldate == fulldate) {
         x.items.forEach((a) => {
@@ -90,5 +95,25 @@ export class CalendarComponent implements OnInit {
   changeDate(month, year) {
     this.dateActive.month(month).year(year);
     this.getAllDateOfMonth();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.eventList = changes.eventList.currentValue;
+    this.getAllDateOfMonth();
+    // if (changes.inputColor && !changes.inputColor.firstChange) {
+    //   this.elementRef.nativeElement.style.backgroundColor =
+    //     changes.inputColor.currentValue;
+    // }
+    // if (changes.inputWidth && !changes.inputWidth.firstChange) {
+    //   this.elementRef.nativeElement.style.width =
+    //     changes.inputWidth.currentValue;
+    // }
+    // if (changes.inputHeight && !changes.inputHeight.firstChange) {
+    //   this.elementRef.nativeElement.style.height =
+    //     changes.inputHeight.currentValue;
+    // }
+    // if (!changes.inputNumber.firstChange) {
+    //   this.elementRef.nativeElement.style.backgroundColor =
+    //     changes.inputNumber.currentValue;
+    // }
   }
 }

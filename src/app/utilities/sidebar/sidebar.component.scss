@@ -20,11 +20,30 @@
     cursor: pointer;
   }
 
+  .side-nav-item {
+    color: #8f8c96 !important;
+  }
+  .side-nav-item:hover {
+    color: white !important;
+  }
   a:hover {
+    background-color: #838c96;
     color: white;
   }
-
-  a:active {
+  .side-nav .side-nav-link {
+    color: black;
+  }
+  .side-nav .side-nav-link:hover {
     color: white;
+  }
+  a:active {
+    color: #838c96;
+  }
+  .side-nav .menuitem-active > a {
+    color: white !important;
+    background-color: #838c96;
+  }
+  .span.side-nav-item {
+    color: white !important;
   }
 }

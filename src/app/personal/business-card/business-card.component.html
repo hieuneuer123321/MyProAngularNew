@@ -1,72 +1,141 @@
-
-
-<div class="border">
-    <div class="list-group-item active mb-3"><b>DANH THIẾP</b></div>
-    <!--End page title-->
-    <div class="row">
-        <div class="col-9">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/event">Lịch Cá Nhân</a>
+            </li>
+            <li class="breadcrumb-item">Danh Thiếp</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Danh Thiếp</h4>
+      </div>
+    </div>
+  </div>
+  <!--End page title-->
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-9 col-md-12">
             <div>
-                <table id = "basic-datatable" class = "table table-bordered table-striped border
-                             border-style table-hover table-centered mb-0 dt-responsive nowrap w-100 content-table" >
+              <table
+                id="basic-datatable"
+                class="table table-bordered border border-style mb-2 dt-responsive nowrap w-100 content-table"
+              >
                 <thead>
-                    <tr>
-                        <th>{{getLabel('dateCol')}}</th>
-                        <th>{{getLabel('nameCol')}}</th>
-                        <th>{{getLabel('phoneCol')}}</th>
-                        <th>{{getLabel('emailCol')}}</th>
-                    </tr>
+                  <tr>
+                    <th style="text-align: center" width="5%">
+                      {{ getLabel("dateCol") }}
+                    </th>
+                    <th style="text-align: center" width="25%">
+                      {{ getLabel("nameCol") }}
+                    </th>
+                    <th style="text-align: center" width="15%">
+                      {{ getLabel("phoneCol") }}
+                    </th>
+                    <th style="text-align: center" width="20%">
+                      {{ getLabel("emailCol") }}
+                    </th>
+                    <th style="text-align: center">
+                      {{ getLabel("ghichuCol") }}
+                    </th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>Hiếu Phan</td>
+                    <td>0987876432</td>
+                    <td>hieu@gmail.com</td>
+                    <td>NV</td>
+                  </tr>
                 </tbody>
-                </table>
+              </table>
             </div>
-        </div>
-        <div class="col-3">
-            <div class=" my-auto">
-                <div class="list-group">
-                    <button  type="button" class="btn btn-danger rounded mb-2" 
-                    [title]="getLabel('newTask')" (click)="openAddBusinessCard()"
-                style="cursor: pointer;"src="assets/imgs/plus.png"> 
-                Nhập danh thiếp</button>
-                </div>
+          </div>
+          <div class="col-xl-3 col-md-12">
+            <div class="my-auto">
+              <div class="list-group">
+                <button
+                  type="button"
+                  class="btn rounded mb-2"
+                  [title]="getLabel('newTask')"
+                  (click)="openAddBusinessCard()"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                  src="assets/imgs/plus.png"
+                >
+                  Nhập danh thiếp
+                </button>
+              </div>
             </div>
-            <div class=" my-auto">
-                <div class="list-group">
-                    <button  type="button" class="btn btn-danger rounded mb-2" 
-                    [title]="getLabel('newTask')" (click)="openAddBusinessCard()"
-                style="cursor: pointer;"src="assets/imgs/plus.png"> 
-                Nhập nhóm doanh nghiệp</button>
-                </div>
+            <div class="my-auto">
+              <div class="list-group">
+                <button
+                  type="button"
+                  class="btn rounded mb-2"
+                  [title]="getLabel('newTask')"
+                  (click)="openAddWorkGroup()"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                  src="assets/imgs/plus.png"
+                >
+                  Nhập nhóm công việc
+                </button>
+              </div>
             </div>
             <div class="border mb-1">
-                <label for="example-select" class="form-label list-group-item background-1 text-center">Nhóm công việc</label>
-                <select id="example-select" class="form-select">
-                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
-                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
-                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
-                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
-                    <option (click)="filter('nhomcongviec','Nhóm công việc')" class="list-group-item pointer">Loại khách hàng </option>
-                </select>
+              <label
+                for="example-select"
+                style="color: white; background-color: #6575ff"
+                class="form-label list-group-item background-1 text-center"
+                >Nhóm công việc</label
+              >
+              <select id="example-select" class="form-select">
+                <option
+                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
+                  class="list-group-item pointer"
+                >
+                  Loại khách hàng
+                </option>
+                <option
+                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
+                  class="list-group-item pointer"
+                >
+                  Loại khách hàng
+                </option>
+                <option
+                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
+                  class="list-group-item pointer"
+                >
+                  Loại khách hàng
+                </option>
+                <option
+                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
+                  class="list-group-item pointer"
+                >
+                  Loại khách hàng
+                </option>
+                <option
+                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
+                  class="list-group-item pointer"
+                >
+                  Loại khách hàng
+                </option>
+              </select>
             </div>
+          </div>
         </div>
-        
+      </div>
     </div>
-    
+  </div>
 </div>
-    
-
-    
-                           
-                               
-        
-  
-
-
-
-       

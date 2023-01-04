@@ -1,0 +1,163 @@
+<div class="container-fluid">
+  <ngx-loading
+    [show]="spinnerLoading"
+    [config]="{
+      primaryColour: 'whitesmoke',
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+  <!-- start page title -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông Báo</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Có lỗi xảy ra khi kết nối đến máy chủ. Xin vui lòng thử lại</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Đóng
+          </button>
+          <!--<button (click)="getTaskList()" type="button" class="btn btn-primary">Thử lại</button>-->
+          <button
+            (click)="openNewFileCabinet()"
+            type="button"
+            class="btn btn-primary"
+          >
+            Thử lại
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="row">
+            <div class="col-12">
+              <div class="page-title-box">
+                <h4 class="page-title">{{ getLabel("pageTitle") }}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-9 col-md-12">
+              <div class="rowFile">
+                <span class="content">qqqqq </span>
+                <span class="sub_content">
+                  ( <i class="fa-solid fa-user"></i> Người tạo Quản trị hệ
+                  thống, 11 giờ trước lúc 23:46, Lượt xem 0 )</span
+                >
+              </div>
+              <div class="col-12">
+                <div class="page-title-box">
+                  <h4 class="page-title">{{ getLabel("pageTitle2") }}</h4>
+                </div>
+              </div>
+              <div class="col-xl-12 col-md-12">
+                <div
+                  style="
+                    border: 1px rgb(169, 160, 160);
+                    width: 100%;
+                    height: auto;
+                    background-color: rgba(182, 230, 244, 0.575);
+                    padding: 10px;
+                  "
+                >
+                  <div style="margin: 10px 10px">
+                    <span style="font-size: 14px; font-weight: bold"
+                      >- Quản trị hệ thống</span
+                    >
+                    <span class="sub_content">
+                      ( Xem 7 lần, lần cuối: 1 giây trước )</span
+                    >
+                  </div>
+                  <div style="margin: 10px 10px">
+                    <span style="font-size: 14px; font-weight: bold"
+                      >- APPLE STORE</span
+                    >
+                    <span class="sub_content">( Chưa xem )</span>
+                  </div>
+                  <div style="margin: 10px 10px">
+                    <span style="font-size: 14px; font-weight: bold">
+                      - Nhân Viên Kế Hoạch Kỹ Thuật</span
+                    >
+                    <span class="sub_content"> ( Chưa xem )</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-12">
+              <div style="margin-bottom: 10px">
+                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                  <input
+                    (click)="openNewFileCabinet()"
+                    type="submit"
+                    name="ctl25$DangKy"
+                    value="{{ getLabel('newFile') }}"
+                    id="ctl25_DangKy"
+                    class="btn btn-primary btn-block"
+                    style="width: 100%"
+                  />
+                </abbr>
+              </div>
+              <div style="margin-bottom: 10px">
+                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                  <input
+                    (click)="openNewFileCabinet()"
+                    type="submit"
+                    name="ctl25$DangKy"
+                    value="{{ getLabel('newFile1') }}"
+                    id="ctl25_DangKy"
+                    class="btn btn-primary btn-block"
+                    style="width: 100%"
+                  />
+                </abbr>
+              </div>
+              <div style="margin-bottom: 10px">
+                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                  <input
+                    (click)="openNewFileCabinet()"
+                    type="submit"
+                    name="ctl25$DangKy"
+                    value="{{ getLabel('newFile2') }}"
+                    id="ctl25_DangKy"
+                    class="btn btn-primary btn-block"
+                    style="width: 100%"
+                  />
+                </abbr>
+              </div>
+              <div style="margin-bottom: 10px">
+                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                  <input
+                    (click)="openNewFileCabinet()"
+                    type="submit"
+                    name="ctl25$DangKy"
+                    value="{{ getLabel('newFile3') }}"
+                    id="ctl25_DangKy"
+                    class="btn btn-success btn-block"
+                    style="width: 100%; background-color: #395bb2"
+                  />
+                </abbr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

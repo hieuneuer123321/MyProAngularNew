@@ -1,26 +1,31 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-1 my-auto">
-      <img
-        (click)="goBack()"
-        style="
-          cursor: pointer;
-          opacity: 0.5;
-          width: 30px;
-          height: auto;
-          margin: auto;
-        "
-        src="assets/imgs/left.png"
-      />
-    </div>
-    <div class="col-11">
+    <div class="col-12">
       <div class="page-title-box">
-        <h4 class="page-title">Danh Sách Lịch Tuần</h4>
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a [routerLink]="'/event/event-list'">Lịch Tuần</a>
+            </li>
+            <li class="breadcrumb-item">Danh Sách Lịch Tuần</li>
+          </ol>
+        </div>
+        <h4 class="page-title">
+          {{ getLabel("pageTitle") }}
+          {{ currentTab ? "đã duyệt" : "chưa duyệt" }}
+          <span style="color: #eda2b2; font-weight: bold"
+            >từ {{ dateFrom | date : "dd/MM" }} đến
+            {{ dateTo | date : "dd/MM" }}
+          </span>
+          <span style="color: #0d6efd; font-style: italic"
+            >({{ getDateListApproved ? getDateListApproved.length : 0 }})</span
+          >
+        </h4>
       </div>
     </div>
   </div>
   <ngx-loading
-    [show]="spinnerLoading"
+    [show]="spinnerLoading ? spinnerLoading : false"
     [config]="{
       primaryColour: 'whitesmoke',
       backdropBorderRadius: '3px',
@@ -64,407 +69,502 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-9">
+  <!-- <div class="row">
+    <div class="col-12">
       <div class="page-title-box">
-        <h4 class="page-title">{{ getLabel("pageTitle") }}</h4>
+        <h4 class="page-title" style="word-break: break-word !important">
+          {{ getLabel("pageTitle") }}
+          {{ currentTab ? "đã duyệt" : "chưa duyệt" }}
+          <span style="color: #ea3a72; font-weight: bold"
+            >từ {{ dateFrom | date : "dd/MM" }} đến
+            {{ dateTo | date : "dd/MM" }}
+          </span>
+          <span style="color: #0d6efd; font-style: italic"
+            >({{ getDateListApproved ? getDateListApproved.length : 0 }})</span
+          >
+        </h4>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="row">
-    <div class="col-9">
-      <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
-        <li (click)="changeTabs(true)" class="nav-item" style="cursor: pointer">
-          <a
-            data-bs-toggle="tab"
-            aria-expanded="false"
-            class="nav-link rounded-0 active"
-          >
-            <i class="mdi mdi-home-variant d-md-none d-block"></i>
-            <span class="d-none d-md-block"
-              >{{ getLabel("verify") }}
-              <span
-                style="vertical-align: top"
-                class="badge rounded-pill bg-warning text-dark"
-                *ngIf="config != null && currentTab == true"
-                >{{ config.totalItems }}</span
-              ></span
-            >
-          </a>
-        </li>
-        <li
-          (click)="changeTabs(false)"
-          class="nav-item"
-          style="cursor: pointer"
-        >
-          <a
-            data-bs-toggle="tab"
-            aria-expanded="true"
-            class="nav-link rounded-0"
-          >
-            <i class="mdi mdi-account-circle d-md-none d-block"></i>
-            <span class="d-none d-md-block"
-              >{{ getLabel("unverify") }}
-              <span
-                style="vertical-align: top"
-                class="badge rounded-pill bg-warning text-dark"
-                *ngIf="config != null && currentTab == false"
-                >{{ config.totalItems }}</span
-              ></span
-            >
-          </a>
-        </li>
-      </ul>
-      <!--End page title-->
-      <table
-        id="basic-datatable"
-        class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
-      >
-        <thead>
-          <tr>
-            <th width="20%">{{ getLabel("dateCol") }}</th>
-            <th width="10%">{{ getLabel("timeCol") }}</th>
-            <th>{{ getLabel("descriptionCol") }}</th>
-            <th width="15%">{{ getLabel("locationCol") }}</th>
-            <th width="8%">Thao Tác</th>
-            <th width="3%">
-              <input
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Chọn để đánh dấu tất cả hoặc hủy tất cả"
-                type="checkbox"
-                [(ngModel)]="masterSelectedApproved"
-                (change)="selectAll(masterSelectedApproved, EventNotApproved)"
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class=""
-            *ngFor="
-              let item of !EventNotApproved
-                ? []
-                : (EventNotApproved | paginate : config)
-            "
-          >
-            <td class="col-ngay">
-              <span class="col_ngay_content">
-                {{ getDate(item.tgbatdau) }} ({{
-                  item.tgbatdau | slice : 0 : 10 | date : "dd/MM/yyyy"
-                }})</span
-              ><br />
-              Đến<br />
-              <span class="col_ngay_content">
-                {{ getDate(item.tgketthuc) }}
-                ({{
-                  item.tgketthuc | slice : 0 : 10 | date : "dd/MM/yyyy"
-                }})</span
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-9 col-md-12">
+            <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
+              <li
+                (click)="changeTabs(true)"
+                class="nav-item"
+                style="cursor: pointer"
               >
-            </td>
-            <td class="col-ngay">
-              <span class="col_tg">{{
-                item.tgbatdau | date : "shortTime"
-              }}</span>
-              <br />
-              Tới <br />
-              <span class="col_tg">
-                {{ item.tgketthuc | date : "shortTime" }}
-              </span>
-            </td>
-            <td>
-              <div
-                class="col_nd"
-                [ngStyle]="{
-                  'text-decoration': checkhuy(item.huy)
-                }"
-              >
-                {{ item.noidung }}
-              </div>
-              <div
-                [ngStyle]="{
-                  'text-decoration': checkhuy(item.huy)
-                }"
-              >
-                <span class="col_lable_title">Chủ trì: </span>
-                <span class="col_nd_content">{{ item.chutri }}</span>
-              </div>
-              <div *ngIf="item.chuanbi">
-                <span class="col_lable_title">Chuẩn bị: </span>
-                <span class="col_nd_content">{{ item.chuanbi }}</span>
-              </div>
-              <div
-                *ngIf="item.thanhphan"
-                [ngStyle]="{
-                  'text-decoration': checkhuy(item.huy)
-                }"
-              >
-                <span class="col_lable_title">Thành Phần: </span>
-                <span class="col_nd_content">{{ item.thanhphan }}</span>
-              </div>
-              <div>
-                <span class="col_lable_title">Danh sách liên quan: </span>
-                <span
-                  style="cursor: pointer"
-                  class="col_nd_content"
-                  (click)="showDSLQ(item.dsLienQuan)"
-                  ><img
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Danh sách liên quan"
-                    src="../../../assets/images/icon/iconEvent/hand_point.png"
-                /></span>
-              </div>
-
-              <div>
-                <span class="col_lable_title"
-                  >(<img
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Người đăng ký"
-                    src="../../../assets/images/icon/iconEvent/AddNew.png"
-                  /><img
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Người đăng ký"
-                    src="../../../assets/images/icon/iconEvent/cal-private.gif"
-                  /><span style="color: #85888d" *ngIf="!currentTab"
-                    >{{ item.tennguoidangky }},
-                    {{ layThoiGianChenhLech(item.ngaytao) }}
-                    , lúc
-                    {{ item.ngaytao | date : "shortTime" }}
-                  </span>
-                  <span style="color: #85888d" *ngIf="currentTab"
-                    >{{ item.tennguoidangky }},
-                    {{ item.ngaytao | date : "short" }}
-                  </span>
-                  )
-                  <span
-                    [routerLink]="[
-                      '/event/event-list/LoadComment-event/',
-                      item.lichtuanid
-                    ]"
+                <a
+                  data-bs-toggle="tab"
+                  aria-expanded="false"
+                  class="nav-link rounded-0 active"
+                >
+                  <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                  <span class="d-none d-md-block"
+                    >{{ getLabel("verify") }}
+                    <span
+                      style="vertical-align: top"
+                      class="badge rounded-pill bg-warning text-dark"
+                      *ngIf="currentTab == true"
+                      >{{
+                        getDateListApproved ? getDateListApproved.length : 0
+                      }}</span
+                    ></span
                   >
-                    <img
+                </a>
+              </li>
+              <li
+                (click)="changeTabs(false)"
+                class="nav-item"
+                style="cursor: pointer"
+              >
+                <a
+                  data-bs-toggle="tab"
+                  aria-expanded="true"
+                  class="nav-link rounded-0"
+                >
+                  <i class="mdi mdi-account-circle d-md-none d-block"></i>
+                  <span class="d-none d-md-block"
+                    >{{ getLabel("unverify") }}
+                    <span
+                      style="vertical-align: top"
+                      class="badge rounded-pill bg-warning text-dark"
+                      *ngIf="currentTab == false"
+                      >{{ getDateListApproved.length }}</span
+                    ></span
+                  >
+                </a>
+              </li>
+            </ul>
+            <table
+              class="col-7"
+              id="basic-datatable"
+              class="table table-bordered border border-style mb-2 dt-responsive nowrap w-100 content-table"
+              #TABLE
+              #table
+            >
+              <thead>
+                <tr>
+                  <th
+                    width="20%"
+                    style="text-align: center; vertical-align: middle"
+                  >
+                    {{ getLabel("dateCol") }}
+                  </th>
+                  <th
+                    width="15%"
+                    style="text-align: center; vertical-align: middle"
+                  >
+                    {{ getLabel("timeCol") }}
+                  </th>
+                  <th style="text-align: center; vertical-align: middle">
+                    {{ getLabel("descriptionCol") }}
+                  </th>
+                  <!-- <th width="15%">{{ getLabel("locationCol") }}</th> -->
+                  <th
+                    width="8%"
+                    style="text-align: center; vertical-align: middle"
+                  >
+                    Thao Tác
+                  </th>
+                  <th
+                    width="3%"
+                    style="text-align: center; vertical-align: middle"
+                  >
+                    <input
                       data-bs-toggle="tooltip"
                       data-bs-placement="bottom"
-                      title="Xem phản hồi"
-                      src="../../../assets/images/icon/iconEvent/forum.gif"
-                    /><span style="font-weight: bold; color: red">
-                      ({{ item.soComment }})</span
+                      title="Chọn để đánh dấu tất cả hoặc hủy tất cả"
+                      type="checkbox"
+                      [(ngModel)]="masterSelectedApproved"
+                      (change)="
+                        selectAll(masterSelectedApproved, EventNotApproved)
+                      "
+                    />
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container
+                  *ngFor="let item of EventNotApproved ? EventNotApproved : []"
+                >
+                  <tr>
+                    <td
+                      class="col-ngay"
+                      [ngStyle]="{
+                        backgroundColor: checkToday(item.ngay)
+                      }"
+                      [attr.rowspan]="item.items.length + 1"
+                      style="text-align: center"
                     >
-                  </span>
-                </span>
-              </div>
-              <div *ngIf="currentTab">
-                <span class="col_lable_title"
-                  >(<img
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Người Duyệt"
-                    src="../../../assets/images/icon/iconEvent/accept.png"
-                  /><img
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="bottom"
-                    title="Người Duyệt"
-                    src="../../../assets/images/icon/iconEvent/cal-private.gif"
-                  /><span style="color: #85888d" *ngIf="!currentTab"
-                    >{{ item.tennguoipheduyet }},
-                    {{ layThoiGianChenhLech(item.ngaytao) }}
-                    , lúc
-                    {{ item.ngaytao | date : "shortTime" }}
-                  </span>
-                  <span style="color: #85888d" *ngIf="currentTab"
-                    >{{ item.tennguoidangky }},
-                    {{ item.ngaytao | date : "short" }}
-                  </span>
-                  )
-                </span>
-              </div>
-              <br />
-            </td>
-            <td
-              class="col_diadiem"
-              [ngStyle]="{
-                'text-decoration': checkhuy(item.huy)
-              }"
-            >
-              {{ item.diadiem }}
-            </td>
-            <!-- <td class="text-center" >
-                            <div id="tooltip-container1">
-                                <span class="d-inline-block" tabindex="0" data-bs-container="#tooltip-container1"
-                                    data-bs-toggle="tooltip" title="Chuyển thành lịch cá nhân">
-                                    <i class="uil-code"></i>
-                                </span>
-                            </div>
-                        </td> -->
-            <td>
-              <div
-                class="align-items-center"
-                *ngIf="!currentTab || item.huy == '1'"
-              >
-                <button
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Duyệt"
-                  (click)="Approved(item.lichtuanid)"
+                      <span class="col_ngay_content">
+                        {{ getDate(item.ngay) }} <br />({{
+                          item.ngay | slice : 0 : 10 | date : "dd/MM"
+                        }})<br />
+                        <span style="color: #88a7fe; font-style: italic"
+                          >({{ item.items.length }})</span
+                        > </span
+                      ><br />
+                    </td>
+                  </tr>
+
+                  <tr *ngFor="let i of item.items; let id = index">
+                    <td
+                      class="col-ngay"
+                      [ngStyle]="{
+                        backgroundColor: checkToday(i.ngay)
+                      }"
+                      style="text-align: center; vertical-align: middle"
+                    >
+                      <div
+                        [ngStyle]="{
+                          'text-decoration': checkhuy(i.huy, i.pheduyet)
+                        }"
+                      >
+                        <span class="col_tg">{{
+                          i.tgbatdau | slice : 11 : 16
+                        }}</span>
+                        -
+                        <span class="col_tg">
+                          {{ i.tgketthuc | slice : 11 : 16 }}
+                        </span>
+                      </div>
+                    </td>
+                    <td
+                      [ngStyle]="{
+                        backgroundColor: checkToday(i.ngay)
+                      }"
+                      style="vertical-align: middle"
+                    >
+                      <div
+                        class="col_nd"
+                        [ngStyle]="{
+                          'text-decoration': checkhuy(i.huy, i.pheduyet)
+                        }"
+                      >
+                        {{ i.noidung }}
+                      </div>
+                      <div
+                        [ngStyle]="{
+                          'text-decoration': checkhuy(i.huy, i.pheduyet)
+                        }"
+                      >
+                        <span class="col_lable_title">Chủ trì: </span>
+                        <span class="col_nd_content">{{ i.chutri }}</span>
+                      </div>
+                      <div *ngIf="i.chuanbi">
+                        <span class="col_lable_title">Chuẩn bị: </span>
+                        <span class="col_nd_content">{{ i.chuanbi }}</span>
+                      </div>
+                      <div
+                        *ngIf="i.thanhphan"
+                        [ngStyle]="{
+                          'text-decoration': checkhuy(i.huy, i.pheduyet)
+                        }"
+                      >
+                        <span class="col_lable_title">Thành Phần: </span>
+                        <span class="col_nd_content">{{ i.thanhphan }}</span>
+                      </div>
+                      <div
+                        *ngIf="i.diadiem"
+                        [ngStyle]="{
+                          'text-decoration': checkhuy(i.huy, i.pheduyet)
+                        }"
+                      >
+                        <span class="col_lable_title">Địa Điểm: </span>
+                        <span
+                          class="col_nd_content"
+                          style="font-weight: bold"
+                          >{{ i.diadiem }}</span
+                        >
+                      </div>
+                      <div>
+                        <span class="col_lable_title"
+                          >Danh sách liên quan:
+                        </span>
+                        <span
+                          style="cursor: pointer; font-size: 20px"
+                          class="col_nd_content"
+                          (click)="showDSLQ(i.dsLienQuan)"
+                          ><i
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            title="Danh sách liên quan"
+                            class="fa-regular fa-hand-point-right"
+                          ></i>
+                        </span>
+                      </div>
+
+                      <div>
+                        <span class="col_lable"
+                          >(
+                          <i
+                            style="color: green"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            title="Người đăng ký"
+                            class="fa-sharp fa-solid fa-user-plus"
+                          ></i>
+                          <span style="color: #85888d" *ngIf="!currentTab">
+                            {{ i.tennguoidangky }},
+                            {{ layThoiGianChenhLech(i.ngaytao) }}
+                            , lúc
+                            {{ i.ngaytao | slice : 11 : 16 }}
+                          </span>
+                          <span style="color: #85888d" *ngIf="currentTab">
+                            {{ i.tennguoidangky }},
+                            {{ layThoiGianChenhLech(i.ngaytao) }}
+                            , lúc
+                            {{ i.ngaytao | slice : 11 : 16 }}
+                          </span>
+                          )
+                          <span
+                            [routerLink]="[
+                              '/event/event-list/LoadComment-event/',
+                              i.lichtuanid
+                            ]"
+                            title="Xem phản hồi"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            style="cursor: pointer"
+                            ><i
+                              style="font-size: 18px"
+                              class="fa-solid fa-comment"
+                            ></i>
+                            <span style="font-weight: bold; color: red">
+                              ({{ i.soComment }})</span
+                            >
+                          </span>
+                        </span>
+                      </div>
+                      <div *ngIf="currentTab">
+                        <span class="col_lable"
+                          >(
+                          <i
+                            style="color: green"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            title="Người Duyệt"
+                            class="fa-solid fa-user-check"
+                          ></i>
+                          <span style="color: #85888d" *ngIf="!currentTab"
+                            >{{ i.tennguoipheduyet }},
+                            {{ layThoiGianChenhLech(i.ngaypheduyet) }}
+                            , lúc
+                            {{ i.ngaypheduyet | slice : 11 : 16 }}
+                          </span>
+                          <span style="color: #85888d" *ngIf="currentTab"
+                            >{{ i.tennguoipheduyet }},
+                            {{ layThoiGianChenhLech(i.ngaypheduyet) }}
+                            , lúc
+                            {{ i.ngaypheduyet | slice : 11 : 16 }}
+                          </span>
+                          )
+                        </span>
+                      </div>
+                      <br />
+                    </td>
+                    <td
+                      [ngStyle]="{
+                        backgroundColor: checkToday(i.ngay)
+                      }"
+                      style="text-align: center; vertical-align: middle"
+                    >
+                      <div
+                        class="align-items-center"
+                        *ngIf="!currentTab || i.huy == '1'"
+                      >
+                        <div
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Duyệt"
+                          (click)="Approved(i.lichtuanid)"
+                        >
+                          <i class="fa-sharp fa-solid fa-square-check"></i>
+                        </div>
+                      </div>
+                      <div class="align-items-center">
+                        <div
+                          [routerLink]="[
+                            '/event/event-list/update-event/',
+                            i.lichtuanid
+                          ]"
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Sửa"
+                        >
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </div>
+                      </div>
+                      <div class="align-items-center">
+                        <div
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Xóa"
+                          (click)="deleteEvent(i.lichtuanid)"
+                        >
+                          <i class="fa-sharp fa-solid fa-trash"></i>
+                        </div>
+                      </div>
+                      <div
+                        class="align-items-center"
+                        *ngIf="currentTab && i.huy == '0'"
+                      >
+                        <div
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Hủy"
+                          (click)="CancelEvent(i.lichtuanid)"
+                        >
+                          <i class="fa-sharp fa-solid fa-ban"></i>
+                        </div>
+                      </div>
+                      <div
+                        class="align-items-center"
+                        *ngIf="currentTab && i.huy == '0'"
+                      >
+                        <div
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Chuyển thành lịch cá nhân"
+                          [routerLink]="['/personal/new-event/', i.lichtuanid]"
+                        >
+                          <i class="fa-regular fa-calendar-days"></i>
+                        </div>
+                      </div>
+                      <div
+                        class="align-items-center"
+                        *ngIf="currentTab && i.huy == '0'"
+                      >
+                        <div
+                          style="cursor: pointer; font-size: 20px"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Chuyển thành công việc"
+                          [routerLink]="['/tasks/new-task/', i.lichtuanid]"
+                        >
+                          <i class="fa-sharp fa-solid fa-briefcase"></i>
+                        </div>
+                      </div>
+                    </td>
+                    <td
+                      [ngStyle]="{
+                        backgroundColor: checkToday(i.ngay)
+                      }"
+                      style="text-align: center"
+                    >
+                      <input
+                        class="cusor"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        title="Chọn để đánh dấu"
+                        type="checkbox"
+                        [(ngModel)]="i.status"
+                        (change)="
+                          onChangeChecked(
+                            i.status,
+                            i.lichtuanid,
+                            EventNotApproved
+                          )
+                        "
+                      />
+                    </td>
+                  </tr>
+                  <!-- /.modal --></ng-container
                 >
-                  <img src="../../../assets/images/icon/iconEvent/accept.png" />
-                </button>
-              </div>
-              <div class="align-items-center">
-                <button
-                  [routerLink]="[
-                    '/event/event-list/update-event/',
-                    item.lichtuanid
-                  ]"
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Sửa"
-                >
-                  <img src="../../../assets/images/icon/iconEvent/edit.gif" />
-                </button>
-              </div>
-              <div class="align-items-center">
-                <button
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Xóa"
-                  (click)="deleteEvent(item.lichtuanid)"
-                >
-                  <img src="../../../assets/images/icon/iconEvent/delete.gif" />
-                </button>
-              </div>
-              <div
-                class="align-items-center"
-                *ngIf="currentTab && item.huy == '0'"
-              >
-                <button
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Hủy"
-                  (click)="CancelEvent(item.lichtuanid)"
-                >
-                  <img src="../../../assets/images/icon/iconEvent/Cancel.png" />
-                </button>
-              </div>
-              <div
-                class="align-items-center"
-                *ngIf="currentTab && item.huy == '0'"
-              >
-                <button
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Chuyển thành lịch cá nhân"
-                >
-                  <img
-                    src="../../../assets/images/icon/iconEvent/LichCaNhan.png"
-                  />
-                </button>
-              </div>
-              <div
-                class="align-items-center"
-                *ngIf="currentTab && item.huy == '0'"
-              >
-                <button
-                  class="btn-icon cusor"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Chuyển thành công việc"
-                >
-                  <img
-                    src="../../../assets/images/icon/iconEvent/task_tree.gif"
-                  />
-                </button>
-              </div>
-            </td>
-            <td>
-              <input
-                class="cusor"
+              </tbody>
+            </table>
+          </div>
+          <div class="col-xl-3 col-md-12">
+            <div class="list-group">
+              <button
+                type="button"
+                class="btn rounded mb-1"
                 data-bs-toggle="tooltip"
                 data-bs-placement="bottom"
-                title="Chọn để đánh dấu"
-                type="checkbox"
-                [(ngModel)]="item.status"
-                (change)="onChangeChecked(item.status, item.lichtuanid)"
-              />
-            </td>
-          </tr>
-          <!-- /.modal -->
-        </tbody>
-      </table>
-      <!-- /////////////////// Pagination -->
-      <div class="list row">
-        <div class="col-md-8">
-          <pagination-controls
-            id="paging"
-            [previousLabel]="getLabel('previousBtn')"
-            [nextLabel]="getLabel('nextBtn')"
-            responsive="true"
-            responsive="true"
-            (pageChange)="handlePageChange($event)"
-          ></pagination-controls>
+                [title]="getLabel('newBtn')"
+                style="cursor: pointer; background-color: #395bb2"
+                img
+                (click)="openNewEvent()"
+                src="assets/imgs/plus.png"
+              >
+                <span style="color: white">Thêm mới lịch tuần</span>
+              </button>
+              <button
+                type="button"
+                class="btn rounded mb-1"
+                (click)="ApprovedMultiple()"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                [title]="getLabel('apBtn')"
+                style="cursor: pointer; background-color: #395bb2"
+              >
+                <span style="color: white">Phê Duyệt</span>
+              </button>
+              <button
+                type="button"
+                class="btn rounded mb-1"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                [title]="getLabel('canBtn')"
+                (click)="CancelEventMulti()"
+                style="cursor: pointer; background-color: #395bb2"
+              >
+                <span style="color: white">Hủy</span>
+              </button>
+              <button
+                type="submit"
+                name="ctl22$DANHMUC$ctl02$btnDel"
+                value="Xóa"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                [title]="getLabel('deBtn')"
+                class="btn rounded mb-1"
+                (click)="deleteEventMultiple()"
+                style="cursor: pointer; background-color: #395bb2"
+              >
+                <span style="color: white">Xóa</span>
+              </button>
+              <button
+                type="button"
+                class="btn rounded mb-1"
+                (click)="exPortExcel()"
+                style="cursor: pointer; background-color: #395bb2"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                [title]="getLabel('printBtn')"
+              >
+                <span style="color: white">In Lịch</span>
+              </button>
+            </div>
+            <div class="border mb-1">
+              <div
+                class="list-group-item list-group-item background mb-2"
+                style="padding: 10px; background-color: #6575ff"
+              >
+                <b class="d-flex justify-content-center" style="color: white">
+                  Lịch
+                </b>
+              </div>
+              <app-calendar
+                [eventList]="events"
+                (getEvents)="getEvents($event)"
+              ></app-calendar>
+            </div>
+            <!-- <app-calendar
+        [eventList]="events"
+        (getEvents)="getEvents($event)"
+      ></app-calendar> -->
+          </div>
         </div>
-        <div class="col-md-4">
-          {{ getLabel("itemsPerPage") }}:
-          <select
-            style="border: solid 1px rgb(230, 229, 229)"
-            (change)="handlePageSizeChange($event)"
-          >
-            <option *ngFor="let size of pageSizes" [ngValue]="size">
-              {{ size }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="list-group">
-        <button
-          type="button"
-          class="btn btn-success rounded mb-1"
-          data-bs-toggle="modal"
-          data-bs-target="#new-news-modal"
-          style="cursor: pointer"
-          [title]="getLabel('newBtn')"
-          img
-          (click)="openNewEvent()"
-          src="assets/imgs/plus.png"
-        >
-          Thêm mới lịch tuần
-        </button>
-        <button
-          type="button"
-          class="btn btn-success rounded mb-1"
-          (click)="ApprovedMultiple()"
-        >
-          Phê Duyệt
-        </button>
-        <button type="button" class="btn btn-success rounded mb-1">Hủy</button>
-        <button
-          type="submit"
-          name="ctl22$DANHMUC$ctl02$btnDel"
-          value="Xóa"
-          class="btn btn-success rounded mb-1"
-          (click)="deleteEventMultiple()"
-        >
-          Xóa
-        </button>
-        <button type="button" class="btn btn-success rounded mb-1">
-          In Lịch
-        </button>
-      </div>
-      <div style="border: 1px solid black">
-        <app-calendar
-          [eventList]="events"
-          (getEvents)="getEvents($event)"
-        ></app-calendar>
       </div>
     </div>
   </div>

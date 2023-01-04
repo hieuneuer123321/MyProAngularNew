@@ -1,6 +1,5 @@
 <div class="wrapper">
-  <div class="leftside-menu">
-    <!-- LOGO -->
+  <div class="leftside-menu" style="background-color: white !important">
     <a href="index.html" class="logo text-center logo-light">
       <span class="logo-lg">
         <img
@@ -15,57 +14,33 @@
       </span>
     </a>
 
-    <div class="h-100" id="leftside-menu-container" data-simplebar>
-      <!--- Sidemenu -->
+    <div
+      class="h-100"
+      id="leftside-menu-container"
+      data-simplebar
+      style="text-decoration: none !important"
+    >
       <ul class="side-nav">
-        <!-- <li class="side-nav-item">
-          <a
-            data-bs-toggle="collapse"
-            href="#sidebarWorks"
-            aria-expanded="false"
-            aria-controls="sidebarEmail"
-            class="side-nav-link"
-          >
-            <i class="uil-calendar-alt"></i>
-            <span> nothing </span>
-            <span class="menu-arrow"></span>
-          </a>
-          <div class="collapse" id="sidebarWorks">
-            <ul class="side-nav-second-level">
-              <li>
-                <a (click)="routeNavigator('/tasks/task-list')">a</a>
-              </li>
-              <li>
-                <a>Chưa Duyệt</a>
-              </li>
-              <li>
-                <a>Đăng Ký</a>
-              </li>
-              <li>
-                <a>Lịch Tuần Mẫu</a>
-              </li>
-              <li>
-                <a>Địa Điểm</a>
-              </li>
-            </ul>
-          </div>
-        </li> -->
-
-        <li class="side-nav-item" *ngFor="let item of items">
+        <li
+          class="side-nav-item"
+          *ngFor="let item of items"
+          [routerLinkActive]="['menuitem-active']"
+        >
           <a
             data-bs-toggle="collapse"
             href="#{{ item.id }}"
             aria-expanded="false"
-            aria-controls="sidebarEmail"
+            aria-controls="{{ item.id }}"
             class="side-nav-link"
+            style="text-decoration: none"
           >
-            <i class="{{ item.icon }}"></i>
-            <span>
+            <i class="{{ item.icon }}" style="color: blue"></i>
+            <span class="content_menu">
               {{ item[this.generalService.currentLanguage.Code].title }}
             </span>
-            <span class="menu-arrow"></span>
+            <span class="menu-arrow" style="color: blue"></span>
           </a>
-          <div class="collapse" id="{{ item.id }}">
+          <div class="collapse" id="{{ item.id }}" #id>
             <ul class="side-nav-second-level">
               <li
                 *ngFor="
@@ -78,6 +53,8 @@
                 <a
                   [routerLink]="item.id + item.routing[i]"
                   [routerLinkActiveOptions]="{ exact: true }"
+                  style="text-decoration: none"
+                  class="side-nav-item-sub"
                   >{{ child }}</a
                 >
               </li>
@@ -88,6 +65,5 @@
 
       <div class="clearfix"></div>
     </div>
-    <!-- Sidebar -left -->
   </div>
 </div>

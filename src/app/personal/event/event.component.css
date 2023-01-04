@@ -1,19 +1,77 @@
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
 .content-table thead tr {
-    background-color: #0091ff;
-    color: aliceblue;
-    text-align: left;
-    font-weight: bold;
+  background-color: #0091ff;
+  color: aliceblue;
+  text-align: left;
+  font-weight: bold;
 }
-.background{
-    background-color: #248a8c;
-    color: aliceblue;
-    font-size: 18px;
+.background {
+  background-color: #248a8c;
+  color: aliceblue;
+  font-size: 18px;
 }
-.background-1{
-    background-color: #68be9f;
-    color: aliceblue;
-
+.background-1 {
+  background-color: #68be9f;
+  color: aliceblue;
 }
+.content-table thead tr {
+  background-color: #0091ff;
+  color: aliceblue;
+  text-align: left;
+  font-weight: bold;
+}
+.align-items-center {
+  text-align: center;
+}
+.btn-icon {
+  border: none !important;
+  border-bottom: 1.4px black solid !important;
+  background-color: white;
+  margin-bottom: 3px;
+  width: 30px;
+  height: 30px;
+}
+.col_ngay_content {
+  color: #eda2b2;
+}
+.col-ngay {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+.col_tg {
+  color: #395bb2;
+}
+th {
+  text-align: center;
+}
+.col_nd {
+  color: #395bb2;
+  font-weight: bold;
+  font-size: 16px;
+}
+.col_lable_title {
+  color: #eda2b2;
+  font-style: italic;
+  font-size: 14px;
+}
+.col_lable {
+  font-style: italic;
+  font-size: 14px;
+}
+.col_nd_content {
+  color: #271e8b;
+  font-size: 15px;
+}
+.col_diadiem {
+  color: #271e8b;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+.cusor {
+  cursor: pointer;
+}
+/*  */

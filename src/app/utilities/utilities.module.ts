@@ -14,7 +14,6 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { DropzoneComponent } from './dropzone/dropzone.component';
 import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
 
-
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -28,11 +27,7 @@ import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
     DropzoneComponent,
     GanttChartComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule
-  ],
+  imports: [CommonModule, RouterModule, FormsModule],
   exports: [
     HeaderComponent,
     FooterComponent,
@@ -45,6 +40,6 @@ import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
     CalendarComponent,
     DropzoneComponent,
     GanttChartComponent,
-  ]
+  ],
 })
-export class UtilitiesModule { }
+export class UtilitiesModule {}

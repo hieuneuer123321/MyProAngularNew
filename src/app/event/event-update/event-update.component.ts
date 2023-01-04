@@ -9,6 +9,7 @@ import dateFormat, { masks } from 'dateformat';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventUpdate } from 'src/app/Model/Event';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-event-update',
@@ -58,7 +59,8 @@ export class EventUpdateComponent implements OnInit {
     public generalService: GeneralService,
     public api: ApiservicesService,
     public routerAc: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -300,17 +302,234 @@ export class EventUpdateComponent implements OnInit {
           'post',
           true
         );
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Sửa Thành Công',
-          showConfirmButton: false,
-          timer: 1000,
+        this.toaster.success('', 'Sửa Thành Công!', {
+          timeOut: 2500,
         });
         this.router.navigate([`event/event-list`]);
       } catch (e) {
         console.log(e);
       }
+    } else if (
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) <
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ) ||
+      newDateStart >= newDateEnd
+    ) {
+      Swal.fire({
+        title: '<strong>Ngày Giờ Không Hợp Lệ ?</strong>',
+        icon: 'warning',
+        html: `Ngày bắt đầu phải lớn hơn ngày hiện tại và nhỏ hơn ngày kết thúc! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        this.chosenAssigneelList = [];
+        if (
+          !this.event.diadiem &&
+          !this.event.noidung &&
+          !this.event.chutri &&
+          !this.event.thanhphan
+        ) {
+          this.errors.thanhphan = '';
+          this.errors.chutri = '';
+          this.errors.noidung = '';
+          this.errors.diadiem = '';
+        } else {
+          if (!this.event.noidung) {
+            this.errors.noidung = '';
+          }
+          if (!this.event.chutri) {
+            this.errors.chutri = '';
+          }
+          if (!this.event.thanhphan) {
+            this.errors.thanhphan = '';
+          }
+          if (!this.event.diadiem) {
+            this.errors.diadiem = '';
+            this.event.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkDiaDiem == false) {
+            this.errors.diadiem = '';
+            this.event.diadiem == '';
+          }
+        }
+      });
+    } else {
+      Swal.fire({
+        title: '<strong>Thiếu Thông Tin ?</strong>',
+        icon: 'warning',
+        html: `Vui lòng nhập đầy đủ các thông tin bắt buộc ! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (
+          !this.event.diadiem &&
+          !this.event.noidung &&
+          !this.event.chutri &&
+          !this.event.thanhphan
+        ) {
+          this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+        } else {
+          if (!this.event.noidung) {
+            this.errors.noidung = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.event.chutri) {
+            this.errors.chutri = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.event.thanhphan) {
+            this.errors.thanhphan = 'Vui lòng nhập vào ô này !';
+          }
+          if (!this.event.diadiem) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.event.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkDiaDiem == false) {
+            this.errors.diadiem = 'Vui lòng nhập vào ô này !';
+            this.event.diadiem == '';
+          }
+        }
+      });
+    }
+  }
+  checkValidate() {
+    //   /// format date time start
+    const date = new Date(this.dateStart);
+    const hourS = this.hourStart;
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const arrHourS = hourS.split('');
+    const hour = Number(hourS.substring(0, 2));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
+    const newDateStart = new Date(year, month, day, hour, minute);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
+    ////format date time end
+    const date2 = new Date(this.dateEnd);
+    const hourS2 = this.hourEnd;
+    const year2 = date2.getFullYear();
+    const month2 = date2.getMonth();
+    const day2 = date2.getDate();
+    const arrHour = hourS2.split('');
+    const hour2 = Number(hourS2.substring(0, 2));
+    const minute2 = Number(
+      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    );
+    const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
+    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    const dateTimeFormatter2 = temp2.substring(0, 19);
+    this.event.tgbatdau = dateTimeFormatter;
+    this.event.tgketthuc = dateTimeFormatter2;
+
+    this.event.diadiem = this.inputDiaDiem
+      ? this.inputDiaDiem
+      : this.event.diadiem;
+    if (this.event.noidung) {
+      this.errors.noidung = '';
+    }
+    if (this.event.chutri) {
+      this.errors.chutri = '';
+    }
+    if (this.event.thanhphan) {
+      this.errors.thanhphan = '';
+    }
+    if (this.event.diadiem) {
+      this.errors.diadiem = '';
+    }
+    if (
+      this.event.diadiem &&
+      this.event.noidung &&
+      this.event.chutri &&
+      this.event.thanhphan &&
+      newDateStart <= newDateEnd &&
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) >=
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        )
+    ) {
+      this.errors.chutri =
+        this.errors.diadiem =
+        this.errors.noidung =
+        this.errors.thanhphan =
+          '';
+
+      this.wizard.goToNextStep();
+    } else if (
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) <
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ) ||
+      newDateStart >= newDateEnd
+    ) {
+      Swal.fire({
+        title: '<strong>Ngày Giờ Không Hợp Lệ ?</strong>',
+        icon: 'warning',
+        html: `Ngày bắt đầu phải lớn hơn ngày hiện tại và nhỏ hơn ngày kết thúc! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        if (
+          !this.event.diadiem &&
+          !this.event.noidung &&
+          !this.event.chutri &&
+          !this.event.thanhphan
+        ) {
+          this.errors.thanhphan = '';
+          this.errors.chutri = '';
+          this.errors.noidung = '';
+          this.errors.diadiem = '';
+        } else {
+          if (!this.event.noidung) {
+            this.errors.noidung = '';
+          }
+          if (!this.event.chutri) {
+            this.errors.chutri = '';
+          }
+          if (!this.event.thanhphan) {
+            this.errors.thanhphan = '';
+          }
+          if (!this.event.diadiem) {
+            this.errors.diadiem = '';
+            this.event.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkDiaDiem == false) {
+            this.errors.diadiem = '';
+            this.event.diadiem == '';
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: '<strong>Thiếu Thông Tin ?</strong>',

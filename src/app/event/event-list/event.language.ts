@@ -1,3 +1,4 @@
+import { CalendarComponent } from './../../utilities/calendar/calendar.component';
 let data = {
   EN: {
     pageTitle: 'Event list',
@@ -12,9 +13,14 @@ let data = {
     to: 'to',
     verify: 'Verified',
     unverify: 'Unverify',
+    newBtn: 'Add Event',
+    apBtn: 'Approved Event',
+    canBtn: 'Cancel Event',
+    deBtn: 'Delete Event',
+    printBtn: 'Print Event',
   },
   VN: {
-    pageTitle: 'Danh sách lịch tuần',
+    pageTitle: 'Lịch tuần',
     newFile: 'Thêm lịch mới',
     itemsPerPage: 'Số lượng thư mục mỗi trang',
     nextBtn: 'Trang sau',
@@ -26,6 +32,11 @@ let data = {
     to: 'đến',
     verify: 'Đã duyệt',
     unverify: 'Chưa duyệt',
+    newBtn: 'Thêm Lịch',
+    apBtn: 'Phê Duyệt',
+    canBtn: 'Hủy Lịch',
+    deBtn: 'Xóa Lịch',
+    printBtn: 'In Lịch',
   },
 };
 export default data;

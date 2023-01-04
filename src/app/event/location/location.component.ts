@@ -6,6 +6,7 @@ import { GeneralService } from 'src/app/services/general.service';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 import { ApiservicesService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-location',
@@ -46,7 +47,8 @@ export class LocationComponent implements OnInit {
     public generalService: GeneralService,
     private router: Router,
     private _location: Location,
-    private api: ApiservicesService
+    private api: ApiservicesService,
+    private toaster: ToastrService
   ) {}
   addLocation() {
     alert('Bạn');
@@ -74,7 +76,7 @@ export class LocationComponent implements OnInit {
       );
       // console.log(this.locationListAll.length);
       this.locationListAll.sort(function (a, b) {
-        return b.stt - a.stt;
+        return a.stt - b.stt;
       });
       ///
       this.config = {
@@ -115,12 +117,8 @@ export class LocationComponent implements OnInit {
         );
         this.getListLocationAll();
         this.closebuttonAdd.nativeElement.click();
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Thêm Thành Công',
-          showConfirmButton: false,
-          timer: 1500,
+        this.toaster.success('', 'Thêm Thành Công!', {
+          timeOut: 2500,
         });
       } catch (e) {
         console.log(e.message);
@@ -167,12 +165,8 @@ export class LocationComponent implements OnInit {
         'post',
         true
       );
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Sửa Thành Công',
-        showConfirmButton: false,
-        timer: 1000,
+      this.toaster.success('', 'Sửa Thành Công!', {
+        timeOut: 2500,
       });
       this.getListLocationAll();
     } catch (e) {
@@ -206,12 +200,8 @@ export class LocationComponent implements OnInit {
             true
           );
           this.getListLocationAll();
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Xóa Thành Công',
-            showConfirmButton: false,
-            timer: 1000,
+          this.toaster.success('', 'Xóa Thành Công!', {
+            timeOut: 2500,
           });
         } catch (e) {
           console.log(e.message);

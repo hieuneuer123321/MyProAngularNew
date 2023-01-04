@@ -1,22 +1,16 @@
 .ipt::after {
-    content: "(*)";
-    color: red;
-    font-weight: bold;
+  content: "(*)";
+  color: red;
+  font-weight: bold;
 }
 
 .container {
-    border-radius: 10px;
-    border: solid 1px;
-    padding: 20px;
-}
-
-.container {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .btn_list {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-evenly
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-evenly;
 }

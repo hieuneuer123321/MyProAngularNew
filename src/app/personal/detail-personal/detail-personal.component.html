@@ -1,0 +1,304 @@
+{{ state.personalEvent | json }}
+<div class="container-fluid">
+  <ngx-loading
+    [show]="state.spinnerLoading"
+    [config]="{
+      primaryColour: 'whitesmoke',
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+  <!-- start page title -->
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/event">Lịch Cá Nhân</a>
+            </li>
+            <li class="breadcrumb-item">Chi Tiết Lịch Cá Nhân</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Chi Tiết Lịch Cá Nhân</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="row">
+            <div class="col-xl-9 col-md-12">
+              <!--End page title-->
+              <div class="row">
+                <div class="container">
+                  <div class="item item-container">
+                    <span>Ngày Giờ Bắt Đầu</span>
+                  </div>
+                  <div class="item item-container2">
+                    <span> state.personalEvent </span>
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="item item-container">
+                    <span>Ngày Giờ Kết Thúc</span>
+                  </div>
+                  <div class="item item-container2">
+                    <span> : ("" | date : "dd/MM/yyyy HH:mm:ss ") }}</span>
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="item item-container">
+                    <span>Nội dung</span>
+                  </div>
+                  <div class="item item-container2">
+                    <span>
+                      sampleDataDetail ? sampleDataDetail.noidung : "" }}</span
+                    >
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="item item-container">
+                    <span>Địa Điểm</span>
+                  </div>
+                  <div class="item item-container2">
+                    <span
+                      >sampleDataDetail ? sampleDataDetail.diadiem : "" }}</span
+                    >
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="item item-container">
+                    <span>Đính Kèm</span>
+                  </div>
+                  <div class="item item-container2">
+                    <span
+                      >sampleDataDetail ? sampleDataDetail.dinhkem : "" }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- /////////////////// Pagination -->
+            </div>
+            <div class="col-xl-3 col-md-12">
+              <div class="list-group">
+                <button
+                  type="button"
+                  class="btn btn-success rounded mb-1"
+                  data-bs-toggle="modal"
+                  data-bs-target="#new-news-modal"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                  [title]="getLabel('newBtn')"
+                  img
+                  (click)="openNewEvent()"
+                  src="assets/imgs/plus.png"
+                >
+                  Thêm mới lịch
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-success rounded mb-1"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                >
+                  Sửa
+                </button>
+
+                <button
+                  (click)="deleteEventUser()"
+                  name="ctl22$DANHMUC$ctl02$btnDel"
+                  value="Xóa"
+                  class="btn btn-success rounded mb-1"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                >
+                  Xóa
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-success rounded mb-1"
+                  (click)="goBack()"
+                  style="
+                    cursor: pointer;
+                    background-color: #395bb2;
+                    color: white;
+                  "
+                >
+                  Quay lại
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px">
+            <div class="col-12">
+              <h6
+                style="padding: 10px; background-color: #2185c5; color: white"
+              >
+                <span style="padding-left: 10px; font-size: 15px">
+                  Phải Hồi<span style="color: #ffc0cb; font-style: italic">
+                    ({{ commentList ? commentList.length : 0 }})
+                  </span></span
+                >
+              </h6>
+            </div>
+            <div class="row">
+              <div class="col-xl-9 col-md-12">
+                <div class="card mt-3 rounded">
+                  <div class="card-body">
+                    <div class="row">
+                      <!-- <div class="text-center load-more-comments"><i class="pointer">Hiển thị thêm bình luận</i></div> -->
+                      <div
+                        class="d-flex align-items-start"
+                        *ngFor="let i of commentList"
+                      >
+                        <app-avatar-tooltip
+                          [fullname]="i.tenNguoiTao"
+                          [size]="'sm'"
+                        >
+                        </app-avatar-tooltip>
+                        <div class="ms-2 mb-3">
+                          <div class="d-flex align-items-center">
+                            <h5>{{ i.tenNguoiTao }}</h5>
+                            <i class="ms-1">
+                              {{ layThoiGianChenhLech(i.ngayTao) }}, lúc
+                              {{ i.ngayTao | date : "shortTime" }}, ngày
+                              {{ i.ngayTao | date : "dd-MM-YYYY" }}
+                            </i>
+                            <div style="margin-left: 10px">
+                              <i
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="Trả lời phản hồi"
+                                style="cursor: pointer"
+                                (click)="repComment(i.noiDung, i.tenNguoiTao)"
+                                class="fa-solid fa-reply"
+                              ></i>
+                            </div>
+                          </div>
+
+                          <div [innerHTML]="i.noiDung"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="repC.nguoi && repC.noidung"
+                      style="
+                        width: 90%;
+                        background-color: #838ca7;
+                        border-radius: 15px;
+                      "
+                    >
+                      <div>
+                        <div class="chat-messages">
+                          <div class="message-box-holder">
+                            <div style="margin-bottom: 10px; color: white">
+                              Đang trả lời
+                              <span style="font-weight: bold">{{
+                                repC.nguoi
+                              }}</span>
+                              <i
+                                (click)="exitRepComment()"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="Thoát trả lời phản hồi"
+                                style="float: right; cursor: pointer"
+                                class="fa-sharp fa-solid fa-circle-xmark"
+                              ></i>
+                            </div>
+                            <div class="message-box">{{ repC.noidung }}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <angular-editor
+                        [config]="editorConfig"
+                        [(ngModel)]="comment.noidung"
+                      ></angular-editor>
+                      <div class="d-flex justify-content-end mt-1">
+                        <button
+                          type="button"
+                          class="btn btn-success"
+                          (click)="AddComment()"
+                        >
+                          <i class="uil-message"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div
+                class="col-xl-2 col-md-12"
+                style="border: solid 1px rgb(230, 229, 229)"
+              >
+                <h6
+                  style="
+                    padding: 10px;
+                    background-color: #2185c5;
+                    color: white;
+                    text-align: center;
+                  "
+                >
+                  <span style="padding-left: 10px"> Người liên quan</span>
+                </h6>
+                <div style="text-align: center">
+                  <span style="font-size: 14; font-weight: bold">
+                    i.hoTen }}</span
+                  >
+                </div>
+              </div> -->
+              <div
+                class="col-xl-3 col-md-12"
+                style="border: solid 1px rgb(230, 229, 229)"
+              >
+                <h6
+                  style="
+                    padding: 10px;
+                    background-color: #2185c5;
+                    color: white;
+                    text-align: center;
+                  "
+                >
+                  <span style="padding-left: 10px"> Người Được Chia Sẻ</span>
+                </h6>
+                <div style="margin-left: 10px">
+                  <span style="font-size: 14; font-weight: bold"> i.hoTen</span>
+                </div>
+              </div>
+            </div>
+            <!-- <div
+            class="col-xl-4 col-md-12"
+            style="border: solid 1px rgb(230, 229, 229)"
+          >
+            <h6
+              style="
+                padding: 10px;
+                background-color: #2185c5;
+                color: white;
+                text-align: center;
+              "
+            >
+              <span style="padding-left: 10px"> Người liên quan</span>
+            </h6>
+            <div style="text-align: center">
+              <span style="font-size: 14; font-weight: bold"> i.hoTen }}</span>
+            </div>
+          </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

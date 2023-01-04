@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 // import swal from 'sweetalert';
 @Component({
   selector: 'app-new-event-sample',
@@ -57,7 +58,8 @@ export class NewEventSampleComponent implements OnInit {
     public generalService: GeneralService,
     public api: ApiservicesService,
     public routerAc: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +82,12 @@ export class NewEventSampleComponent implements OnInit {
     ////////////////////////////////
     // T4 ngày 22/12/2021
   }
+  ///
+  handleFileInput(e) {
+    console.log(e);
+  }
 
+  ///
   changeLapLai(value) {
     this.evenSample.laplai = value;
   }
@@ -123,6 +130,8 @@ export class NewEventSampleComponent implements OnInit {
     }
   }
   onChange(e: any) {
+    console.log(e);
+
     this.onAsigneeGroupChange(e);
   }
   onChangeUser(e: any) {
@@ -138,40 +147,6 @@ export class NewEventSampleComponent implements OnInit {
       this.chosenAssigneelList = [];
     }
     console.log(this.chosenAssigneelList);
-    // if (this.groupKeyChosenInStep2 == 'all') {
-    //   for (let i = 0; i < this.allUserInStep2List.length; ++i) {
-    //     if (
-    //       !this.containsObject(
-    //         this.allUserInStep2List[i],
-    //         this.generalService.allUsers
-    //       )
-    //     )
-    //       this.allUserInStep2List.splice(i, 1);
-    //   }
-    // } else {
-    //   for (let i = 0; i < this.allUserInStep2List.length; ++i) {
-    //     if (
-    //       !this.containsObject(
-    //         this.allUserInStep2List[i],
-    //         this.generalService.allUsersWithGroups[
-    //           `${this.groupKeyChosenInStep2}`
-    //         ]
-    //       )
-    //     )
-    //       this.allUserInStep2List.splice(i, 1);
-    //   }
-    // }
-    //kiem tra xem majorAssignee đã chọn trước đó còn trong list chosen hay ko.
-    // if (this.majorAssignee != null) {
-    //   let check = false;
-    //   for (let i = 0; i < this.chosenAssigneelList.length; ++i) {
-    //     if (this.majorAssignee == this.chosenAssigneelList[i]) {
-    //       check = true;
-    //       break;
-    //     }
-    //   }
-    //   if (!check) this.majorAssignee = null;
-    // }
   }
   removeFile(index) {
     this.newEventData.file.splice(index, 1);
@@ -186,14 +161,29 @@ export class NewEventSampleComponent implements OnInit {
 
     input.files = dt.files;
   }
-  handleFileInput(files: FileList) {
-    this.newEventData.file = Array.from(files);
-    console.log(files);
-  }
+  // handleFileInput(files: FileList) {
+  //   this.newEventData.file = Array.from(files);
+  //   console.log(files);
+  // }
   wizardGoodToGo(numb) {
     this.wizard.goToStep(numb);
   }
-  finish() {}
+  convertDate(dateString) {
+    const date = new Date(dateString);
+    const hourS = this.hourStart;
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const arrHourS = hourS.split('');
+    const hour = Number(hourS.substring(0, 2));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
+    const newDateStart = new Date(year, month, day, hour, minute);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
+    return dateTimeFormatter;
+  }
   async addEventSample() {
     /// format date time start
     const date = new Date(this.dateStart);
@@ -226,16 +216,72 @@ export class NewEventSampleComponent implements OnInit {
     this.evenSample.tgbatdau = dateTimeFormatter;
     this.evenSample.tgketthuc = dateTimeFormatter2;
     const arrUserId = [];
-    this.evenSample.dsLienQuan.forEach((i) => {
-      arrUserId.push(i.userId);
-    });
+    if (this.evenSample.dsLienQuan && this.evenSample.dsLienQuan.length > 0) {
+      this.evenSample.dsLienQuan.forEach((i) => {
+        arrUserId.push(i.userId);
+      });
+    }
     this.evenSample.dsLienQuan = arrUserId;
     this.evenSample.diadiem =
       this.inputDiaDiem || this.evenSample.diadiem == ''
         ? this.inputDiaDiem
         : this.evenSample.diadiem;
     console.log(this.evenSample);
-    // Validate
+    ///////////////
+    try {
+      await this.api.httpCall(
+        this.api.apiLists.AddNewEventSample,
+        {},
+        this.evenSample,
+        'post',
+        true
+      );
+      this.toaster.success('', 'Thêm Thành Công!', {
+        timeOut: 2500,
+      });
+      this.router.navigate(['/event/event-sample']);
+    } catch (e) {
+      console.log(e);
+      this.toaster.error('', 'Thêm Thất Bại!', {
+        timeOut: 2500,
+      });
+    }
+  }
+  checkValidate() {
+    /// format date time start
+    const date = new Date(this.dateStart);
+    const hourS = this.hourStart;
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const arrHourS = hourS.split('');
+    const hour = Number(hourS.substring(0, 2));
+    const minute = Number(
+      `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
+    );
+    const newDateStart = new Date(year, month, day, hour, minute);
+    const temp = dateFormat(newDateStart, 'isoDateTime');
+    const dateTimeFormatter = temp.substring(0, 19);
+    ////format date time end
+    const date2 = new Date(this.dateEnd);
+    const hourS2 = this.hourEnd;
+    const year2 = date2.getFullYear();
+    const month2 = date2.getMonth();
+    const day2 = date2.getDate();
+    const arrHour = hourS2.split('');
+    const hour2 = Number(hourS2.substring(0, 2));
+    const minute2 = Number(
+      `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
+    );
+    const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
+    const temp2 = dateFormat(newDateEnd, 'isoDateTime');
+    const dateTimeFormatter2 = temp2.substring(0, 19);
+    this.evenSample.tgbatdau = dateTimeFormatter;
+    this.evenSample.tgketthuc = dateTimeFormatter2;
+    this.evenSample.diadiem =
+      this.inputDiaDiem || this.evenSample.diadiem == ''
+        ? this.inputDiaDiem
+        : this.evenSample.diadiem;
     if (this.evenSample.noidung) {
       this.errors.noidung = '';
     }
@@ -253,32 +299,79 @@ export class NewEventSampleComponent implements OnInit {
       this.evenSample.diadiem &&
       this.evenSample.noidung &&
       this.evenSample.chutri &&
-      this.evenSample.thanhphan
+      this.evenSample.thanhphan &&
+      newDateStart <= newDateEnd &&
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) >=
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        )
     ) {
       this.errors.chutri =
         this.errors.diadiem =
         this.errors.noidung =
         this.errors.thanhphan =
           '';
-      try {
-        await this.api.httpCall(
-          this.api.apiLists.AddNewEventSample,
-          {},
-          this.evenSample,
-          'post',
-          true
-        );
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Thêm Thành Công',
-          showConfirmButton: false,
-          timer: 1000,
-        });
-        this.router.navigate(['/event/event-sample']);
-      } catch (e) {
-        console.log(e);
-      }
+      this.wizard.goToNextStep();
+    } else if (
+      new Date(
+        newDateStart.getFullYear(),
+        newDateStart.getMonth(),
+        newDateStart.getDate()
+      ) <
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate()
+        ) ||
+      newDateStart >= newDateEnd
+    ) {
+      Swal.fire({
+        title: '<strong>Ngày Giờ Không Hợp Lệ ?</strong>',
+        icon: 'warning',
+        html: `Ngày bắt đầu phải lớn hơn ngày hiện tại và nhỏ hơn ngày kết thúc! !`,
+        showCloseButton: true,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: false,
+        confirmButtonText: `Hủy`,
+      }).then(async (result) => {
+        this.chosenAssigneelList = [];
+        if (
+          !this.evenSample.diadiem &&
+          !this.evenSample.noidung &&
+          !this.evenSample.chutri &&
+          !this.evenSample.thanhphan
+        ) {
+          this.errors.thanhphan = '';
+          this.errors.chutri = '';
+          this.errors.noidung = '';
+          this.errors.diadiem = '';
+        } else {
+          if (!this.evenSample.noidung) {
+            this.errors.noidung = '';
+          }
+          if (!this.evenSample.chutri) {
+            this.errors.chutri = '';
+          }
+          if (!this.evenSample.thanhphan) {
+            this.errors.thanhphan = '';
+          }
+          if (!this.evenSample.diadiem) {
+            this.errors.diadiem = '';
+            this.evenSample.diadiem == '';
+          }
+          if (!this.inputDiaDiem && this.checkInput == false) {
+            this.errors.diadiem = '';
+            this.evenSample.diadiem == '';
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: '<strong>Thiếu Thông Tin ?</strong>',

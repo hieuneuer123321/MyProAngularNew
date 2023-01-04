@@ -16,7 +16,7 @@
   height: 30px;
 }
 .col_ngay_content {
-  color: #9c0000;
+  color: #eda2b2;
 }
 .col-ngay {
   text-align: center;
@@ -24,18 +24,22 @@
   font-size: 14px;
 }
 .col_tg {
-  color: #000082;
+  color: #395bb2;
 }
 th {
   text-align: center;
 }
 .col_nd {
-  color: #000080;
+  color: #395bb2;
   font-weight: bold;
   font-size: 16px;
 }
 .col_lable_title {
-  color: #bf8080;
+  color: #eda2b2;
+  font-style: italic;
+  font-size: 14px;
+}
+.col_lable {
   font-style: italic;
   font-size: 14px;
 }

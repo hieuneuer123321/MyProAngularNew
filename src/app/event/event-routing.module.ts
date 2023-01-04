@@ -17,6 +17,10 @@ const routes: Routes = [
     component: EventComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'event-list',
+      },
+      {
         data: { link: '/event/event-list' },
         path: 'event-list',
         component: EventListComponent,

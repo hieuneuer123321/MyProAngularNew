@@ -1,0 +1,36 @@
+let data = {
+  EN: {
+    pageTitle: 'File Cabinet ',
+    newFile: 'New File Cabinet',
+    newFile1: 'Update File Cabinet',
+    newFile2: 'Delete File Cabinet',
+    newFile3: 'File Cabinet Differen',
+    itemsPerPage: 'Number of items per page',
+    nextBtn: 'Next',
+    previousBtn: 'Previous',
+    dateCol: 'Date',
+    timeCol: 'Time',
+    descriptionCol: 'Description',
+    locationCol: 'Location',
+    to: 'to',
+
+    pageTitle2: 'List File Cabinet Share',
+  },
+  VN: {
+    pageTitle: 'Hồ sơ cá nhân',
+    newFile: 'Nhập Hồ Sơ',
+    newFile1: 'Sửa Hồ Sơ',
+    newFile2: 'Xóa Hồ Sơ',
+    newFile3: 'Hồ Sơ Khác',
+    itemsPerPage: 'Số lượng thư mục mỗi trang',
+    nextBtn: 'Trang sau',
+    previousBtn: 'Trang trước',
+    dateCol: 'Ngày',
+    timeCol: 'Giờ',
+    descriptionCol: 'Nội dung',
+    locationCol: 'Địa điểm',
+    to: 'đến',
+    pageTitle2: 'Danh sách được xem',
+  },
+};
+export default data;

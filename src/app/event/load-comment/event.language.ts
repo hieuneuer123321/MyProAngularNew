@@ -12,6 +12,11 @@ let data = {
     to: 'to',
     verify: 'Verified',
     unverify: 'Unverify',
+    newBtn: 'Add Event',
+    apBtn: 'Approved Event',
+    canBtn: 'Cancel Event',
+    deBtn: 'Delete Event',
+    printBtn: 'Print Event',
   },
   VN: {
     pageTitle: 'Danh sách lịch tuần',
@@ -26,6 +31,11 @@ let data = {
     to: 'đến',
     verify: 'Đã duyệt',
     unverify: 'Chưa duyệt',
+    newBtn: 'Thêm Lịch',
+    apBtn: 'Phê Duyệt',
+    canBtn: 'Hủy Lịch',
+    deBtn: 'Xóa Lịch',
+    printBtn: 'In Lịch',
   },
 };
 export default data;

@@ -13,6 +13,10 @@ export class LoginComponent implements OnInit {
   username = 'administrator';
   password = 'oo1234@2018';
   isRememberPassword = true;
+  error = {
+    username: '',
+    password: '',
+  };
   isLoggingIn = false;
   content = {
     element: null,
@@ -29,49 +33,58 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this.generalService.isLogin) this.router.navigate(['/home']);
   }
-  // ngAfterViewInit(): void {
-  //   this.content.element = document.getElementsByClassName('content-page')[0] as HTMLElement;
-  //   this.content.style = this.content.element.currentStyle || window.getComputedStyle(this.content.element);
-  //   this.content.margin = this.content.style.margin
-  //   this.content.element.style.margin='0px'
-  //   console.log(this.content.margin)
-  // }
-  // ngOnDestroy(): void {
-  //   this.content.element.style.margin=this.content.margin
-  // }
   async login() {
-    if (!this.isLoggingIn) {
-      this.isLoggingIn = true;
-      try {
-        let res = await this.api.httpCall(
-          this.api.apiLists.login,
-          {},
-          {
-            username: this.username,
-            password: this.password,
-          },
-          'post',
-          true
-        );
-        this.toaster.success('', 'Đăng nhập thành công!', {
-          timeOut: 2000,
-        });
-        console.log(res);
-        let result = <any>res;
-        result['password'] = this.password;
-        localStorage.setItem('userData', JSON.stringify(result));
-        if (this.isRememberPassword)
-          localStorage.setItem('isRememberLogin', '1');
-        else localStorage.setItem('isRememberLogin', '0');
-
-        this.generalService.userData = result;
-        this.generalService.isLogin = true;
-        this.router.navigate(['/home']);
-        this.api.initDataFromServer();
-      } catch (error) {
-      } finally {
-        this.isLoggingIn = false;
+    this.error.username = '';
+    this.error.password = '';
+    if (localStorage.getItem('userData')) localStorage.removeItem('userData');
+    if (localStorage.getItem('isRememberLogin'))
+      localStorage.removeItem('isRememberLogin');
+    if (this.username && this.password) {
+      this.error.username = '';
+      this.error.password = '';
+      if (!this.isLoggingIn) {
+        this.isLoggingIn = true;
+        try {
+          const res: any = await this.api.httpCall(
+            this.api.apiLists.login,
+            {},
+            {
+              username: this.username,
+              password: this.password,
+            },
+            'post',
+            true
+          );
+          if (res.token) {
+            let result = <any>res;
+            result['password'] = this.password;
+            localStorage.setItem('userData', JSON.stringify(result));
+            if (this.isRememberPassword)
+              localStorage.setItem('isRememberLogin', '1');
+            else localStorage.setItem('isRememberLogin', '0');
+            this.generalService.userData = result;
+            this.generalService.isLogin = true;
+            this.router.navigate(['/home']);
+            this.api.initDataFromServer();
+            this.toaster.success('', 'Đăng nhập thành công!', {
+              timeOut: 2000,
+            });
+            console.log(res);
+          } else {
+            this.toaster.error('', 'Sai Tài Khoản Hoặc Mật Khẩu!', {
+              timeOut: 3000,
+            });
+          }
+        } catch (error) {
+          console.log(error);
+        } finally {
+          this.isLoggingIn = false;
+        }
       }
-    }
+    } else if (!this.username) {
+      this.error.username = 'Tài khoản không được để trống';
+    } else if (!this.password) {
+      this.error.password = 'Mật Khẩu không được để trống';
+    } else return false;
   }
 }
