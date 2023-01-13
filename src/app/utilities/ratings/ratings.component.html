@@ -1,0 +1,4 @@
+<span (mouseleave)="enable?(rateNumber = ratings) : '' ">
+    <i class="uil-star fs-4 pointer" (click)="rate()" (mouseover)=" enable ? (rateNumber = i) : '' "
+        [ngClass]="{'text-warning':i <= rateNumber, 'pointer': enable}" *ngFor="let i of [1,2,3,4,5]"></i>
+</span>

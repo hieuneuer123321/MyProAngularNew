@@ -19,14 +19,13 @@ export class GeneralService {
     Name: 'Tiếng Việt',
     URL: 'assets/images/flags/vietnam.png',
   };
-  constructor(private router: Router, private toaster: ToastrService) {}
+  constructor(private router: Router, private toaster: ToastrService) { }
   setDefaultAvatar(e) {
     e.target.src = 'assets/imgs/defaultAvatar.png';
   }
   imageLinkSetup(imgName) {
     return this.appConfig.API_BASE_URL + '/' + imgName;
   }
-
   logout() {
     this.isLogin = false;
     this.removeTempData();

@@ -58,9 +58,6 @@ export class TaskSettingComponent implements OnInit {
   }
   async saveChange() {
     try {
-      if (this.edit.tencv) {
-        var res = await this.api.httpCall(this.api.apiLists.UpdateTaskTitle + `?mscv=${this.mscv}&newtitle=${this.tenCV}`, {}, {}, 'post', true);
-      }
       if (this.edit.nhomcv) {
         var res = await this.api.httpCall(this.api.apiLists.AddCategoryToTask + `?ctID=${this.nhomCV.nhomId}&mscv=${this.mscv}`, {}, {}, 'post', true);
       }

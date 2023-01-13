@@ -1,0 +1,29 @@
+<div id="task-setting-model" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Quản lý người dùng</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <app-dual-list (updateLists)="dualListUpdateForViewer($event)" [leftList]="DanhSach"
+                        [rightList]="DanhSachDuocChon"></app-dual-list>
+                    <div class="form-floating my-1 w-50 ms-3" *ngIf="ManagerType == 'PARTICIPANT'">
+                        <select class="form-select" id="floatingSelect" [(ngModel)]="NguoiChinh"
+                            aria-label="Floating label select example">
+                            <option [value]="i.userId" *ngFor="let i of DanhSachDuocChon">{{i.fullName}}</option>
+                        </select>
+                        <label for="floatingSelect">Chọn người thực hiện chính</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    (click)="TaskUserManagerSaveChange()">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

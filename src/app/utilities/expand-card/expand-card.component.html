@@ -1,0 +1,14 @@
+<div class="accordion" id="accordion_{{cardname}}">
+    <div class="card">
+        <div class="card-body">
+            <label class="card-title">
+                <a [ngClass]="{'uil-minus':showing,'uil-plus':!showing}" (click)="showing = !showing"
+                    data-bs-toggle="collapse" href="#{{cardname}}"></a>
+                {{title}}
+            </label>
+            <div id="{{cardname}}" class="collapse show" aria-labelledby="headingOne"
+                [attr.data-bs-parent]="'#accordion_'+cardname">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>

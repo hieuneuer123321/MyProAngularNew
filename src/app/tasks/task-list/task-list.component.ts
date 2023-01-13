@@ -31,7 +31,12 @@ export class TaskListComponent implements OnInit {
   pageSize = 10;
   pageSizes = [10, 20, 30];
 
-  paginationConfig
+  paginationConfig = {
+    id: 'paginationControl',
+    itemsPerPage: this.pageSize,
+    currentPage: this.page,
+    totalItems: this.count
+  }
   myModal
 
   constructor(private el: ElementRef, private api: ApiservicesService, public generalService: GeneralService, private router: Router) {
@@ -41,7 +46,6 @@ export class TaskListComponent implements OnInit {
     this.myModal = new bootstrap.Modal(document.getElementById('myModal'), {
       keyboard: false
     })
-    console.log(this.myModal)
   }
   getLabel(key) {
     return data[`${this.generalService.currentLanguage.Code}`][`${key}`]
@@ -68,6 +72,7 @@ export class TaskListComponent implements OnInit {
         currentPage: this.page,
         totalItems: this.count
       }
+      console.log(this.taskList)
       this.spinnerLoading = false;
     } catch (error) {
       this.spinnerLoading = false
@@ -141,13 +146,12 @@ export class TaskListComponent implements OnInit {
     let isLate = false;
     let percent = 100;
     let outerStrokeColor = '#78C000'
-    let startDate = moment(start.split(' ')[0], 'DD-MM-YYYY')
-    let endDate = moment(stop.split(' ')[0], 'DD-MM-YYYY')
-    let today = moment().format('D MMM, YYYY');
+    let startDate = moment(start)
+    let endDate = moment(stop)
+    let today = moment();
     let hasTaskPastDue = endDate.diff(today, 'days', false);
-
-    if (realEnd != null) {
-      realEndDate = moment(realEnd.split(' ')[0], 'DD-MM-YYYY');
+    if (realEnd != null && realEnd != '') {
+      realEndDate = moment(realEnd);
       hasTaskPastDue = endDate.diff(realEndDate, 'days', false);
       if (hasTaskPastDue < 0) {
         // task kết thúc trễ

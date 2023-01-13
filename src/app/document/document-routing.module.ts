@@ -16,72 +16,75 @@ import { DetailDocumentComponent } from './detail-document/detail-document.compo
 const routes: Routes = [
   {
     path: '',
-    data: { 'link': '/document' },
+    data: { link: '/document' },
     component: DocumentComponent,
     children: [
       {
-        data: { "link": "/document/all-text" },
+        data: { link: '/document/all-text' },
         path: 'all-text',
-        component: AllTextComponent
+        component: AllTextComponent,
       },
       {
-        data: { "link": "/document/incoming-text" },
+        data: { link: '/document/incoming-text' },
         path: 'incoming-text',
-        component: IncomingTextComponent
+        component: IncomingTextComponent,
       },
       {
-        data: { "link": "/document/text-inheritance" },
+        data: { link: '/document/text-inheritance' },
         path: 'text-inheritance',
-        component: TextInheritanceComponent
+        component: TextInheritanceComponent,
       },
       {
-        data: { "link": "/document/internal-text" },
+        data: { link: '/document/internal-text' },
         path: 'internal-text',
-        component: InternalTextComponent
+        component: InternalTextComponent,
       },
       {
-        data: { "link": "/document/create-folder" },
+        data: { link: '/document/create-folder' },
         path: 'create-folder',
-        component: CreateFolderComponent
+        component: CreateFolderComponent,
       },
       {
-        data: { "link": "/document/search" },
+        data: { link: '/document/search' },
         path: 'search',
-        component: SearchComponent
+        component: SearchComponent,
       },
       {
-        data: { "link": "/document/text-go" },
+        data: { link: '/document/text-go' },
         path: 'text-go',
-        component: TextGoComponent
+        component: TextGoComponent,
       },
       {
-        data: { "link": "/document/text-source" },
+        data: { link: '/document/text-source' },
         path: 'text-source',
-        component: TextSourceComponent
+        component: TextSourceComponent,
       },
       {
-        data: { "link": "/document/new-document" },
+        data: { link: '/document/new-document' },
         path: 'new-document',
-        component: NewDocumentComponent
+        component: NewDocumentComponent,
       },
       {
-        data: { "link": "/document/new-text-go" },
+        data: { link: '/document/new-document/:loai' },
+        path: 'new-document/:loai',
+        component: NewDocumentComponent,
+      },
+      {
+        data: { link: '/document/new-text-go' },
         path: 'new-text-go',
-        component: NewTextGoComponent
+        component: NewTextGoComponent,
       },
       {
-        data: { "link": "/document/detail-document" },
-        path: 'detail-document',
-        component: DetailDocumentComponent
+        data: { link: '/document/detail-document/:id' },
+        path: 'detail-document/:id',
+        component: DetailDocumentComponent,
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DocumentRouting {
-  
- }
+export class DocumentRouting {}

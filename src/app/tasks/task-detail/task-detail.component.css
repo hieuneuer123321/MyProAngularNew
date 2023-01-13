@@ -48,9 +48,12 @@
     font-weight: bold;
 }
 
-hr {
-    width: 98%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.btn-wrap {
+    display: flex;
+    gap: 5px 5px;
+    flex-wrap: wrap;
 }

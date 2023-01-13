@@ -64,26 +64,62 @@
         <div class="row">
           <div class="row">
             <div class="col-xl-9 col-md-12">
-              <div class="rowFile">
-                <span class="content">qqqqq </span>
+              <div
+                class="rowFile"
+                *ngFor="
+                  let i of fileCabinetList | paginate : (config ? config : '')
+                "
+              >
+                <span
+                  class="content hover"
+                  style="min-width: 50%; cursor: pointer"
+                  (click)="seeDetail(i.idhoso)"
+                  >{{ i.tenHoSo }}
+                </span>
                 <span class="sub_content">
-                  ( <i class="fa-solid fa-user"></i> Người tạo Quản trị hệ
-                  thống, 11 giờ trước lúc 23:46, Lượt xem 0 )</span
+                  (
+                  <i
+                    class="fa-solid fa-user-plus"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người tạo"
+                  ></i>
+                  Người tạo {{ i.nguoiTao.hoTen }},
+                  {{ layThoiGianChenhLech(i.ngayNhap) }}
+                  , lúc
+                  {{ i.ngayNhap | slice : 11 : 16 }} ngày
+                  {{ i.ngayNhap | slice : 0 : 10 | date : "dd-MM-yyyy" }},
+                  <i
+                    class="fa-solid fa-eye"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Lượt xem"
+                  ></i>
+                  Lượt xem {{ i.lanXem }} )</span
                 >
               </div>
-              <div class="rowFile">
-                <span class="content">qqqqq </span>
-                <span class="sub_content">
-                  ( <i class="fa-solid fa-user"></i> Người tạo Quản trị hệ
-                  thống, 11 giờ trước lúc 23:46, Lượt xem 0 )</span
-                >
-              </div>
-              <div class="rowFile">
-                <span class="content">qqqqq </span>
-                <span class="sub_content">
-                  ( <i class="fa-solid fa-user"></i> Người tạo Quản trị hệ
-                  thống, 11 giờ trước lúc 23:46, Lượt xem 0 )</span
-                >
+              <div class="list row">
+                <div class="col-md-9">
+                  <pagination-controls
+                    id="paging"
+                    [previousLabel]="'Quay lại'"
+                    [nextLabel]="'Tiếp tục'"
+                    responsive="true"
+                    responsive="true"
+                    (pageChange)="handlePageChange($event)"
+                  ></pagination-controls>
+                </div>
+                <div class="col-md-3">
+                  Số lượng thư mục
+                  <select
+                    style="border: solid 1px rgb(230, 229, 229)"
+                    (change)="handlePageSizeChange($event)"
+                  >
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">
+                      {{ size }}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
             <div class="col-xl-3 col-md-12">
@@ -111,35 +147,65 @@
           </div>
           <div class="row">
             <div class="col-xl-12 col-md-12">
-              <div class="rowFile">
-                <i class="fa-solid fa-check"></i>
-                <span class="content">
-                  <a
-                    [routerLink]="['/personal/file-cabinet/', 001]"
-                    style="text-decoration: none"
-                    >qqqqq</a
-                  >
+              <div
+                class="rowFile"
+                *ngFor="
+                  let item of fileCabinetListShare
+                    | paginate : (configShare ? configShare : '')
+                "
+              >
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span
+                  class="content hover"
+                  style="min-width: 50%; cursor: pointer"
+                  (click)="seeDetail(item.idhoso)"
+                >
+                  {{ item.tenHoSo }}
                 </span>
                 <span class="sub_content">
-                  ( Người tạo Quản trị hệ thống, 11 giờ trước lúc 23:46, Lượt
-                  xem 0 )</span
+                  (
+                  <i
+                    class="fa-solid fa-user-plus"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Người tạo"
+                  ></i>
+                  Người tạo {{ item.nguoiTao.hoTen }},
+                  {{ layThoiGianChenhLech(item.ngayNhap) }}
+                  , lúc
+                  {{ item.ngayNhap | slice : 11 : 16 }} ngày
+                  {{ item.ngayNhap | slice : 0 : 10 | date : "dd-MM-yyyy" }},
+                  <i
+                    class="fa-solid fa-eye"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Lượt xem"
+                  ></i>
+                  Lượt xem {{ item.lanXem }} )</span
                 >
               </div>
-              <div class="rowFile">
-                <i class="fa-solid fa-check"></i>
-                <span class="content">qqqqq </span>
-                <span class="sub_content">
-                  ( Người tạo Quản trị hệ thống, 11 giờ trước lúc 23:46, Lượt
-                  xem 0 )</span
-                >
-              </div>
-              <div class="rowFile">
-                <i class="fa-solid fa-check"></i>
-                <span class="content">qqqqq </span>
-                <span class="sub_content">
-                  ( Người tạo Quản trị hệ thống, 11 giờ trước lúc 23:46, Lượt
-                  xem 0 )</span
-                >
+              <div class="list row">
+                <div class="col-md-9">
+                  <pagination-controls
+                    id="paging2"
+                    [previousLabel]="'Quay lại'"
+                    [nextLabel]="'Tiếp tục'"
+                    responsive="true"
+                    responsive="true"
+                    (pageChange)="handlePageChangeShare($event)"
+                  ></pagination-controls>
+                </div>
+                <div class="col-md-3">
+                  Số lượng thư mục
+                  <select
+                    style="border: solid 1px rgb(230, 229, 229)"
+                    (change)="handlePageSizeChange($event)"
+                  >
+                    <option *ngFor="let size of pageSizes" [ngValue]="size">
+                      {{ size }}
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>

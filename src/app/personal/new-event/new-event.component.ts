@@ -31,9 +31,11 @@ export class NewEventComponent implements OnInit {
     note: '',
     file: [],
   };
+  chosenAssigneelList: any[];
   ////
   eventTuan;
   // newEventPerson = new PersonalEvent();
+  idUpdate;
   locationListAll;
   dateStart;
   dateEnd;
@@ -41,7 +43,7 @@ export class NewEventComponent implements OnInit {
   hourEnd: any;
   inputDiaDiem;
   checkInput: boolean;
-  chosenAssigneelList: any[] = [];
+
   allUserInStep2List;
   majorAssignee;
   groupKeyChosenInStep2 = 'all';
@@ -55,8 +57,12 @@ export class NewEventComponent implements OnInit {
     private toaster: ToastrService
   ) {}
   ngOnInit(): void {
+    this.onAsigneeGroupChange(null);
     if (this.routerAc.snapshot.params['id']) {
       this.getLichTuanById(this.routerAc.snapshot.params['id']);
+    } else if (this.routerAc.snapshot.params['idLichCaNhan']) {
+      this.idUpdate = this.routerAc.snapshot.params['idLichCaNhan'];
+      this.getLichCaNhanDetail(this.routerAc.snapshot.params['idLichCaNhan']);
     } else {
       const now = new Date();
       this.dateStart = dateFormat(now, 'isoDate');
@@ -65,8 +71,9 @@ export class NewEventComponent implements OnInit {
       this.hourStart = test.substring(0, 5);
       this.hourEnd = test.substring(0, 5);
     }
+    console.log(this.routerAc.snapshot.params['idLichCaNhan']);
+    console.log(this.routerAc.snapshot.params['id']);
     this.getListLocationAll();
-    this.onAsigneeGroupChange(null);
   }
   async getLichTuanById(id) {
     try {
@@ -105,6 +112,7 @@ export class NewEventComponent implements OnInit {
           this.inputDiaDiem = this.eventTuan.diadiem;
         }
         this.newUserEvent.diadiem = this.eventTuan.diadiem;
+
         console.log(this.newUserEvent);
       } else {
         return false;
@@ -112,6 +120,44 @@ export class NewEventComponent implements OnInit {
     } catch (err) {
       console.log(err);
     }
+  }
+  async getLichCaNhanDetail(id) {
+    try {
+      const event: any = await this.api.httpCall(
+        this.api.apiLists.GetUserEventDetail + `?idlich=${id}`,
+        {},
+        {},
+        'get',
+        true
+      );
+      if (event) {
+        const dateF = new Date(event.tgbatdau);
+        const dateT = new Date(event.tgketthuc);
+        this.dateStart = dateFormat(dateF, 'isoDate');
+        this.dateEnd = dateFormat(dateT, 'isoDate');
+        const test1 = dateFormat(dateF, 'isoTime');
+        const test2 = dateFormat(dateT, 'isoTime');
+        this.hourStart = test1.substring(0, 5);
+        this.hourEnd = test2.substring(0, 5);
+        this.newUserEvent.noidung = event.noidung;
+        console.log(await this.CheckgetListLocationAll(event.diadiem));
+        if (await this.CheckgetListLocationAll(event.diadiem)) {
+          this.inputDiaDiem = '';
+          this.checkInput = true;
+        } else {
+          this.checkInput = false;
+          this.inputDiaDiem = event.diadiem;
+        }
+        this.newUserEvent.diadiem = event.diadiem;
+        console.log(event);
+        this.newUserEvent.danhSachDuocXem = event.dsDuocXem;
+        this.chosenAssigneelList = event.dsDuocXem;
+        this.newUserEvent.idlich = event.idlich;
+        this.onAsigneeGroupChangeUpdate(null, this.chosenAssigneelList);
+      } else {
+        return false;
+      }
+    } catch (error) {}
   }
   changeDiaDiem(values: any) {
     console.log(values);
@@ -190,7 +236,6 @@ export class NewEventComponent implements OnInit {
   }
   getDateFormat(dateParam, hourS) {
     const date = new Date(dateParam);
-
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
@@ -215,7 +260,6 @@ export class NewEventComponent implements OnInit {
         'get',
         true
       );
-      // console.log(this.locationListAll.length);
     } catch (e) {
       console.log(e.message);
     }
@@ -253,43 +297,38 @@ export class NewEventComponent implements OnInit {
       this.allUserInStep2List = this.generalService.allUsersWithGroups[`${e}`];
     }
   }
+  filterItemvsArr(arr1, arr2) {
+    const arrtemp = [];
+    arr2.forEach((i) => {
+      arrtemp.push(arr1.find((item) => item.userId == i.userId));
+    });
+    return arrtemp;
+  }
+  onAsigneeGroupChangeUpdate(e, values) {
+    console.log(e);
+    if (e == null || this.groupKeyChosenInStep2 == 'all') {
+      (this.allUserInStep2List = this.generalService.cloneAnything(
+        this.generalService.allUsers
+      )),
+        (this.chosenAssigneelList = this.filterItemvsArr(
+          this.generalService.cloneAnything(this.generalService.allUsers),
+          values
+        ));
+    } else {
+      this.allUserInStep2List = this.generalService.allUsersWithGroups[`${e}`];
+    }
+
+    if (values) {
+    }
+  }
   async AddEvent() {
-    /// format date time start CreateNewUserEvents
-    // const date = new Date(this.dateStart);
-    // const hourS = this.hourStart;
-    // const year = date.getFullYear();
-    // const month = date.getMonth();
-    // const day = date.getDate();
-    // const arrHourS = hourS.split('');
-    // const hour = Number(hourS.substring(0, 2));
-    // const minute = Number(
-    //   `${arrHourS[arrHourS.length - 2]}${arrHourS[arrHourS.length - 1]}`
-    // );
-    // const newDateStart = new Date(year, month, day, hour, minute);
-    // const temp = dateFormat(newDateStart, 'isoDateTime');
-    // const dateTimeFormatter = temp.substring(0, 19);
-    // ////format date time end
-    // const date2 = new Date(this.dateEnd);
-    // const hourS2 = this.hourEnd;
-    // const year2 = date2.getFullYear();
-    // const month2 = date2.getMonth();
-    // const day2 = date2.getDate();
-    // const arrHour = hourS2.split('');
-    // const hour2 = Number(hourS2.substring(0, 2));
-    // const minute2 = Number(
-    //   `${arrHour[arrHour.length - 2]}${arrHour[arrHour.length - 1]}`
-    // );
-    // const newDateEnd = new Date(year2, month2, day2, hour2, minute2);
-    // const temp2 = dateFormat(newDateEnd, 'isoDateTime');
-    // const dateTimeFormatter2 = temp2.substring(0, 19);
-    // this.newEventPerson.tgbatdau = dateTimeFormatter;
-    // this.newEventPerson.tgketthuc = dateTimeFormatter2;
     this.newUserEvent.tgbatdau = this.convertDate(
       this.dateStart,
       this.hourStart
     );
     this.newUserEvent.tgketthuc = this.convertDate(this.dateEnd, this.hourEnd);
-    const arrUserId = [];
+    let arrUserId = [];
+    this.newUserEvent.danhSachDuocXem = this.chosenAssigneelList;
     if (
       this.newUserEvent.danhSachDuocXem &&
       this.newUserEvent.danhSachDuocXem.length > 0
@@ -297,6 +336,8 @@ export class NewEventComponent implements OnInit {
       this.newUserEvent.danhSachDuocXem.forEach((i) => {
         arrUserId.push(i.userId);
       });
+    } else {
+      arrUserId = [];
     }
     this.newUserEvent.danhSachDuocXem = arrUserId;
     this.newUserEvent.diadiem =
@@ -324,6 +365,46 @@ export class NewEventComponent implements OnInit {
       });
     }
   }
+  async UpdateEvent() {
+    this.newUserEvent.tgbatdau = this.convertDate(
+      this.dateStart,
+      this.hourStart
+    );
+    this.newUserEvent.tgketthuc = this.convertDate(this.dateEnd, this.hourEnd);
+    console.log(this.newUserEvent.dsDuocXem);
+    const arrUserId = [];
+    this.newUserEvent.dsDuocXem = this.chosenAssigneelList;
+    if (this.newUserEvent.dsDuocXem.length > 0) {
+      this.newUserEvent.dsDuocXem.forEach((i) => {
+        arrUserId.push(i.userId);
+      });
+    }
+    this.newUserEvent.dsDuocXem = arrUserId;
+    this.newUserEvent.diadiem =
+      !this.checkInput || this.newUserEvent.diadiem == ''
+        ? this.inputDiaDiem
+        : this.newUserEvent.diadiem;
+    try {
+      await this.api.httpCall(
+        this.api.apiLists.UpdateUserEvent,
+        {},
+        this.newUserEvent,
+        'post',
+        true
+      );
+      this.toaster.success('', 'Sửa Thành Công!', {
+        timeOut: 2500,
+      });
+      this.router.navigate([
+        `personal/event/${this.routerAc.snapshot.params['idLichCaNhan']}`,
+      ]);
+    } catch (e) {
+      console.log(e);
+      this.toaster.error('', 'Sửa Thất Bại!', {
+        timeOut: 2500,
+      });
+    }
+  }
   resetDs() {
     this.dualListUpdateForAssignee(null);
     this.chosenAssigneelList = [];
@@ -334,11 +415,11 @@ export class NewEventComponent implements OnInit {
     if (newevent) {
       this.allUserInStep2List = newevent.leftList;
       this.chosenAssigneelList = newevent.rightList;
-      this.newUserEvent.danhSachDuocXem = newevent.rightList;
+      // this.newUserEvent.danhSachDuocXem = newevent.rightList;
     } else {
       this.chosenAssigneelList = [];
     }
-    console.log(this.chosenAssigneelList);
+    // console.log(this.newUserEvent.danhSachDuocXem);
     // if(this.groupKeyChosenInStep2 == 'all')
     // {
     //   for(let i=0; i< this.allUserInStep2List.length; ++i)
@@ -357,16 +438,16 @@ export class NewEventComponent implements OnInit {
     // }
 
     //kiem tra xem majorAssignee đã chọn trước đó còn trong list chosen hay ko.
-    if (this.majorAssignee != null) {
-      let check = false;
-      for (let i = 0; i < this.chosenAssigneelList.length; ++i) {
-        if (this.majorAssignee == this.chosenAssigneelList[i]) {
-          check = true;
-          break;
-        }
-      }
-      if (!check) this.majorAssignee = null;
-    }
+    // if (this.majorAssignee != null) {
+    //   let check = false;
+    //   for (let i = 0; i < this.chosenAssigneelList.length; ++i) {
+    //     if (this.majorAssignee == this.chosenAssigneelList[i]) {
+    //       check = true;
+    //       break;
+    //     }
+    //   }
+    //   if (!check) this.majorAssignee = null;
+    // }
   }
   removeFile(index) {
     this.newEventData.file.splice(index, 1);

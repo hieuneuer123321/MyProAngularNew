@@ -24,29 +24,38 @@
   font-size: 14px;
 }
 .col_tg {
-  color: #395bb2;
+  /* color: #395bb2; */
 }
 th {
   text-align: center;
 }
 .col_nd {
-  color: #395bb2;
+  /* color: #395bb2;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 16px; */
 }
 .col_lable_title {
-  color: #eda2b2;
+  /* color: #eda2b2;
   font-style: italic;
-  font-size: 14px;
+  font-size: 14px; */
+}
+.border-2 {
+  border: 2px solid;
 }
 .col_lable {
   font-style: italic;
   font-size: 14px;
 }
-.col_nd_content {
+.w-60 {
+  width: 60%;
+}
+.pointer {
+  cursor: pointer;
+}
+/* .col_nd_content {
   color: #271e8b;
   font-size: 15px;
-}
+} */
 .col_diadiem {
   color: #271e8b;
   font-size: 14px;

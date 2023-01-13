@@ -1,35 +1,237 @@
-
-<div class="row">
-    <div class="col-8">
-        <div class="row">
-            <button type="button" nam="THEMTHUMUC" value="THÊM THƯ MỤC GỐC" (click)="tuyDung()"
-            class="btn btn-success rounded-pill"><b>TẠO THƯ MỤC GỐC</b></button>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/document/all-text">Văn Bản</a>
+            </li>
+            <li class="breadcrumb-item">Thư Mục Văn Bản</li>
+          </ol>
         </div>
+        <h4 class="page-title">Thư Mục Văn Bản</h4>
+      </div>
     </div>
-    <!--Thêm nội dung dưới này-->
-
-    
-    <!--khuất-->
-    <div class="col-4" *ngIf="create_folder_new">
-        <div class="ootoppage1 kichthuoc text-center">THÊM THƯ MỤC GỐC</div>
-        <div class="ootoppage1 btn "> Số thứ tự</div>
-                    <select id="inputState" class="form-select mb-1">
-                        <option *ngFor="let i of create_foldersoMoi">
-                            {{i}}
-                        </option>
-                    </select>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
         <div class="row">
-            <div class="ootoppage1 ">
-                <div class="ootoppage1 btn">Tên thư mục :</div>
-                <input type="text" id="simpleinput" class="form-control">
+          <div class="col-8">
+            <div class="row">
+              <button
+                type="button"
+                nam="THEMTHUMUC"
+                value="THÊM THƯ MỤC GỐC"
+                (click)="tuyDung(null, null, null, null, 0, false)"
+                class="btn rounded-pill"
+                style="background-color: #395bb2; color: white"
+              >
+                <b>TẠO THƯ MỤC GỐC</b>
+              </button>
             </div>
-            <div class="ootoppage1 ">
-                <div class="ootoppage1 btn">Tên viết tắt :</div>
-                <input type="text" id="simpleinput" class="form-control mb-2">
+            <div class="row">
+              <div style="margin-top: 10px">
+                <ul
+                  *ngFor="let item of folderStructure"
+                  style="list-style-type: none"
+                >
+                  <li
+                    style="display: flex"
+                    [ngStyle]="
+                      idParent == item.idNhomVb
+                        ? { 'background-color': '#f3dfec' }
+                        : { 'background-color': 'white' }
+                    "
+                  >
+                    <div
+                      style="min-width: 20px; cursor: pointer"
+                      (click)="showChildren(item.idNhomVb)"
+                    >
+                      <i
+                        class="fa-solid fa-square-minus"
+                        *ngIf="
+                          showChi &&
+                          item.childNode.length > 0 &&
+                          idShowChildren == item.idNhomVb
+                        "
+                      ></i>
+                      <i
+                        class="fa-sharp fa-solid fa-square-plus"
+                        *ngIf="
+                          item.childNode.length > 0 &&
+                          (idShowChildren != item.idNhomVb || !showChi)
+                        "
+                      ></i>
+                      <i class="fa-solid fa-pipe"></i>
+                    </div>
+                    <span style="margin-right: 10px; font-weight: bold">{{
+                      item.tenNhom
+                    }}</span>
+                    <i
+                      class="fa-sharp fa-solid fa-folder-plus"
+                      style="margin: 0 20px 0 10px; cursor: pointer"
+                      (click)="
+                        tuyDung(item.idNhomVb, null, null, null, null, false)
+                      "
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Thêm Thư Mục Con"
+                    ></i>
+                    <i
+                      class="fa-solid fa-pen-to-square"
+                      style="margin-right: 20px; cursor: pointer"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Sửa Thư Mục"
+                      (click)="
+                        tuyDung(
+                          item.idNhomVb,
+                          item.tenNhom,
+                          item.tenVt,
+                          item.stt,
+                          item.childNode,
+                          true
+                        )
+                      "
+                    ></i
+                    ><i
+                      class="fa-solid fa-trash"
+                      data-bs-toggle="tooltip"
+                      style="cursor: pointer"
+                      data-bs-placement="bottom"
+                      title="Xóa Thư Mục"
+                      (click)="deleteFolder(item.idNhomVb)"
+                    ></i>
+                  </li>
+                  <div
+                    *ngIf="showChi && idShowChildren == item.idNhomVb"
+                    style="margin-left: 0px"
+                  >
+                    <ul
+                      *ngFor="let i of item.childNode"
+                      style="list-style-type: none"
+                    >
+                      <li>
+                        --- {{ i.tennhom }}
+                        <i
+                          class="fa-solid fa-pen-to-square"
+                          style="margin-right: 10px; cursor: pointer"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Sửa Thư Mục"
+                          (click)="
+                            tuyDung(
+                              i.idnhomvb,
+                              i.tennhom,
+                              i.tenVt,
+                              i.stt,
+                              null,
+                              true
+                            )
+                          "
+                          style="margin: 0 10px 0 10px"
+                        ></i
+                        ><i
+                          class="fa-solid fa-trash"
+                          data-bs-toggle="tooltip"
+                          style="cursor: pointer"
+                          data-bs-placement="bottom"
+                          title="Xóa Thư Mục"
+                          style="margin: 0 10px 0 0px"
+                          (click)="deleteFolder(i.idnhomvb)"
+                        ></i>
+                      </li>
+                    </ul>
+                  </div>
+                </ul>
+              </div>
             </div>
+          </div>
+          <!--Thêm nội dung dưới này-->
+
+          <!--khuất-->
+          <div class="col-4" *ngIf="create_folder_new">
+            <div class="ootoppage1 kichthuoc text-center">
+              {{ editMode ? "SỬA" : "THÊM" }} THƯ MỤC
+              {{ !editMode ? (idParent ? "CON" : "GỐC") : "" }}
+            </div>
+
+            <form [formGroup]="addForm" (ngSubmit)="addFolder()">
+              <div class="ootoppage1 btn">Số thứ tự</div>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="stt"
+                [ngClass]="{
+                  'is-invalid': submitted && a.stt.invalid
+                }"
+              />
+              <div
+                *ngIf="
+                  (a.stt.invalid && a.stt.touched) ||
+                  (submitted && a.stt.invalid)
+                "
+                class="form-text text-mutted"
+              >
+                <div *ngIf="a.stt.errors.pattern">
+                  <span style="color: red; font-weight: bold">
+                    Số thứ tự không hợp lệ</span
+                  >
+                </div>
+                <div *ngIf="a.stt.errors.required">
+                  <span style="color: red; font-weight: bold">
+                    Số thứ tự không được trống</span
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="ootoppage1">
+                  <div class="ootoppage1 btn">Tên thư mục :</div>
+                  <input
+                    type="text"
+                    id="simpleinput"
+                    class="form-control"
+                    formControlName="name"
+                    [ngClass]="{
+                      'is-invalid': submitted && a.name.invalid
+                    }"
+                  />
+                  <div
+                    *ngIf="
+                      (a.name.invalid && a.name.touched) ||
+                      (submitted && a.name.invalid)
+                    "
+                    class="form-text text-mutted"
+                  >
+                    <div *ngIf="a.name.errors.required">
+                      <span style="color: red; font-weight: bold">
+                        Tên Thư Mục không được trống</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="ootoppage1">
+                  <div class="ootoppage1 btn">Tên viết tắt :</div>
+                  <input
+                    type="text"
+                    id="simpleinput"
+                    class="form-control mb-2"
+                  />
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="ootoppage1 btn btn-primary rounded-pill text-center col-md-4"
+              >
+                Lưu
+              </button>
+            </form>
+          </div>
+          <!--Thêm nội dung dưới này-->
         </div>
-        <button type="button" class="ootoppage1 btn btn-primary rounded-pill text-center col-md-4">Lưu</button>
-        
+      </div>
     </div>
+  </div>
 </div>
-

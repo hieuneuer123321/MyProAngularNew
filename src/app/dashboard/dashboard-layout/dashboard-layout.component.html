@@ -5,18 +5,17 @@
             <!--home-content-->
             <div class="row">
                 <div class="col-3">
-                    <div class="card text-white bg-primary kichthuoc mb-3 "
-                        style="max-width: 20rem;">
+                    <div class="card text-white bg-primary kichthuoc mb-3 " style="max-width: 20rem;">
                         <div class="card-body d-flex justify-content-center
                             flex-column align-items-center">
                             <i class='uil-briefcase-alt'></i>
                             <h5 class="card-title">29</h5>
                             <p class="card-text">Total Projects</p>
                         </div>
-                    </div></div>
+                    </div>
+                </div>
                 <div class="col-3">
-                    <div class="card text-white bg-success kichthuoc mb-3"
-                        style="max-width: 20rem;">
+                    <div class="card text-white bg-success kichthuoc mb-3" style="max-width: 20rem;">
                         <div class="card-body d-flex justify-content-center
                             flex-column align-items-center ">
                             <i class='dripicons-checklist'></i>
@@ -26,8 +25,7 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="card text-white bg-danger kichthuoc mb-3"
-                        style="max-width: 20rem;">
+                    <div class="card text-white bg-danger kichthuoc mb-3" style="max-width: 20rem;">
                         <div class="card-body d-flex justify-content-center
                             flex-column align-items-center ">
                             <i class='uil-users-alt'></i>
@@ -37,13 +35,57 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="card text-white bg-warning kichthuoc mb-3"style="max-width: 20rem;">
+                    <div class="card text-white bg-warning kichthuoc mb-3" style="max-width: 20rem;">
                         <div class="card-body d-flex justify-content-center flex-column align-items-center ">
                             <i class='uil-chart-line'></i>
                             <div class="indicator">
                                 <i class="mdi mdi-arrow-up-bold"></i> 93%
                             </div>
                             <p class="card-text">Productivity</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <div class="card h-100">
+                        <div class="card-body py-3">
+                            <h3>Trạng thái công việc</h3>
+                            <canvas baseChart #chartA class="chart" (click)="GetIndex($event)"
+                                [attr.idActive]="chartActiveIndex" [options]="doughnutTaskTotalChartOptions"
+                                [data]="doughnutTaskTotalChart" [type]="doughnutChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <select class="form-select mb-3" [(ngModel)]="CurrentGroupId"
+                                (change)="GetTasksTotalsByGroup()" id="selectGroup" name="Nhóm Công Việc">
+                                <option [value]="null">Chọn phòng</option>
+                                <option *ngFor="let item of SysGroup" [value]="item.groupId">{{item.groupName}}</option>
+                            </select>
+                            <table class="table table-striped table-centered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Tên công việc {{chartA.idActive}}</th>
+                                        <th>Người xử lý chính</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let congviec of TasksTotalsByGroupData[chartActiveIndex]?.data|paginate: config">
+                                        <td>{{congviec.chude}}</td>
+                                        <td>{{congviec.nguoiXuLyChinhHoTen}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row mt-3 d-flex justify-content-center">
+                                <pagination-controls id="paging" [previousLabel]="'Trước'" [nextLabel]="'Tiếp'"
+                                    responsive="false" (pageChange)="handlePageChange($event)" maxsize="5">
+                                </pagination-controls>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,8 +104,7 @@
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseFour" class="collapse show"
-                        aria-labelledby="headingFour"
+                    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour"
                         data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             <div>
@@ -71,8 +112,7 @@
                                     <div class="list-group-item">
                                         <div class="d-flex">
                                             <div class="uil-arrow-circle-right">
-                                                <a
-                                                    href="http://localhost:4200/social/notification">Thông
+                                                <a href="http://localhost:4200/social/notification">Thông
                                                     báo nghĩ lễ Quốc khánh</a>
                                             </div>
                                             (<div class="uil-user-circle">Phạm
@@ -83,8 +123,8 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button [routerLink]="'/social/notification'"
-                                    type="button" class="btn btn-info"> Xem tiếp
+                                <button [routerLink]="'/social/notification'" type="button" class="btn btn-info"> Xem
+                                    tiếp
                                     <i class='uil-angle-double-right'></i>
                                 </button>
                             </div>
@@ -93,7 +133,7 @@
                 </div>
             </div>
             <!--công việc-->
-            <div class="accordion custom-accordion"id="custom-accordion-one">
+            <div class="accordion custom-accordion" id="custom-accordion-one">
                 <div class="card mb-2">
                     <div class="card-header" id="headingFour">
                         <h5 class="m-0">
@@ -102,85 +142,71 @@
                                     <i class='uil-clipboard-alt'></i>
                                     <span class="text">Công việc</span>
                                 </div>
-                                <app-expand-button
-                                    [id_expand]="'collapseTrue'"></app-expand-button>
+                                <app-expand-button [id_expand]="'collapseTrue'"></app-expand-button>
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseTrue" class="collapse show" aria-labelledby="headingFour"data-bs-parent="#custom-accordion-one">
+                    <div id="collapseTrue" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             <ul class="nav nav-tabs mb-3">
                                 <li class="nav-item">
-                                    <a href="#assigned" data-bs-toggle="tab"
-                                        aria-expanded="false"
-                                        class="nav-link">
+                                    <a href="#assigned" data-bs-toggle="tab" aria-expanded="false"
+                                        class="nav-link  active">
                                         <i class="mdi mdi-home-variant d-md-none d-block"></i>
                                         <span class="d-none d-md-block">Được giao</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#transfer" data-bs-toggle="tab"aria-expanded="true" class="nav-link active">
+                                    <a href="#transfer" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
                                         <i class="mdi mdi-account-circle d-md-none d-block"></i>
                                         <span class="d-none d-md-block"> Chuyển giao</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#seen" data-bs-toggle="tab" aria-expanded="false"class="nav-link">
+                                    <a href="#seen" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                                         <i class="mdi mdi-settings-outline d-md-none d-block"></i>
                                         <span class="d-none d-md-block">Được xem</span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane" id="assigned">
+                                <div class="tab-pane show active" id="assigned">
                                     <div class="row mb-2">
-                                        <div class="col-4"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartDuLieu"
+                                        <div class="col-4"> <canvas baseChart [data]="doughnutChartDuLieu"
                                                 [type]="doughnutChartType"></canvas></div>
-                                        <div class="col-8"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartDuLieu"
+                                        <div class="col-8"> <canvas baseChart [data]="doughnutChartDuLieu"
                                                 [type]="barChartType"></canvas></div>
                                     </div>
 
                                 </div>
-                                <div class="tab-pane show active" id="transfer">
+                                <div class="tab-pane" id="transfer">
                                     <div class="row mb-2">
-                                        <div class="col-4"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartThongTin"
-                                                [type]="doughnutChartType"
-                                                [options]="ChartConfig"></canvas></div>
-                                        <div class="col-8"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartThongTin"
+                                        <div class="col-4"> <canvas baseChart [data]="doughnutChartThongTin"
+                                                [type]="doughnutChartType" [options]="ChartConfig"></canvas></div>
+                                        <div class="col-8"> <canvas baseChart [data]="doughnutChartThongTin"
                                                 [type]="barChartType"></canvas></div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="seen">
                                     <div class="row mb-2">
-                                        <div class="col-4"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartThongTin"
-                                                [type]="doughnutChartType"
-                                                [options]="ChartConfig"></canvas></div>
-                                        <div class="col-8"> <canvas
-                                                baseChart
-                                                [data]="doughnutChartThongTin"
+                                        <div class="col-4"> <canvas baseChart [data]="doughnutChartThongTin"
+                                                [type]="doughnutChartType" [options]="ChartConfig"></canvas></div>
+                                        <div class="col-8"> <canvas baseChart [data]="doughnutChartThongTin"
                                                 [type]="barChartType"></canvas></div>
                                     </div>
                                 </div>
-                                <div class="d-flex justify-content-end">
-                                    <button [routerLink]="'/social/notification'" type="button" class="btn btn-info"> Xem tiếp<i class='uil-angle-double-right'></i></button>
-                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button [routerLink]="'/social/notification'" type="button" class="btn btn-info">
+                                    Xem tiếp<i class='uil-angle-double-right'></i></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!--Văn bản-->
-            <div class="accordion custom-accordion"id="custom-accordion-one">
+            <div class="accordion custom-accordion" id="custom-accordion-one">
                 <div class="card mb-2">
                     <div class="card-header" id="headingFour">
                         <h5 class="m-0">
@@ -189,23 +215,22 @@
                                     <i class='uil-notes'></i>
                                     <span class="text">Văn bản</span>
                                 </div>
-                                <app-expand-button
-                                    [id_expand]="'collapseDocument'"></app-expand-button>
+                                <app-expand-button [id_expand]="'collapseDocument'"></app-expand-button>
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseDocument" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one">
+                    <div id="collapseDocument" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-4"> <canvas baseChart
-                                        [data]="doughnutChartVanBan"
+                                <div class="col-4"> <canvas baseChart [data]="doughnutChartVanBan"
                                         [type]="doughnutChartType"></canvas></div>
-                                <div class="col-8"> <canvas baseChart
-                                        [data]="doughnutChartVanBan"
+                                <div class="col-8"> <canvas baseChart [data]="doughnutChartVanBan"
                                         [type]="barChartType"></canvas></div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button [routerLink]="'/social/notification'"type="button" class="btn btn-info"> Xem tiếp <i class='uil-angle-double-right'></i>
+                                <button [routerLink]="'/social/notification'" type="button" class="btn btn-info"> Xem
+                                    tiếp <i class='uil-angle-double-right'></i>
                                 </button>
                             </div>
                         </div>
@@ -226,14 +251,13 @@
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseCalendar" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one">
+                    <div id="collapseCalendar" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             <div>
                                 <ul class="nav nav-tabs mb-3">
                                     <li class="nav-item">
-                                        <a href="#personal-calendar"
-                                            data-bs-toggle="tab"
-                                            aria-expanded="false"
+                                        <a href="#personal-calendar" data-bs-toggle="tab" aria-expanded="false"
                                             class="nav-link">
                                             <i class="mdi mdi-home-variant
                                                 d-md-none d-block"></i>
@@ -242,7 +266,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#calendar" data-bs-toggle="tab" aria-expanded="true"class="nav-link active">
+                                        <a href="#calendar" data-bs-toggle="tab" aria-expanded="true"
+                                            class="nav-link active">
                                             <i class="mdi mdi-account-circle d-md-none d-block"></i>
                                             <span class="d-none d-md-block">Lịch</span>
                                         </a>
@@ -250,8 +275,9 @@
                                 </ul>
 
                                 <div class="tab-content">
-                                    <div class="tab-pane"id="personal-calendar">
-                                        <table id="basic-datatable" class="table-centered table table-bordered dt-responsive nowrap w-100">
+                                    <div class="tab-pane" id="personal-calendar">
+                                        <table id="basic-datatable"
+                                            class="table-centered table table-bordered dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
                                                     <th colspan="4">Lịch tuần</th>
@@ -281,11 +307,15 @@
                                     </div>
                                     <div class="tab-pane show active border mb-1" id="calendar">
                                         <div>
-                                            <app-calendar [eventList]="events" (getEvents)="getEvents($event)"></app-calendar></div>
-                                        </div> 
-                                        
+                                            <app-calendar [eventList]="events" (getEvents)="getEvents($event)">
+                                            </app-calendar>
+                                        </div>
+                                    </div>
+
                                     <div class="d-flex justify-content-end">
-                                        <button [routerLink]="'/social/notification'" type="button" class="btn btn-info"> Xem tiếp <i class='uil-angle-double-right'></i></button>
+                                        <button [routerLink]="'/social/notification'" type="button"
+                                            class="btn btn-info"> Xem tiếp <i
+                                                class='uil-angle-double-right'></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -294,7 +324,7 @@
                 </div>
             </div>
             <!--Tinh tức-->
-            <div class="accordion custom-accordion"id="custom-accordion-one">
+            <div class="accordion custom-accordion" id="custom-accordion-one">
                 <div class="card mb-2">
                     <div class="card-header" id="headingFour">
                         <h5 class="m-0">
@@ -307,14 +337,16 @@
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseNews" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one">
+                    <div id="collapseNews" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             <div>
                                 <div class="list-group">
                                     <div class="list-group-item">
                                         <div class="d-flex">
                                             <div class="uil-arrow-circle-right">
-                                                <a href="http://localhost:4200/social/news">Thông báo nghĩ lễ quốc khánh</a>
+                                                <a href="http://localhost:4200/social/news">Thông báo nghĩ lễ quốc
+                                                    khánh</a>
                                             </div>
                                             (<div class="uil-user-circle">Phạm Minh Nhẫn,02/09/2022</div>
                                             <div class="uil-eye">22</div>)
@@ -323,7 +355,8 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button [routerLink]="'/social/notification'" type="button" class="btn btn-info">Xem tiếp <i class='uil-angle-double-right'></i>
+                                <button [routerLink]="'/social/notification'" type="button" class="btn btn-info">Xem
+                                    tiếp <i class='uil-angle-double-right'></i>
                                 </button>
                             </div>
                         </div>
@@ -346,7 +379,8 @@
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseWorknews" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one">
+                    <div id="collapseWorknews" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
                             ...
                         </div>
@@ -367,9 +401,10 @@
                             </div>
                         </h5>
                     </div>
-                    <div id="collapseWork" class="collapse show" aria-labelledby="headingFour" data-bs-parent="#custom-accordion-one">
+                    <div id="collapseWork" class="collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#custom-accordion-one">
                         <div class="card-body">
-                            <canvas baseChart [data]="doughnutChartData"[type]="doughnutChartType"></canvas>
+                            <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType"></canvas>
                         </div>
                     </div>
                 </div>

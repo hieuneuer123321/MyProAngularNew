@@ -1,24 +1,32 @@
-.kichthuoc{
-    font-size: 18px;
+.kichthuoc {
+  font-size: 18px;
 }
-.kichthuocnho{
-    font: 20px;
+.kichthuocnho {
+  font: 20px;
 }
-.border-color{
-    border-color: #127b90;
+.border-color {
+  border-color: #127b90;
 }
-.border-style{
-    border-style: solid;
+.border-style {
+  border-style: solid;
 }
-.font-letter{
-    flood-color:#127b90
+.font-letter {
+  flood-color: #127b90;
 }
 .content-table thead tr {
-    background-color: #0091ff;
-    color: aliceblue;
-    text-align: left;
-    font-weight: bold;
+  background-color: #0091ff;
+  color: aliceblue;
+  text-align: left;
+  font-weight: bold;
 }
-.size{
-    width: 2cm;
+.size {
+  width: 2cm;
+}
+.table_context {
+  color: blue;
+  font-weight: bold;
+  cursor: pointer;
+}
+.table_context:hover {
+  color: #0091ff;
 }

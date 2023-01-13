@@ -1,0 +1,43 @@
+<div class="row col-12">
+    <app-expand-card [cardname]="'nhatky'" [title]="'Nhật ký'">
+        <div class="row ms-3" *ngIf="dsNhatKy">
+            <div class="d-flex align-items-start mt-1" *ngFor="let i of dsNhatKy | paginate: config">
+                <app-avatar-tooltip [fullname]="i.nguoiPhanHoi?i.nguoiPhanHoi.hoTen:'?'" [size]="'sm'">
+                </app-avatar-tooltip>
+                <div class="ms-2 mb-3 w-100">
+                    <div class="d-flex">
+                        <b>{{i.nguoiPhanHoi?i.nguoiPhanHoi.hoTen:'?'}}</b>
+                        <label
+                            class="ms-1 align-self-center text-comment-custom">({{timeToCalendar(i.thoiGianPhanHoi)}})</label>
+                    </div>
+                    <div [innerHTML]="i.noiDung"></div>
+                </div>
+            </div>
+            <pagination-controls id="paging" [previousLabel]="'Quay lại'" [nextLabel]="'Tiếp tục'" responsive="true"
+                responsive="true" (pageChange)="handlePageChange($event)"></pagination-controls>
+        </div>
+        <div class="row ms-3" *ngIf="dsNhatKy == []">
+            <h5 class="text-center">Chưa có phản hồi</h5>
+        </div>
+    </app-expand-card>
+</div>
+<div id="comment-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Nhập phản hồi</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <angular-editor [config]="editorConfig" [(ngModel)]="taskHistory.noiDung"></angular-editor>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                    [disabled]="taskHistory.noiDung==''|| taskHistory.noiDung == undefined" (click)="addAComment()">Phản
+                    hồi</button>
+            </div>
+        </div>
+    </div>
+</div>

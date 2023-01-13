@@ -166,19 +166,18 @@ export class UpdateSampleComponent implements OnInit {
   }
 
   onAsigneeGroupChange(e, values) {
-    console.log(e);
     if (e == null || this.groupKeyChosenInStep2 == 'all') {
       (this.allUserInStep2List = this.generalService.cloneAnything(
         this.generalService.allUsers
       )),
-        console.log(values);
-      this.chosenAssigneelList = this.filterItemvsArr(
-        this.generalService.cloneAnything(this.generalService.allUsers),
-        values
-      );
+        (this.chosenAssigneelList = this.filterItemvsArr(
+          this.generalService.cloneAnything(this.generalService.allUsers),
+          values
+        ));
     } else {
       this.allUserInStep2List = this.generalService.allUsersWithGroups[`${e}`];
     }
+    console.log(this.chosenAssigneelList);
     if (values) {
     }
   }

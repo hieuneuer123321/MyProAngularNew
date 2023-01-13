@@ -5,9 +5,9 @@ import { UserResponseModel } from "./UserModels";
 import { GeneralService as generalService } from "../services/general.service";
 
 export class TaskDetailModel {
-    mscv: string;
-    chude: string;
-    noidung: string;
+    mscv: string = "";
+    chude: string = "";
+    noidung: string = "";
     ngayBatDau: string;
     ngayKetThuc: string;
     fileDinhKem: string;
@@ -22,6 +22,10 @@ export class TaskDetailModel {
     danhSachNguoiDuocXem: Array<UserResponseModel>
     danhSachNguoiXuLy: Array<UserResponseModel>
     nhatKyCongViec: Array<TaskHistoryResponseModel>
+    quantam: boolean = false
+    khongNhacMoi: boolean = false
+    tinhTrang: string = "3"
+    rating: number = 0
 }
 export class createNewTask {
     chude: string = "CHU DE"

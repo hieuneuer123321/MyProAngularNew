@@ -1,5 +1,3 @@
-import { Event } from './../Model/Event';
-import { UpdateSampleComponent } from './../event/update-sample/update-sample.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -11,7 +9,6 @@ import { UserDetailComponent } from '../admin/user-detail/user-detail.component'
   providedIn: 'root',
 })
 export class ApiservicesService {
-  aiplocal = 'https://mvcapi.onlineoffice.vn';
   apiLists = {
     login: '/api/Users/token',
     getUserByID: '/api/Users/GetUserByUserId/',
@@ -19,6 +16,9 @@ export class ApiservicesService {
 
     updateUserInfo: '/api/Users/UpdateUser',
     getTasks: '/api/Tasks/GetAllTasks/',
+
+    File: '/api/File/',
+    FilesUpload: '/api/File/Upload',
 
     getTaskDetail: '/api/Tasks/GetTaskDetail/',
     createNewTask: '/api/Tasks/CreateNewTask',
@@ -32,12 +32,17 @@ export class ApiservicesService {
     removeOneSelectedGroupFromUser: '/api/Users/RemoveOneSelectedGroupFromUser', // xóa 1 nhóm khỏi người dùng /
     assignMultiRightsToUser: '/api/Users/AssignMultiRightsToUser', //gán nhiều quyền cho người dùng / r
     removeAllRightFromUser: '/api/Users/RemoveOneRightFromUser', //Xóa tất cả quyền khỏi người dùng / r
-    assignMultiGroupsToUser: '/api/Users/AssignOneGroupToUser', // gán nhiều nhóm/phòng ban cho người dùng /
-    removeMultiSelectedGroupsFromUser:
-      '/api/Users/RemoveMultiSelectedGroupsFromUser', //xóa nhiều nhóm được chỉ định cho khỏi người dùng /
-    getUserByUserName: '/api/Users/GetUserByUserName/', // Lấy thông tin chi tiết người dùng theo Username
+    assignMultiGroupsToUser: '/api/Users/AssignOneGroupToUser', // gán nhiều nhóm/phòng ban cho người dùng / 
+    removeMultiSelectedGroupsFromUser: '/api/Users/RemoveMultiSelectedGroupsFromUser', //xóa nhiều nhóm được chỉ định cho khỏi người dùng /
+    getUserByUserName: '/api/Users/GetUserByUserName/', // Lấy thông tin chi tiết người dùng theo Username 
+    lockUserById: '/api/Users/LockUserById', // Khóa User
+    getAllUsersByStatus: '/api/Users/GetAllUsersByStatus', // Trạng thái user
+    resetUserPasswordById: '/api/Users/ResetUserPasswordById',//reset mật khẩu
+
+
 
     GetAllTasksCategoryByUserId: '/api/Tasks/GetAllTasksCategoryByUserId',
+    DeleteTask: '/api/Tasks/DeleteTask',
     UpdateTaskTitle: '/api/Tasks/UpdateTaskTitle',
     AddCategoryToTask: '/api/Tasks/AddCategoryToTask',
     AssignNewParticipantToTask: '/api/Tasks/AssignNewParticipantToTask',
@@ -46,6 +51,9 @@ export class ApiservicesService {
     AssignNewListParticipantToTask: '/api/Tasks/AssignNewListParticipantToTask',
     AssignNewListViewerToTask: '/api/Tasks/AssignNewListViewerToTask',
     FollowATask: '/api/Tasks/FollowATask',
+    UnfollowATask: '/api/Tasks/UnfollowATask',
+    StopNotification: '/api/Tasks/StopNotification',
+    EnableNotification: '/api/Tasks/EnableNotification',
     ChangeMajorAssignment: '/api/Tasks/ChangeMajorAssignment',
     RequestFinishATask: '/api/Tasks/RequestFinishATask',
     FinishATask: '/api/Tasks/FinishATask',
@@ -69,6 +77,9 @@ export class ApiservicesService {
     AddTasksToProject: '/api/Tasks/AddTasksToProject',
     GetAllTasksSample: '/api/Tasks/GetAllTasksSample',
     TasksSampleDetail: '/api/Tasks/TasksSampleDetail',
+    TaskChecked: '/api/Tasks/TaskChecked',
+    RatingParticipantFromTask: '/api/Tasks/RatingParticipantFromTask',
+    TaskRating: '/api/Tasks/TaskRating',
     //////////////////////////////////////////////////////////////// Location: '/api/'
     GetAllLocations: '/api/Event/GetAllLocation',
     UpdateLocation: '/api/Event/UpdateLocation',
@@ -90,19 +101,64 @@ export class ApiservicesService {
     //commment
     GetAllCommentFromIdAndType: '/api/Comment/GetAllCommentFromIdAndType',
     addComment: '/api/Comment/addComment',
+    GetTasksTotalsByGroup: '/api/Tasks/GetTasksTotalsByGroup',
+    GetAllGroups: '/api/Groups/GetAllGroups',
     //// Event User
     GetUserEvent: '/api/UserEvents/GetUserEvent',
     GetUserEventsByUserId: '/api/UserEvents/GetUserEventsByUserId',
     CreateNewUserEvents: '/api/UserEvents/CreateNewUserEvents',
     DeleteUserEvent: '/api/UserEvents/DeleteUserEvent',
+    GetUserEventDetail: '/api/UserEvents/GetUserEventDetail',
+    UpdateUserEvent: '/api/UserEvents/UpdateUserEvent',
+    //Ho so
+    CreateNewFileFromCabinet: '/api/UserEvents/CreateNewFileFromCabinet',
+    GetFilesFromCabinet: '/api/UserEvents/GetFilesFromCabinet',
+    GetSharingFilesFromCabinet: '/api/UserEvents/GetSharingFilesFromCabinet',
+    FileDetailFromCabinet: '/api/UserEvents/FileDetailFromCabinet',
+    FileDeleteFromCabinet: '/api/UserEvents/FileDeleteFromCabinet',
+    FilesUpdateFromCabinet: '/api/UserEvents/FilesUpdateFromCabinet',
+    // danh thiếp
+    CreateBusinessCard: '/api/UserEvents/CreateBusinessCard',
+    getBusinessCardByUser: '/api/UserEvents/getBusinessCardByUser',
+    updateBusinessCard: '/api/UserEvents/updateBusinessCard',
+    deleteBusinessCard: '/api/UserEvents/deleteBusinessCard',
+    DetailBusinessCard: '/api/UserEvents/DetailBusinessCard',
+    // nhóm công việc
+    CreateWorkingGroup: '/api/UserEvents/CreateWorkingGroup',
+    GetWorkingGroup: '/api/UserEvents/GetWorkingGroup',
+    DetailWorkingGroup: '/api/UserEvents/DetailWorkingGroup',
+    UpdateWorkingGroup: '/api/UserEvents/UpdateWorkingGroup',
+    DeleteWorkingGroup: '/api/UserEvents/DeleteWorkingGroup',
+    ///////////////////////////// Văn Bản
+    // nguồn văn bàn
+    GetAllSourceDocuments: '/api/Documents/GetAllSourceDocuments',
+    CreateNewDocumentsSource: '/api/Documents/CreateNewDocumentsSource',
+    UpdateDocumentsSource: '/api/Documents/UpdateDocumentsSource',
+    DeleteDocumentsSource: '/api/Documents/DeleteDocumentsSource',
+    // thư mục văn bản
+    GetAllDocumentsFolder: '/api/Documents/GetAllDocumentsFolder',
+    CreateNewDocumentsFolder: '/api/Documents/CreateNewDocumentsFolder',
+    UpdateDocumentsFolder: '/api/Documents/UpdateDocumentsFolder',
+    DeleteDocumentsFolder: '/api/Documents/DeleteDocumentsFolder',
+    // Văn Bản
+    GetAllDocumentByType: '/api/Documents/GetAllDocumentByType',
+    CreateNewDocuments: '/api/Documents/CreateNewDocuments',
+    GetDocumentDetail: '/api/Documents/GetDocumentDetail',
   };
 
   constructor(
     private httpClient: HttpClient,
     private router: Router,
     private generalService: GeneralService
-  ) {}
+  ) { }
   defaultTimeout = 10000;
+  async uploadFile(fileToUpload: [File], Folder: string, IdContent: string) {
+    const formData: FormData = new FormData();
+    fileToUpload.forEach(x => {
+      formData.append('formFiles', x, x.name);
+    })
+    await this.httpCall(this.apiLists.FilesUpload + `?subDirectory=FilesUpload%2F${Folder}%2F${IdContent}`, {}, formData, 'post', true);
+  }
   postFile(fileToUpload: [File], url, header, taskID, showErr) {
     url =
       this.generalService.appConfig.API_BASE_URL +
@@ -136,25 +192,21 @@ export class ApiservicesService {
   }
   httpCall(url, header, body, method, showErr) {
     //Ở đây đã có code sẵn truyền.
-
     url = this.generalService.appConfig.API_BASE_URL + url;
-    // url = this.aiplocal + url; // đổi url call aip
-    console.log(url);
-    ///////
-    // console.log(this.generalService.appConfig);
     if (this.generalService.userData != null) {
-      header['Authorization'] = 'Bearer ' + this.generalService.userData.token;
+      header['Authorization'] = `Bearer ${this.generalService.userData.token}`;
     }
 
     return new Promise((resolve, reject) => {
       //use angular http
+
       if (method == 'get') {
         this.httpClient
           .get(url, { headers: header, params: body })
           .pipe(
             timeout(this.defaultTimeout),
             catchError((e) => {
-              return Promise.reject('TimeOut');
+              return Promise.reject(e);
             })
           )
           .subscribe(
@@ -164,6 +216,7 @@ export class ApiservicesService {
             },
             (err) => {
               console.log(err);
+
               if (showErr)
                 this.generalService.showErrorToast(
                   0,
@@ -290,7 +343,7 @@ export class ApiservicesService {
       if (result.succeeded) {
         this.generalService.currentUser = result.data;
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async getAllUsers(pageNum, pageSize) {
@@ -320,6 +373,6 @@ export class ApiservicesService {
           this.generalService.allUsersWithGroups
         );
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 }

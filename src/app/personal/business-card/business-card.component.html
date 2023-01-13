@@ -45,12 +45,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Hiếu Phan</td>
-                    <td>0987876432</td>
-                    <td>hieu@gmail.com</td>
-                    <td>NV</td>
+                  <tr
+                    *ngFor="
+                      let item of businesscardData | paginate : config;
+                      let i = index
+                    "
+                  >
+                    <td>{{ i + 1 }}</td>
+                    <td
+                      style="cursor: pointer; font-weight: bold"
+                      class="hover groupName"
+                      (click)="showDetail(item.iddanhthiep)"
+                    >
+                      {{ item.hoten }}
+                    </td>
+                    <td>{{ item.dienthoai }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.ghichu }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -100,38 +111,17 @@
                 class="form-label list-group-item background-1 text-center"
                 >Nhóm công việc</label
               >
-              <select id="example-select" class="form-select">
-                <option
-                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
-                  class="list-group-item pointer"
+              <div
+                *ngFor="let item of groupTask"
+                style="background-color: #f2f2f2"
+              >
+                <div
+                  (click)="detailGroupTask(item.idnhom)"
+                  style="cursor: pointer"
                 >
-                  Loại khách hàng
-                </option>
-                <option
-                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
-                  class="list-group-item pointer"
-                >
-                  Loại khách hàng
-                </option>
-                <option
-                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
-                  class="list-group-item pointer"
-                >
-                  Loại khách hàng
-                </option>
-                <option
-                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
-                  class="list-group-item pointer"
-                >
-                  Loại khách hàng
-                </option>
-                <option
-                  (click)="filter('nhomcongviec', 'Nhóm công việc')"
-                  class="list-group-item pointer"
-                >
-                  Loại khách hàng
-                </option>
-              </select>
+                  <span class="groupName">- {{ item.tennhom }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

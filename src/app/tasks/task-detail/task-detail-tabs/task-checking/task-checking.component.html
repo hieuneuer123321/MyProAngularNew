@@ -1,0 +1,22 @@
+<div class="modal fade" id="task-checking-model" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myCenterModalLabel">Nhập nội dung</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <angular-editor [config]="editorConfig" [(ngModel)]="noiDung"></angular-editor>
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="checked()" *ngIf="checkType=='CHECKED'" class="btn btn-primary">
+                    Đã xử lý
+                </button>
+
+                <button type="button" (click)="requestFinishTask()" *ngIf="checkType=='REQUEST'"
+                    class="btn btn-primary">
+                    Đề xuất kết thúc
+                </button>
+            </div>
+        </div>
+    </div>

@@ -1,15 +1,17 @@
+import { UserEvent } from 'src/app/Model/UserEvent';
 import dateFormat, { masks } from 'dateformat';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { GeneralService } from 'src/app/services/general.service';
 import { HttpClient } from '@angular/common/http';
 import { Event } from 'src/app/Model/Event';
 import { ApiservicesService } from 'src/app/services/api.service';
-import { Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import data from './event.language';
 import { ToastrService } from 'ngx-toastr';
+import { ToolService } from 'src/app/services/tool.service';
 @Component({
   selector: 'app-detail-personal',
   templateUrl: './detail-personal.component.html',
@@ -17,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class DetailPersonalComponent implements OnInit {
   state = {
-    personalEvent: {},
+    personalEvent: new UserEvent(),
     spinnerLoading: false,
     noidungComment: '',
   };
@@ -39,21 +41,52 @@ export class DetailPersonalComponent implements OnInit {
     private router: Router,
     private _location: Location,
     private api: ApiservicesService,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private tool: ToolService
   ) {}
   ngOnInit(): void {
     this.getById(this.routerAc.snapshot.params['id']);
     this.getComment(this.routerAc.snapshot.params['id']);
   }
+  soLanXem(number, time) {
+    if (number != 0)
+      return `(Đã xem ${number} lần. Lần cuối ngày ${this.tool.convertDateDDMMYYYY(
+        time
+      )} `;
+    else return '(Chưa xem)';
+  }
   async getById(id) {
     this.state.spinnerLoading = true;
-    this.httpClient
-      .get('https://62e7546c69bd03090f7b852b.mockapi.io/Event?status=true')
-      .subscribe((i) => {
-        const ArrAll: any = i;
-        this.state.personalEvent = ArrAll.find((x) => x.id === id);
+    try {
+      const repon: any = await this.api.httpCall(
+        this.api.apiLists.GetUserEventDetail + `?idlich=${id}`,
+        {},
+        {},
+        'get',
+        true
+      );
+      if (repon) {
+        this.state.personalEvent.tgbatdau = repon.tgbatdau;
+        this.state.personalEvent.tgketthuc = repon.tgketthuc;
+        this.state.personalEvent.diadiem = repon.diadiem;
+        this.state.personalEvent.noidung = repon.noidung;
+        this.state.personalEvent.danhSachDuocXem = repon.dsDuocXem;
+        this.state.personalEvent.idlich = repon.idlich;
+        this.state.personalEvent.ngaynhap = repon.ngaynhap;
+        this.state.personalEvent.userid = repon.userId;
         this.state.spinnerLoading = false;
-      });
+      } else return false;
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(this.state.personalEvent);
+    // this.httpClient
+    //   .get('https://62e7546c69bd03090f7b852b.mockapi.io/Event?status=true')
+    //   .subscribe((i) => {
+    //     const ArrAll: any = i;
+    //     this.state.personalEvent = ArrAll.find((x) => x.id === id);
+    //     this.state.spinnerLoading = false;
+    //   });
   }
   layThoiGianChenhLech(date: string) {
     const ngayHienTai = new Date().getTime();
@@ -140,6 +173,11 @@ export class DetailPersonalComponent implements OnInit {
   }
   openNewEvent() {
     this.router.navigate(['/personal/new-event/']);
+  }
+  routeLinkUpdate() {
+    this.router.navigate([
+      `/personal/new-event/${this.state.personalEvent.idlich}`,
+    ]);
   }
   repComment(noidung, nguoitao) {
     // this.comment.noidung = `<div style="background-Color: RGB(247 243 29); color: red; width:50%; font-size:14px; padding:10px">${noidung}</div>`;
@@ -264,7 +302,7 @@ export class DetailPersonalComponent implements OnInit {
         console.log(this.commentList);
       });
     } else {
-      this.toaster.success('', 'Nội dung phản hồi trống!', {
+      this.toaster.warning('', 'Nội dung phản hồi trống!', {
         timeOut: 2500,
       });
       this.repC.noidung = '';

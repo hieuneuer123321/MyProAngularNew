@@ -9,6 +9,10 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { ApiservicesService } from 'src/app/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-business-card',
@@ -21,14 +25,12 @@ export class AddBusinessCardComponent implements OnInit {
     sdt: '',
     email: '',
     ghichu: '',
+    idDetail: '',
   };
+  businessCardDetail;
   submitted = false;
   error: {};
-  // addForm: FormGroup;
-  constructor(
-    public generalService: GeneralService,
-    private formBuilder: FormBuilder
-  ) {}
+  /// Validate Form Builder
   addForm = this.formBuilder.group({
     name: ['', [Validators.required]],
     ghichu: [''],
@@ -42,22 +44,71 @@ export class AddBusinessCardComponent implements OnInit {
     ],
     email: ['', [Validators.email]],
   });
+  constructor(
+    public generalService: GeneralService,
+    private formBuilder: FormBuilder,
+    public api: ApiservicesService,
+    public routerAc: ActivatedRoute,
+    private router: Router,
+    private toaster: ToastrService
+  ) {}
+
   get a() {
     return this.addForm.controls;
   }
   ngOnInit(): void {
-    // this.addForm = this.formBuilder.group({
-    //   name: ['', [Validators.required]],
-    //   phone: [
-    //     '',
-    //     [
-    //       Validators.pattern('[- +()0-9]+'),
-    //       Validators.minLength(6),
-    //       Validators.maxLength(10),
-    //     ],
-    //   ],
-    //   email: ['', [Validators.email]],
-    // });
+    this.state.idDetail = this.routerAc.snapshot.params['id'];
+    if (this.routerAc.snapshot.params['id']) {
+      this.getDetailBusines(this.routerAc.snapshot.params['id']);
+      console.log(this.businessCardDetail);
+    } else {
+      this.addForm = this.formBuilder.group({
+        name: ['', [Validators.required]],
+        ghichu: [''],
+        sdt: [
+          '',
+          [
+            Validators.pattern('[- +()0-9]+'),
+            Validators.minLength(6),
+            Validators.maxLength(10),
+          ],
+        ],
+        email: ['', [Validators.email]],
+      });
+    }
+  }
+  async getDetailBusines(id) {
+    try {
+      this.businessCardDetail = await this.api.httpCall(
+        this.api.apiLists.DetailBusinessCard +
+          `?id=${id}&uid=${this.generalService.currentUser.userId}`,
+        {},
+        {},
+        'post',
+        true
+      );
+      if (this.businessCardDetail) {
+        this.addForm = this.formBuilder.group({
+          name: [this.businessCardDetail.hoten, [Validators.required]],
+          ghichu: [this.businessCardDetail.ghichu],
+          sdt: [
+            this.businessCardDetail.dienthoai,
+            [
+              Validators.pattern('[- +()0-9]+'),
+              Validators.minLength(6),
+              Validators.maxLength(10),
+            ],
+          ],
+          email: [this.businessCardDetail.email, [Validators.email]],
+        });
+      } else {
+        return false;
+      }
+      console.log(this.businessCardDetail);
+    } catch (error) {
+      console.log(error);
+      this.router.navigate([`/personal/business-card`]);
+    }
   }
   get f() {
     return this.addForm.controls;
@@ -65,19 +116,109 @@ export class AddBusinessCardComponent implements OnInit {
   getLabel(key) {
     return data[`${this.generalService.currentLanguage.Code}`][`${key}`];
   }
-  addBusiness() {
+  async addBusiness() {
     this.submitted = true;
     const obj = {
-      name: this.state.name,
-      sdt: this.state.sdt,
-      email: this.state.email,
-      ghichu: this.state.ghichu,
+      hoten: this.addForm.value.name,
+      dienthoai: this.addForm.value.sdt,
+      email: this.addForm.value.email,
+      ghichu: this.addForm.value.ghichu,
     };
-    // console.log(obj);
     if (this.addForm.valid) {
-      console.log(this.addForm.value);
+      try {
+        console.log(obj);
+        await this.api.httpCall(
+          this.api.apiLists.CreateBusinessCard,
+          {},
+          obj,
+          'post',
+          true
+        );
+        this.toaster.success('', 'Thêm Thành Công!', {
+          timeOut: 2500,
+        });
+        this.router.navigate(['/personal/business-card']);
+      } catch (error) {
+        console.log(error);
+        this.toaster.error('', 'Thêm Thất Bại', {
+          timeOut: 2500,
+        });
+      }
     } else {
-      console.log('lỗi');
+      return false;
     }
+  }
+  async deleteBussiness() {
+    Swal.fire({
+      title: '<strong>Bạn chắc chắn muốn Xóa ?</strong>',
+      icon: 'warning',
+      html: `Dữ liệu xóa không thể khôi phục được !`,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      reverseButtons: true,
+      focusCancel: true,
+      cancelButtonText: `Quay lại`,
+      confirmButtonText: `Xóa`,
+    }).then(async (result) => {
+      if (result.value) {
+        try {
+          await this.api.httpCall(
+            this.api.apiLists.deleteBusinessCard,
+            {},
+            {
+              id: this.state.idDetail,
+            },
+            'post',
+            true
+          );
+          this.toaster.success('', 'Xóa Thành Công!', {
+            timeOut: 2500,
+          });
+          this.router.navigate(['/personal/business-card']);
+        } catch (error) {
+          console.log(error);
+          this.toaster.error('', 'Xóa Thất Bại', {
+            timeOut: 2500,
+          });
+        }
+      }
+    });
+  }
+  async updateBussiness() {
+    this.submitted = true;
+    const obj = {
+      iddanhthiep: this.state.idDetail,
+      hoten: this.addForm.value.name,
+      dienthoai: this.addForm.value.sdt,
+      email: this.addForm.value.email,
+      ghichu: this.addForm.value.ghichu,
+    };
+    if (this.addForm.valid) {
+      try {
+        console.log(obj);
+        await this.api.httpCall(
+          this.api.apiLists.updateBusinessCard,
+          {},
+          obj,
+          'post',
+          true
+        );
+        this.toaster.success('', 'Sửa Thành Công!', {
+          timeOut: 2500,
+        });
+        this.router.navigate(['/personal/business-card']);
+      } catch (error) {
+        console.log(error);
+        this.toaster.error('', 'Sửa Thất Bại', {
+          timeOut: 2500,
+        });
+      }
+    } else {
+      return false;
+    }
+  }
+  return() {
+    this.router.navigate(['/personal/business-card']);
   }
 }

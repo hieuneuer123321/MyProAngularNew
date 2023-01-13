@@ -1,0 +1,30 @@
+export class Document {
+  constructor() {}
+  stt: 1;
+  vanBanId: '';
+  noiGui: '';
+  luuHoSo: '';
+  ngayNhan: '';
+  ngayGui: '';
+  ngayKy: '';
+  thoiHanXuLy: '';
+  nguoiXuLy: '';
+  chuDe: '';
+  loaiVanBan: 0;
+  nguonVanBan: 0;
+  nguoiKy: '';
+  noiNhan: '';
+  noiSoanThao: '';
+  tinhTrangXuLy: '';
+  phucVanBanSo: '';
+  xuLyVanBan: '';
+  kieuVanBan: String;
+  phapLy: '';
+  vanBanLienThong: '';
+  ghiChu: '';
+  loaiNoiNhan: '';
+  soLuongBan: 0;
+  danhSachXem: any[];
+  noiPhatHanh: '';
+  trichYeu: '';
+}

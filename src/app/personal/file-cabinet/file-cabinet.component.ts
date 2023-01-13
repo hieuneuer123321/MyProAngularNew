@@ -1,51 +1,72 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralService } from 'src/app/services/general.service';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import data from './file-cabinet.language';
+import { FileCabinet } from 'src/app/Model/FileCabinet';
+import { ApiservicesService } from 'src/app/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-file-cabinet',
   templateUrl: './file-cabinet.component.html',
-  styleUrls: ['./file-cabinet.component.css']
+  styleUrls: ['./file-cabinet.component.css'],
 })
 export class FileCabinetComponent implements OnInit {
   editable = true;
+  fileCabinetList;
+  fileCabinetListShare;
   filecabinetDetail = {
-    "date": "",
-    "title": "",
-    "description": "",
-    "location": "",
-    "time_start": "",
-    "time_end": "",
-    "status": null,
-  }
+    date: '',
+    title: '',
+    description: '',
+    location: '',
+    time_start: '',
+    time_end: '',
+    status: null,
+  };
   filecabinetSandbox;
   currentTab = true;
 
   spinnerLoading = false;
-  filecabinetData: any
+  filecabinetData: any;
   page = 0;
-  pageSize = 10;
-  pageSizes = [10, 20, 30];
+  pageSize = 5;
+  pageSizes = [5, 10, 15];
   count = 500;
-
-  config
-  constructor(private httpClient: HttpClient,  public generalService: GeneralService, private router: Router) { }
+  pageShare = 0;
+  pageSizeShare = 5;
+  pageSizesShare = [5, 10, 15];
+  countShare = 500;
+  configShare;
+  config = {
+    id: 'paging',
+    itemsPerPage: 0,
+    currentPage: 0,
+    totalItems: 0,
+  };
+  constructor(
+    private httpClient: HttpClient,
+    public generalService: GeneralService,
+    private router: Router,
+    public api: ApiservicesService,
+    public routerAc: ActivatedRoute,
+    private toaster: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.gData();
   }
-  seeDetail(obj) {
-    this.editable = true;
-    this.filecabinetDetail = { ...obj }
+  seeDetail(id) {
+    this.router.navigate([`/personal/file-cabinet/${id}`]);
   }
   editEvent() {
     this.editable = false;
-    this.filecabinetSandbox = { ...this.filecabinetDetail }
+    this.filecabinetSandbox = { ...this.filecabinetDetail };
   }
   cancelEditEvent() {
     this.editable = true;
-    this.filecabinetDetail = { ...this.filecabinetSandbox }
+    this.filecabinetDetail = { ...this.filecabinetSandbox };
   }
   changeTabs(tab) {
     this.currentTab = tab;
@@ -59,32 +80,118 @@ export class FileCabinetComponent implements OnInit {
   }
   async gData() {
     this.spinnerLoading = true;
-    this.httpClient.get('https://62e7546c69bd03090f7b852b.mockapi.io/Event?status=' + this.currentTab).subscribe(i => {
-      this.filecabinetData = i;
+    try {
+      const allFile: any = await this.api.httpCall(
+        this.api.apiLists.GetFilesFromCabinet,
+        {},
+        {},
+        'get',
+        true
+      );
+      this.fileCabinetList = allFile.reverse();
+      const dataAll: any = await this.api.httpCall(
+        this.api.apiLists.GetSharingFilesFromCabinet,
+        {},
+        {},
+        'get',
+        true
+      );
+      const cabinetListShare: any = dataAll.filter((item) => {
+        return item.nguoiTao.userId != this.generalService.currentUser.userId;
+      });
+      this.fileCabinetListShare = cabinetListShare.reverse();
+      console.log(this.fileCabinetListShare);
+      this.configShare = {
+        id: 'paging2',
+        itemsPerPage: this.pageSizeShare,
+        currentPage: this.pageShare,
+        totalItems: this.fileCabinetListShare.length,
+      };
       this.config = {
         id: 'paging',
         itemsPerPage: this.pageSize,
         currentPage: this.page,
-        totalItems: this.filecabinetData.length
-      }
-      this.spinnerLoading = false;
-    })
+        totalItems: this.fileCabinetList.length,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    this.spinnerLoading = false;
   }
-  handlePageChange(filecabinet): void {
-    this.page = filecabinet;
+  // async gDataShare() {
+  //   this.spinnerLoading = true;
+  //   try {
+  //     this.fileCabinetListShare = await this.api.httpCall(
+  //       this.api.apiLists.GetSharingFilesFromCabinet,
+  //       {},
+  //       {},
+  //       'get',
+  //       true
+  //     );
+  //     this.configShare = {
+  //       id: 'paging2',
+  //       itemsPerPage: this.pageSizeShare,
+  //       currentPage: this.pageShare,
+  //       totalItems: this.fileCabinetListShare.length,
+  //     };
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   this.spinnerLoading = false;
+  // }
+  handlePageChange(event): void {
+    this.page = event;
+    this.gData();
+  }
+  handlePageChangeShare(event): void {
+    this.pageShare = event;
     this.gData();
   }
   getLabel(key) {
-    return data[`${this.generalService.currentLanguage.Code}`][`${key}`]
+    return data[`${this.generalService.currentLanguage.Code}`][`${key}`];
   }
-  handlePageSizeChange(filecabinet): void {
-    this.pageSize =filecabinet.target.value;
+  handlePageSizeChange(event): void {
+    this.pageSize = event.target.value;
     this.page = 0;
     this.gData();
   }
- 
-
-
-  
-
+  layThoiGianChenhLech(date: string) {
+    const ngayHienTai = new Date().getTime();
+    const ngayNhap = new Date(date).getTime();
+    const phutNgayHienTai = new Date().getMinutes();
+    const phutNgayTruyenVao = new Date(date).getMinutes();
+    const millisBetween = ngayHienTai - ngayNhap;
+    const days = millisBetween / (1000 * 3600 * 24);
+    const result = Math.round(Math.abs(days));
+    if (result == 1) {
+      return 'Hôm qua';
+    } else if (result == 0) {
+      if (
+        // Math.abs(phutNgayHienTai - phutNgayTruyenVao) <= 59 &&
+        // Math.abs(new Date().getHours() - new Date(date).getHours()) == 1
+        new Date().getHours() == new Date(date).getHours()
+      ) {
+        const phutNgayHienTai = new Date().getMinutes();
+        const phutNgayTruyenVao = new Date(date).getMinutes();
+        if (Math.abs(60 - Math.abs(phutNgayHienTai - phutNgayTruyenVao)) == 60)
+          return 'Bây Giờ';
+        else
+          return (
+            Math.abs(Math.abs(phutNgayHienTai - phutNgayTruyenVao)) +
+            ' phút trước'
+          );
+      } else {
+        const gioNgayHienTai = new Date().getHours();
+        const gioNgayTruyenVao = new Date(date).getHours();
+        return (
+          Math.abs(Math.abs(gioNgayHienTai - gioNgayTruyenVao)) + ' giờ trước'
+        );
+      }
+      // return `${new Date(date).getDate()}/${new Date(
+      //   date
+      // ).getMonth()}/${new Date(date).getFullYear()}`;
+    } else {
+      return result + ' ngày trước';
+    }
+  }
 }

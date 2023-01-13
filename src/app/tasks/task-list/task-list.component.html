@@ -123,9 +123,13 @@
                                             <p class="fw-bold text-danger" *ngIf="data.progressInfo.isLate">
                                                 {{data.progressInfo.displayText}}</p>
                                         </td>
-                                        <td>{{data.nguoiTaoHoTen}}</td>
-                                        <td>{{data.ngayBatDau|slice:0:10}}</td>
-                                        <td>{{data.ngayKetThucDuKien|slice:0:10}}</td>
+                                        <td>
+                                            <app-avatar-tooltip [fullname]="data.nguoiTao?data.nguoiTao.hoTen:'?'"
+                                                [size]="'sm'">
+                                            </app-avatar-tooltip>
+                                        </td>
+                                        <td>{{data.ngayBatDau|date:"dd/MM/YYYY"}}</td>
+                                        <td>{{data.ngayKetThucDuKien|date:"dd/MM/YYYY"}}</td>
                                         <!-- <td>
                                             <p style="font-weight: bold;
                                         color: rgb(218, 92, 47);" *ngIf="data.progressInfo.isLate">
@@ -138,7 +142,12 @@
                                                 [animationDuration]="100" [showSubtitle]="false" [backgroundPadding]="0"
                                                 [titleFontSize]="10"></circle-progress>
                                         </td> -->
-                                        <td>{{data.nguoiXuLyChinhHoTen}}</td>
+                                        <td>
+                                            <app-avatar-tooltip
+                                                [fullname]="data.nguoiXuLyChinh?data.nguoiXuLyChinh.hoTen:'?'"
+                                                [size]="'sm'">
+                                            </app-avatar-tooltip>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

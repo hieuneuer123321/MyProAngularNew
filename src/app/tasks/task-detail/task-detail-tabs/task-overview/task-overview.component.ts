@@ -110,9 +110,6 @@ export class TaskOverviewComponent implements OnInit {
   async addAComment(): Promise<void> {
     if (this.taskHistory.noiDung !== "" && this.taskHistory.noiDung !== undefined) {
       this.taskHistory.mscv = this.TaskDetail.mscv;
-      this.taskHistory.danhSachNguoiXuLyKeTiepHoTen = "";
-      this.taskHistory.nguoiPhanHoi = this.generalService.userData.userID;
-      this.taskHistory.thoiGian = new Date().toISOString();
       var res = await this.api.httpCall(this.api.apiLists.AddNewTaskHistory, {}, this.taskHistory, 'post', true);
       this.reloadData.emit();
     }

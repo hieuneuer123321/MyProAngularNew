@@ -39,6 +39,11 @@ import { ImportReportComponent } from './import-report/import-report.component';
 import { TopicComponent } from './topic/topic.component';
 import { TopicDetailComponent } from './topic-detail/topic-detail.component';
 import { PassProjectComponent } from './pass-project/pass-project.component';
+import { TaskDuedateComponent } from './task-detail/task-detail-tabs/task-duedate/task-duedate.component';
+import { TaskHistoryComponent } from './task-detail/task-detail-tabs/task-history/task-history.component';
+import { TaskTitleComponent } from './task-detail/task-detail-tabs/task-title/task-title.component';
+import { TaskCheckingComponent } from './task-detail/task-detail-tabs/task-checking/task-checking.component';
+import { TaskUserManagerComponent } from './task-detail/task-detail-tabs/task-user-manager/task-user-manager.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +75,12 @@ import { PassProjectComponent } from './pass-project/pass-project.component';
     ImportReportComponent,
     TopicComponent,
     TopicDetailComponent,
-    PassProjectComponent
+    PassProjectComponent,
+    TaskDuedateComponent,
+    TaskHistoryComponent,
+    TaskTitleComponent,
+    TaskCheckingComponent,
+    TaskUserManagerComponent
   ],
   imports: [
     CommonModule,

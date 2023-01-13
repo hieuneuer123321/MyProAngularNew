@@ -44,6 +44,24 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/event">Lịch Cá Nhân</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/personal/file-cabinet">Tủ Hồ Sơ</a>
+            </li>
+            <li class="breadcrumb-item">Chi Tiết Hồ Sơ Cá Nhân</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Chi Tiết Hồ Sơ Cá Nhân</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="card">
       <div class="card-body">
         <div class="row">
@@ -57,11 +75,47 @@
           <div class="row">
             <div class="col-xl-9 col-md-12">
               <div class="rowFile">
-                <span class="content">qqqqq </span>
-                <span class="sub_content">
-                  ( <i class="fa-solid fa-user"></i> Người tạo Quản trị hệ
-                  thống, 11 giờ trước lúc 23:46, Lượt xem 0 )</span
-                >
+                <div>
+                  <span class="content"
+                    >{{ filecabinetData ? filecabinetData.tenhoso : "" }}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <span class="sub_content">
+                    (<i class="fa-solid fa-user-plus"></i> Người tạo
+                    {{ filecabinetData ? filecabinetData.nguoitao.hoTen : "" }},
+                    {{
+                      layThoiGianChenhLech(
+                        filecabinetData ? filecabinetData.ngaynhap : ""
+                      )
+                    }}
+                    lúc
+                    {{
+                      filecabinetData
+                        ? (filecabinetData.ngaynhap | slice : 11 : 16)
+                        : ""
+                    }}
+                    ngày
+                    {{
+                      filecabinetData
+                        ? (filecabinetData.ngaynhap
+                          | slice : 0 : 10
+                          | date : "dd-MM-yyyy")
+                        : ""
+                    }},
+                    <i
+                      class="fa-solid fa-eye"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="bottom"
+                      title="Lượt xem"
+                    ></i>
+                    Lượt xem
+                    {{ filecabinetData ? filecabinetData.lanxem : "" }}
+                    )
+                  </span>
+                </div>
               </div>
               <div class="col-12">
                 <div class="page-title-box">
@@ -78,79 +132,98 @@
                     padding: 10px;
                   "
                 >
-                  <div style="margin: 10px 10px">
+                  <div
+                    style="margin: 10px 10px"
+                    *ngFor="
+                      let item of filecabinetData
+                        ? filecabinetData.danhSachDuocXem
+                        : []
+                    "
+                  >
                     <span style="font-size: 14px; font-weight: bold"
-                      >- Quản trị hệ thống</span
+                      >- {{ item.hoTen }}</span
                     >
-                    <span class="sub_content">
-                      ( Xem 7 lần, lần cuối: 1 giây trước )</span
+                    <span class="sub_content" *ngIf="item.soLanXem > 0">
+                      ( Xem {{ item.soLanXem }} lần, lần cuối:
+                      {{ layThoiGianChenhLech(item.thoiGianXem) }} lúc
+                      {{ item.thoiGianXem | slice : 11 : 16 }}
+                      ngày
+                      {{
+                        item.thoiGianXem | slice : 0 : 10 | date : "dd-MM-yyyy"
+                      }}
+                      )</span
                     >
-                  </div>
-                  <div style="margin: 10px 10px">
-                    <span style="font-size: 14px; font-weight: bold"
-                      >- APPLE STORE</span
+                    <span class="sub_content" *ngIf="item.soLanXem == 0">
+                      (Chưa Xem)</span
                     >
-                    <span class="sub_content">( Chưa xem )</span>
-                  </div>
-                  <div style="margin: 10px 10px">
-                    <span style="font-size: 14px; font-weight: bold">
-                      - Nhân Viên Kế Hoạch Kỹ Thuật</span
-                    >
-                    <span class="sub_content"> ( Chưa xem )</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-xl-3 col-md-12">
               <div style="margin-bottom: 10px">
-                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                <abbr style="cursor: pointer" [title]="getLabel('newFile')">
                   <input
                     (click)="openNewFileCabinet()"
                     type="submit"
                     name="ctl25$DangKy"
                     value="{{ getLabel('newFile') }}"
                     id="ctl25_DangKy"
-                    class="btn btn-primary btn-block"
-                    style="width: 100%"
+                    class="btn btn-block"
+                    style="width: 100%; background-color: #395bb2; color: white"
                   />
                 </abbr>
               </div>
-              <div style="margin-bottom: 10px">
-                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+              <div
+                style="margin-bottom: 10px"
+                *ngIf="
+                  filecabinetData &&
+                  filecabinetData.nguoitao.userId ==
+                    generalService.currentUser.userId
+                "
+              >
+                <abbr
+                  style="cursor: pointer"
+                  [title]="getLabel('newFile1')"
+                  *ngIf="
+                    filecabinetData &&
+                    filecabinetData.nguoitao.userId ==
+                      generalService.currentUser.userId
+                  "
+                >
                   <input
-                    (click)="openNewFileCabinet()"
+                    (click)="updateFileCabinet(filecabinetData.idhoso)"
                     type="submit"
                     name="ctl25$DangKy"
                     value="{{ getLabel('newFile1') }}"
                     id="ctl25_DangKy"
-                    class="btn btn-primary btn-block"
-                    style="width: 100%"
+                    class="btn btn-block"
+                    style="width: 100%; background-color: #395bb2; color: white"
                   />
                 </abbr>
               </div>
               <div style="margin-bottom: 10px">
-                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                <abbr style="cursor: pointer" [title]="getLabel('newFile2')">
                   <input
-                    (click)="openNewFileCabinet()"
+                    (click)="deleteFileCabinet(filecabinetData.idhoso)"
                     type="submit"
                     name="ctl25$DangKy"
                     value="{{ getLabel('newFile2') }}"
                     id="ctl25_DangKy"
-                    class="btn btn-primary btn-block"
-                    style="width: 100%"
+                    class="btn btn-block"
+                    style="width: 100%; background-color: #395bb2; color: white"
                   />
                 </abbr>
               </div>
               <div style="margin-bottom: 10px">
-                <abbr style="cursor: pointer" [title]="getLabel('newBtn')">
+                <abbr style="cursor: pointer" [title]="getLabel('newFile3')">
                   <input
-                    (click)="openNewFileCabinet()"
                     type="submit"
                     name="ctl25$DangKy"
                     value="{{ getLabel('newFile3') }}"
                     id="ctl25_DangKy"
                     class="btn btn-success btn-block"
-                    style="width: 100%; background-color: #395bb2"
+                    style="width: 100%; background-color: #6575ff; color: white"
                   />
                 </abbr>
               </div>

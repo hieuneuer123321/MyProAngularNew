@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { DashboardRouting } from './dashboard-routing.module';
 import { UtilitiesModule } from '../utilities/utilities.module';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { UtilitiesModule } from '../utilities/utilities.module';
   imports: [
     CommonModule,
     DashboardRouting,
-    UtilitiesModule
+    UtilitiesModule,
+    FormsModule,
+    NgxPaginationModule
   ]
 
 })

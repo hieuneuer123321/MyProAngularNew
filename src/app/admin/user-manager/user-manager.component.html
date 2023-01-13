@@ -124,7 +124,7 @@
                                 <div class="row">
                                     <div class="col-9">{{item.groupName}}</div>
                                     <div class="col-3 form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" name="groupId"
+                                        <input type="checkbox" class="form-check-input" name="groupId" [checked]="sosanhGroup(item.groupId)"
                                         (change)="newgroup($event,item.groupId)"
                                             id="customSwitch1"> <!-- [checked]="sosanhGroup(item.groupId)"--> 
                                     </div>
@@ -139,9 +139,10 @@
                 <!-- <button type="button" class="btn btn-light" data-bs-dismiss="modal" data-bs-toggle="modal"
                     data-bs-target="#user-detail-modal">Quay lại</button> -->
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal"(click)="updateUserName()">Lưu</button>
-                <button type="button" class="btn btn-warning">Đặt lại mật khẩu</button>
-                <button type="button"  value="Xóa" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteUserName(user.userId)">
+                <button type="button" class="btn btn-warning" data-bs-dismiss="modal" (click)="resetPassword(user.userId)">Đặt lại mật khẩu</button>
+                <button type="button"  value="Xóa"class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteUserName(user.userId)">
                 Xoá người dùng</button>
+                <button  type="button" value="Khóa" class="btn btn-danger" data-bs-dismiss="modal" (click)="LockUser()"> Khóa người dùng</button>       
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

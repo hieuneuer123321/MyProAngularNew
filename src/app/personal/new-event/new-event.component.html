@@ -16,10 +16,14 @@
             <li class="breadcrumb-item">
               <a routerLink="/personal/event">Lịch Cá Nhân</a>
             </li>
-            <li class="breadcrumb-item">Thêm Lịch Cá Nhân</li>
+            <li class="breadcrumb-item">
+              {{ getLabel(!idUpdate ? "pageTitle" : "pageTitle2") }}
+            </li>
           </ol>
         </div>
-        <h4 class="page-title">Thêm Lịch Cá Nhân</h4>
+        <h4 class="page-title">
+          {{ getLabel(!idUpdate ? "pageTitle" : "pageTitle2") }}
+        </h4>
       </div>
     </div>
   </div>
@@ -93,10 +97,11 @@
                       <option selected value="">Địa Điểm Khác</option>
                       <option
                         *ngFor="let item of locationListAll"
-                        [value]="item.moTa"
+                        [value]="item.tenDiaDiem"
                         [selected]="
                           (eventTuan ? eventTuan.diadiem : '') ==
-                          item.tenDiaDiem
+                            item.tenDiaDiem ||
+                          newUserEvent.diadiem == item.tenDiaDiem
                         "
                       >
                         {{ item.tenDiaDiem }} - {{ item.moTa }}
@@ -175,20 +180,23 @@
                 </div>
               </div>
               <div class="btn_list">
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  awPreviousStep
-                  (click)="resetDs()"
-                >
+                <button type="button" class="btn btn-warning" awPreviousStep>
                   Quay Lại
                 </button>
                 <button
                   type="button"
                   class="btn btn-success"
-                  (click)="AddEvent()"
+                  (click)="
+                    this.routerAc.snapshot.params['idLichCaNhan']
+                      ? UpdateEvent()
+                      : AddEvent()
+                  "
                 >
-                  Thêm Lịch
+                  {{
+                    this.routerAc.snapshot.params["idLichCaNhan"]
+                      ? "Sửa Lịch"
+                      : "Thêm Lịch"
+                  }}
                 </button>
               </div>
             </aw-wizard-step>

@@ -12,6 +12,7 @@ import { TaskProjectModels } from 'src/app/Model/TasksProjectModels';
 import { createNewTask } from 'src/app/Model/TaskModels';
 import { TaskCategoryResponse } from 'src/app/Model/TaskCategory';
 import { ToastrService } from 'ngx-toastr';
+import { FilesUploadComponent } from 'src/app/utilities/files-upload/files-upload.component';
 
 @Component({
   selector: 'app-new-task',
@@ -19,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./new-task.component.css'],
 })
 export class NewTaskComponent implements OnInit {
+  @ViewChild(FilesUploadComponent) filesupload: FilesUploadComponent
   public myDatePickerOptions: IAngularMyDpOptions = {
     dateFormat: 'dd/mm/yyyy',
   };
@@ -60,9 +62,10 @@ export class NewTaskComponent implements OnInit {
     public routerAc: ActivatedRoute,
     public generalService: GeneralService,
     private toaster: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.routerAc.snapshot.params['id']);
     if (this.routerAc.snapshot.params['id']) {
       this.getLichTuanById(this.routerAc.snapshot.params['id']);
     }
@@ -212,7 +215,7 @@ export class NewTaskComponent implements OnInit {
     if (this.taskGroup !== '' && result.modelResponse.isValid) {
       var addgroup = await this.api.httpCall(
         this.api.apiLists.AddCategoryToTask +
-          `?ctID=${this.taskGroup}&mscv=${result.mscv}`,
+        `?ctID=${this.taskGroup}&mscv=${result.mscv}`,
         {},
         {},
         'post',
@@ -222,6 +225,7 @@ export class NewTaskComponent implements OnInit {
       this.generalService.showErrorToast(rs.status ? 1 : 0, rs.message);
     }
     if (result.modelResponse.isValid) {
+      this.filesupload.pushFile('CongViec', result.mscv);
       this.generalService.showErrorToast(1, 'Tạo công việc mới thành công');
       this.router.navigate([`/tasks/task-detail/${result.mscv}`]);
     }

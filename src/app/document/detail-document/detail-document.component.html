@@ -1,225 +1,402 @@
-<div class="list-group-item active text-center mb-3"> <i>CHI TIẾT VĂN BẢN</i> </div>
-    <div class="row">
-        <div class="col-9">
-            <!--Bảng chi tiết văn bản-->
-            <table  id = "basic-datatable"  class = "table dt-responsive nowrap w-100" >
-                <div class="row">
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Số TT: </label>
-                        <div class="col-8"><input type="email" class="form-control" id="SoTT"></div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Lưu bản cứng:  </label>
-                        <div class="col-8"> 
-                            <select class="form-select" id="example-select">
-                                <option>Chọn phòng ban</option>
-                                <option>Giám đốc</option>
-                                <option>Phòng Tổ Chức Hành Chính</option>
-                                <option>Phòng Kĩ Thuật</option>
-                                <option>Phòng Kinh Doanh</option>
-                                <option>Phòng Nhân Sự</option>
-                                <option>Phòng Tài Chính-Kế toán</option>
-                                <option>Phòng Truyền Thông</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Nơi gửi:   </label>
-                        <div class="col-8"> 
-                            <input type="text" class="form-control" id="Noigui">
-                        </div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Ngày gửi:  </label>
-                        <div class="col-8"><input class="form-control" id="example-date" type="date" name="date"></div>
-                    </div>
-                    <!---->
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Số văn bản:  </label>
-                        <div class="col-8"> 
-                            <input type="text" class="form-control" id="Sovanban">
-                        </div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Thư mục: </label>
-                        <div class="col-8"> 
-                            <input type="text" class="form-control" id="Noinhan">
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Nơi phát hành: </label>
-                        <div class="col-8"> 
-                            <input type="text" class="form-control" id="Noiphathanh">
-                        </div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Ngày đến: </label>
-                        <div class="col-8"><input class="form-control" id="example-date" type="date" name="date"></div>
-                    </div>
-                    <!---->
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Người ký:  </label>
-                        <div class="col-8"> 
-                            <input type="text" class="form-control" id="Nguoiky">
-                        </div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Ngày ký: </label>
-                        <div class="col-8"><input class="form-control" id="example-date" type="date" name="date"></div>
-                    </div>
-                    <!---->
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Chọn nguồn VB </label>
-                        <div class="col-8"> 
-                            <select class="form-select" id="example-select">
-                                <option>Chọn nguồn VB</option>
-                                <option>Giám đốc</option>
-                                <option>Phòng Tổ Chức Hành Chính</option>
-                                <option>Phòng Kĩ Thuật</option>
-                                <option>Phòng Kinh Doanh</option>
-                                <option>Phòng Nhân Sự</option>
-                                <option>Phòng Tài Chính-Kế toán</option>
-                                <option>Phòng Truyền Thông</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row col-6 border-bottom">
-                        <label class="col-4 col-form-label">Thời hạn xử lý: </label>
-                        <div class="col-8"><input class="form-control" id="example-date" type="date" name="date"></div>
-                    </div>
-                    <!---->
-                    <div class="row border-bottom">
-                        <label for="example-textarea" class=" col-2 col-form-label">Trích yếu: </label>
-                        <div class="col-10">
-                            <textarea class="form-control" id="example-textarea" rows="2"></textarea>
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="row border-bottom  ">
-                        <label for="example-textarea" class="col-2 col-form-label">Ghi chú: </label>
-                        <div class="col-10">
-                            <textarea class="form-control" id="example-textarea" rows="2"></textarea>
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="row border-bottom">
-                        <label for="example-textarea" class="col-2 col-form-label">Đính kèm:  </label>
-                        <div class="col-10">
-                            <input type="file" multiple (change)="handleFileInput($event.target.files)" id="fileList"class="form-control">
-                                <ol class="list-group list-group-numbered">
-                                    <li *ngFor="let file of detaildocumentData.file; index as i" class="list-group-item">
-                                        {{file.name}}<span (click)="removeFile(i)" style="float: right; font-weight:
-                                        bold; cursor: pointer; color: #fa6767;">X</span>
-                                    </li>
-                                </ol>
-                        </div>
-                        </div>
-                    </div>     
+<div class="container-fluid">
+  <ngx-loading
+    [show]="spinnerLoading ? spinnerLoading : false"
+    [config]="{
+      primaryColour: 'whitesmoke',
+      backdropBorderRadius: '3px',
+      fullScreenBackdrop: true
+    }"
+  ></ngx-loading>
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/document/all-text">Văn Bản</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a routerLink="/document/all-text">Danh Sách Văn Bản</a>
+            </li>
+            <li class="breadcrumb-item">Chi Tiết Văn Bản</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Chi Tiết Văn Bản</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="list-group-item active text-center mb-3">
+            CHI TIẾT VĂN BẢN
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-9 col-md-12">
+            <table
+              id="basic-datatable"
+              class="table dt-responsive nowrap w-100"
+            >
+              <div class="row" *ngIf="documentDetail">
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Số TT: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.soTT }}</span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Lưu bản cứng: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.luHoSo }}</span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Nơi gửi: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.noiGui }}</span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Ngày gửi: </label>
+                  <div class="col-8">
+                    <span>{{
+                      documentDetail.ngayGui | date : "dd/MM/yyyy"
+                    }}</span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Số văn bản: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.vanBanId }}</span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Thư mục: </label>
+                  <div class="col-8">
+                    <span>{{ nameFile }}</span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Nơi phát hành: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.noiPhatHanh }} </span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Ngày đến: </label>
+                  <div class="col-8">
+                    <span>{{
+                      documentDetail.ngayNhan | date : "dd/MM/yyyy"
+                    }}</span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Người ký: </label>
+                  <div class="col-8">
+                    <span>{{ documentDetail.nguoiKy }}</span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Ngày ký: </label>
+                  <div class="col-8">
+                    <span>{{
+                      documentDetail.ngayKy | date : "dd/MM/yyyy"
+                    }}</span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Chọn nguồn VB </label>
+                  <div class="col-8">
+                    <span>{{ nameSource }}</span>
+                  </div>
+                </div>
+                <div class="row col-xl-6 col-md-12 border-bottom">
+                  <label class="col-4 col-form-label">Thời hạn xử lý: </label>
+                  <div class="col-8">
+                    <span
+                      >{{ documentDetail.thoiHanXuLy | date : "dd/MM/yyyy" }}
+                    </span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-12 col-md-12 border-bottom">
+                  <label
+                    for="example-textarea"
+                    class="col-xl-2 col-md-4 col-form-label"
+                    >Trích yếu:
+                  </label>
+                  <div class="col-xl-10 col-md-8">
+                    <span>{{ documentDetail.trichYeu }} </span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-12 col-md-12 border-bottom">
+                  <label
+                    for="example-textarea"
+                    class="col-xl-2 col-md-4 col-form-label"
+                    >Ghi chú:
+                  </label>
+                  <div class="col-xl-10 col-md-8">
+                    <span>{{ documentDetail.ghiChu }} </span>
+                  </div>
+                </div>
+                <!---->
+                <div class="row col-xl-12 col-md-12 border-bottom">
+                  <label
+                    for="example-textarea"
+                    class="col-xl-2 col-md-4 col-form-label"
+                    >Đính kèm:
+                  </label>
+                  <div class="col-xl-10 col-md-8">
+                    <div style="background-color: #f9fafd">Word</div>
+                  </div>
+                </div>
+                <div
+                  class="row col-xl-12 col-md-12 border-bottom"
+                  *ngIf="documentDetail.nguoiTao"
+                >
+                  <label
+                    for="example-textarea"
+                    class="col-xl-12 col-md-12"
+                    style="text-align: center; font-style: italic"
+                    >(Tạo bởi: {{ documentDetail.nguoiTao.hoTen }}
+                    <span *ngIf="documentDetail.nguoiTao.ngayTao">
+                      lúc
+                      {{ documentDetail.nguoiTao.ngayTao | slice : 11 : 16 }}
+                      ngày
+                      {{
+                        documentDetail.nguoiTao.ngayTao | date : "dd/MM/yyyy"
+                      }}</span
+                    >)
+                  </label>
+                </div>
+              </div>
             </table>
             <!--Bảng xử lý-->
-            <div class="list-group-item active  mb-1">Người chuyển thành công việc :
-                <button [routerLink]="'/tasks/new-task'" type="button" class="btn rounded-pill btn-danger ">Chuyển xử lý
-                        
-                </button>
+            <div class="list-group-item active mb-1">
+              <span style="font-weight: bold"
+                >Người chuyển thành công việc :</span
+              >
+              <button
+                style="margin-left: 10px"
+                [routerLink]="'/tasks/new-task'"
+                type="button"
+                class="btn rounded-pill"
+                style="
+                  background-color: #eea7b3;
+                  color: white;
+                  margin-left: 10px;
+                "
+              >
+                Chuyển xử lý
+              </button>
             </div>
-            <div class="list-group-item active mb-1">Danh sách được xem :</div>
-            <div class="list-group-item active mb-1">Danh sách được ký :</div>
-        </div>
-        <!--Hiện chi tiết văn bản-->    
-        <div class="col-3">
+            <div class="list-group-item active mb-1">
+              <span style="font-weight: bold">Danh sách được xem :</span>
+            </div>
+            <div style="background-color: #f9fafd">
+              <ul style="font-weight: bold">
+                <li
+                  class="li_list"
+                  *ngFor="
+                    let item of documentDetail
+                      ? documentDetail.danhSachNguoiXem
+                      : []
+                  "
+                >
+                  <span class="content_main">{{ item.hoTen }}</span>
+                  <span class="sub_content"
+                    >(
+                    {{
+                      item.soLanXem > 0
+                        ? "Số lần xem: " + item.soLanXem
+                        : "Chưa Xem"
+                    }}
+                    <span *ngIf="item.soLanXem > 0"
+                      >Lần cuối lúc
+                      {{ item.thoiGianXem | slice : 11 : 16 }}
+                      ngày {{ item.thoiGianXem | date : "dd/MM/yyyy" }}
+                    </span></span
+                  >)
+                </li>
+              </ul>
+            </div>
+            <div class="list-group-item active mb-1">
+              <span style="font-weight: bold">Danh sách được ký :</span>
+            </div>
+            <div style="background-color: #f9fafd">
+              <ul style="font-weight: bold">
+                <li class="li_list">
+                  <span class="content_main">Người 1</span>
+                  <span class="sub_content">( Chưa ký )</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!--Hiện chi tiết văn bản-->
+          <div class="col-xl-3 col-md-12">
             <div class="d-grid">
-                <button [routerLink]="'/document/new-document'" type="button" class="btn rounded-pill btn-danger mb-2">Thêm văn bản</button>
-                <button [routerLink]="'/document/new-document'" type="button" class="btn rounded-pill btn-danger mb-2">Chỉnh sửa</button>
-                <input type="submit" name="ctl22$Xoa" value="Xóa" 
-                onclick="return confirm('Bạn có chắc chắn muốn xóa?');" id="ctl22_Xoa" class="btn rounded-pill btn-danger mb-2" style="width:100%;">
-                <button type = "button"  class = "btn rounded-pill btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#standard-modal" > Chuyển đến xem </button >
-                <button [routerLink]="'/document/all-text'" type="button" type="button" class="btn rounded-pill btn-danger mb-2" >Quay lại</button>
+              <button
+                [routerLink]="'/document/new-document'"
+                type="button"
+                class="btn rounded-pill btn-danger mb-2 btn_active"
+              >
+                Thêm văn bản
+              </button>
+              <button
+                [routerLink]="'/document/new-document'"
+                type="button"
+                class="btn rounded-pill mb-2 btn_active"
+              >
+                Chỉnh sửa
+              </button>
+              <input
+                type="submit"
+                name="ctl22$Xoa"
+                value="Xóa"
+                onclick="return confirm('Bạn có chắc chắn muốn xóa?');"
+                id="ctl22_Xoa"
+                class="btn rounded-pill mb-2 btn_active"
+                style="width: 100%"
+              />
+              <button
+                type="button"
+                class="btn rounded-pill mb-2 btn_active"
+                data-bs-toggle="modal"
+                data-bs-target="#standard-modal"
+              >
+                Chuyển đến xem
+              </button>
+              <button
+                [routerLink]="'/document/all-text'"
+                type="button"
+                type="button"
+                class="btn rounded-pill mb-2 btn_active"
+              >
+                Quay lại
+              </button>
             </div>
+          </div>
+          <!--Thanh tác vụ bên trái-->
         </div>
-        <!--Thanh tác vụ bên trái-->
+      </div>
     </div>
+  </div>
+</div>
+
 <!--Chế độ xem-->
-<div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="standard-modalLabel">CHẾ ĐỘ XEM</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+<div
+  id="standard-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="standard-modalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="standard-modalLabel">CHẾ ĐỘ XEM</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!---dòng bên trái-->
+          <div class="col-5"></div>
+          <div class="col-2"></div>
+          <!---dòng bên phải-->
+          <div class="col-5">
+            <div>
+              <label class="mb-1">Danh sách có sẵn </label>
+              <select class="form-select mb-1" id="example-select">
+                <option>Chọn nhóm riêng</option>
+                <option>Giám đốc</option>
+                <option>Phòng Tổ Chức Hành Chính</option>
+                <option>Phòng Kĩ Thuật</option>
+                <option>Phòng Kinh Doanh</option>
+                <option>Phòng Nhân Sự</option>
+                <option>Phòng Tài Chính-Kế toán</option>
+                <option>Phòng Truyền Thông</option>
+              </select>
+              <select class="form-select mb-2" id="example-select">
+                <option>--Chọn nhóm từ danh bạ--</option>
+                <option>Tất cả mọi người</option>
+                <option>Giám đốc</option>
+                <option>Phòng Tổ Chức Hành Chính</option>
+                <option>Phòng Kĩ Thuật</option>
+                <option>Phòng Kinh Doanh</option>
+                <option>Phòng Nhân Sự</option>
+                <option>Phòng Tài Chính-Kế toán</option>
+                <option>Phòng Truyền Thông</option>
+              </select>
             </div>
-        <div class="modal-body">
-            <div class="row">
-            <!---dòng bên trái-->
-            <div class="col-5"></div>
-            <div class="col-2"></div>
-            <!---dòng bên phải-->
+          </div>
+          <div><label class="mb-1">Danh sách được chọn </label></div>
+          <div class="row">
             <div class="col-5">
-                <div>
-                    <label class="mb-1 ">Danh sách có sẵn </label>
-                    <select class="form-select mb-1   " id="example-select">
-                        <option>Chọn nhóm riêng</option>
-                        <option>Giám đốc</option>
-                        <option>Phòng Tổ Chức Hành Chính</option>
-                        <option>Phòng Kĩ Thuật</option>
-                        <option>Phòng Kinh Doanh</option>
-                        <option>Phòng Nhân Sự</option>
-                        <option>Phòng Tài Chính-Kế toán</option>
-                        <option>Phòng Truyền Thông</option>
-                    </select>
-                    <select class="form-select mb-2" id="example-select">
-                        <option>--Chọn nhóm từ danh bạ--</option>
-                        <option>Tất cả mọi người</option>
-                        <option>Giám đốc</option>
-                        <option>Phòng Tổ Chức Hành Chính</option>
-                        <option>Phòng Kĩ Thuật</option>
-                        <option>Phòng Kinh Doanh</option>
-                        <option>Phòng Nhân Sự</option>
-                        <option>Phòng Tài Chính-Kế toán</option>
-                        <option>Phòng Truyền Thông</option>
-                    </select>
-                </div>
+              <select
+                id="example-multiselect"
+                multiple
+                class="form-control mb-1"
+              >
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+                <option value="000"></option>
+              </select>
             </div>
-            <div><label class="mb-1 ">Danh sách được chọn </label></div>
-            <div class="row">
-                <div class="col-5">
-                    <select id="example-multiselect" multiple class="form-control mb-1">
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                        <option value="000"></option>
-                    </select>
-                </div>
-                <div class="col-2 d-flex justify-content-center flex-column">
-                    <button class="btn btn-info rounded-pill"> > </button>
-                    <button class="btn btn-info rounded-pill"> < </button>
-                </div>
-                <div class="col-5">
-                    <select id="example-multiselect" multiple class="form-control mb-1">
-                        <option>--Chọn nhóm từ danh bạ--</option>
-                        <option>Tất cả mọi người</option>
-                        <option>Giám đốc</option>
-                        <option>Phòng Tổ Chức Hành Chính</option>
-                        <option>Phòng Kĩ Thuật</option>
-                        <option>Phòng Kinh Doanh</option>
-                        <option>Phòng Nhân Sự</option>
-                        <option>Phòng Tài Chính-Kế toán</option>
-                        <option>Phòng Truyền Thông</option>
-                    </select>
-                </div>
+            <div class="col-2 d-flex justify-content-center flex-column">
+              <button class="btn btn-info rounded-pill">></button>
+              <button class="btn btn-info rounded-pill"><</button>
             </div>
-            <div class="d-flex justify-content-end">
-                <div class="col-5"><input class="form-control mb-1" id="exampleFormControlInput1" placeholder="Tìm người dùng"></div>
+            <div class="col-5">
+              <select
+                id="example-multiselect"
+                multiple
+                class="form-control mb-1"
+              >
+                <option>--Chọn nhóm từ danh bạ--</option>
+                <option>Tất cả mọi người</option>
+                <option>Giám đốc</option>
+                <option>Phòng Tổ Chức Hành Chính</option>
+                <option>Phòng Kĩ Thuật</option>
+                <option>Phòng Kinh Doanh</option>
+                <option>Phòng Nhân Sự</option>
+                <option>Phòng Tài Chính-Kế toán</option>
+                <option>Phòng Truyền Thông</option>
+              </select>
             </div>
-            <div class="d-flex justify-content-center">
-                <button class="btn btn-primary rounded-pill"> Cập nhật </button>
+          </div>
+          <div class="d-flex justify-content-end">
+            <div class="col-5">
+              <input
+                class="form-control mb-1"
+                id="exampleFormControlInput1"
+                placeholder="Tìm người dùng"
+              />
             </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary rounded-pill">Cập nhật</button>
+          </div>
         </div>
-        </div>
-    </div> 
-</div> 
+      </div>
+    </div>
+  </div>
 </div>

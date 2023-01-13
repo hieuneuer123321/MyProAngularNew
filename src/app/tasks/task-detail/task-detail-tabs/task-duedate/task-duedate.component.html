@@ -1,0 +1,31 @@
+<div class="row col-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Thời gian:</h4>
+            <div class="row mt-2">
+                <div class="col-4">Bắt đầu:</div>
+                <div class="col-8">{{batdau|date:"dd/MM/YYY"}}</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4 align-self-center">Kết thúc:</div>
+                <div class="col-8" *ngIf="EditEnable">
+                    <div>
+                        <label class="end-date" *ngIf="!isEdit" (click)="isEdit=true">{{hoanthanh|date:"dd/MM/YYY"}}
+                            <i class="uil-pen"></i>
+                        </label>
+                    </div>
+                    <div>
+                        <input *ngIf="isEdit" id="example-date" type="date" [(ngModel)]="dateEnd" name="date">
+                        <button *ngIf="isEdit" type="button" class="custom-btn text-success"><i class="uil-check"
+                                (click)="delayTask()"></i></button>
+                        <button *ngIf="isEdit" type="button" (click)="cancelEdit()" class="custom-btn text-danger"><i
+                                class="uil-times"></i></button>
+                    </div>
+                </div>
+                <div class="col-8" *ngIf="!EditEnable">
+                    <label>{{hoanthanh|date:"dd/MM/YYY"}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

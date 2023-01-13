@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="list-group-item active mb-2"> <b>PHÂN QUYỀN THEO CHỨC VỤ NGƯỜI DÙNG</b> </div>
+    <div class="row">
+        <div class="col-9">
+            <table id="basic-datatable" class="table table-bordered table-striped
+                        border
+                        border-style table-hover table-centered mb-2 dt-responsive nowrap
+                        w-100 content-table">
+                <thead >
+                    <tr>
+                        <th style="width:5%">STT</th>
+                        <th class="text-center">Tên vai trò</th>
+                        <th class="text-center">Trưởng nhóm</th>
+                        <th class="text-center">Tên viết tắt</th>
+                        <th class="text-center">Ghi chú</th>
+                        <th></th>
+                        <th style="width:5%"><input type="checkbox" class="form-check-input" id="customCheck1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="width: 10%;"><button type="button" class="btn btn-danger rounded-pill "><i class="uil-edit-alt"></i></button></td>
+                        <th style="width:5%"><input type="checkbox" class="form-check-input" id="customCheck1"></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <button [routerLink]="'/admin/users'"  type="button" class="btn btn-danger"> Quay lại</button>
+            </div>
+        </div>
+    </div>
+</div>

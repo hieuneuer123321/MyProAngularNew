@@ -1,3 +1,4 @@
+import { FilesUploadComponent } from 'src/app/utilities/files-upload/files-upload.component';
 import { Event } from './../../Model/Event';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
@@ -15,8 +16,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./new-event.component.css'],
 })
 export class NewEventComponent implements OnInit {
-  @ViewChild(WizardComponent)
-  public wizard: WizardComponent;
+  @ViewChild(WizardComponent) wizard: WizardComponent;
+  @ViewChild(FilesUploadComponent) filesupload: FilesUploadComponent;
+  // public wizard: WizardComponent;
   checkDiaDiem = false;
   readonlyInput = false;
   inputDiaDiem;
@@ -331,14 +333,19 @@ export class NewEventComponent implements OnInit {
     }
     ///////////////
     try {
-      await this.api.httpCall(
+      const res = await this.api.httpCall(
         this.api.apiLists.CreateNewEvent,
         {},
         this.eventNew,
         'post',
         true
       );
-      this.toaster.success('', 'Thêm Thành Công!', {
+      const result = <any>res;
+      if (result.status && result.message) {
+        this.filesupload.pushFile('LichTuan', result.message);
+      }
+      console.log(result);
+      this.toaster.success('', 'Thêm Lịch Thành Công!', {
         timeOut: 2500,
       });
       this.router.navigate(['/event/event-list']);

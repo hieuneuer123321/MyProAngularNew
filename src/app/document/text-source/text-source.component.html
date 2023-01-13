@@ -1,52 +1,270 @@
-<div class="list-group-item active mb-2"><b>NGUỒN VĂN BẢN</b></div>
-<div class="row">
-	<div class="col-9">
-		<table  id = "basic-datatable"  class = "table table-bordered table-striped border
-                    border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table" > 
-			<thead >
-				<tr > 
-					<th  class="d-flex justify-content-center" scope="col" > STT </th>
-					<th scope="col"> TÊN NGUỒN VĂN BẢN </th > 
-					<th scope="col">&nbsp;</th >  
-				</tr >
-			</thead>
-				
-			<tbody>	
-				<tr class="normal" *ngFor="let i of textsourceDuLieu |paginate: config">
-					<td class="text-center" style="width: 10%;">
-					<span style="display:inline-block;width:100%;">{{i.nume_rical_order}}</span></td>
-					<td>{{i.textsource_name}}</td>
-					<td class="text-center" style="width: 20%;">
-						<button type="submit" name="ctl22$DANHMUC$ctl02$btnDel" 
-						value="Xóa" class="btn btn-danger rounded-pill" onclick="return confirm('Bạn chắc chắn xóa ?');" id="ctl22_DANHMUC_btnDel_0">
-						<i class="uil-trash-alt"></i></button>
-						<button type="button" class="btn btn-danger rounded-pill"><i class="uil-edit-alt"></i></button>
-					</td>
-				</tr>
-			</tbody>	
-		</table >
-		<table>
-			<div class="row">
-				<div class="col-3">
-					<pagination-controls id="paging" [previousLabel]="'quay lại'" [nextLabel]="'tiếp tục'"
-						(pageChange)="handlePageChange($event)"></pagination-controls>
-				</div>
-				<div class="col-6"><input type="text" id="simpleinput" class="form-control"></div>
-				<div class="col-3"><button type="button" class="btn btn-primary"><i class="uil-plus-square">Thêm mới</i></button></div>
-			</div>
-		</table>
-	</div>
-	<div class="col-3">
-		<div class = "d-grid">
-			<div class=" list-group-item list-group-item background text-center"style="font-size: 16px;" >
-				BỘ LỌC
-			</div>
-			<div class="list-group-item list-group-item-custom">
-				Tìm theo tên nguồn văn bản : 
-			</div>
-			<div class="list-group-item">
-				<input type="text" class="form-control" placeholder="Tìm kiếm" />
-			</div>
-		</div>
-	</div>	
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="page-title-box">
+        <div class="page-title-right">
+          <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item">
+              <a routerLink="/document/all-text">Văn Bản</a>
+            </li>
+            <li class="breadcrumb-item">Nguồn Văn Bản</li>
+          </ol>
+        </div>
+        <h4 class="page-title">Nguồn Văn Bản</h4>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-2 col-md-3">
+            <div class="list-group">
+              <button
+                style="margin-bottom: 10px; background-color: #395bb2"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#scrollable-modal"
+              >
+                Thêm nguồn văn bản
+              </button>
+            </div>
+          </div>
+          <!-- <div class="row" style="margin-bottom: 10px">
+            <div class="col-xl-9 col-md-12">
+              <div class="col-xl-10 col-md-12" style="display: inline-block">
+                <input
+                  type="text"
+                  id="simpleinput"
+                  class="form-control"
+                  placeholder="Nhập tên nguồn để thêm nguồn văn bản mới"
+                  [(ngModel)]="nameSource"
+                />
+              </div>
+              <div class="col-xl-2 col-md-12" style="display: inline-block">
+                <button
+                  type="button"
+                  class="btn"
+                  style="background-color: #395bb2; color: white"
+                  (click)="addSource()"
+                >
+                  Thêm mới
+                </button>
+              </div>
+              <div *ngIf="errorMessage" style="color: red; font-weight: bold">
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-xl-9 col-md-12">
+              <table
+                id="basic-datatable"
+                class="table table-bordered table-striped border border-style table-hover table-centered mb-2 dt-responsive nowrap w-100 content-table"
+              >
+                <thead>
+                  <tr>
+                    <th class="d-flex justify-content-center" scope="col">
+                      STT
+                    </th>
+                    <th scope="col">TÊN NGUỒN VĂN BẢN</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    class="normal"
+                    *ngFor="let i of textSourceList | paginate : config"
+                  >
+                    <td class="text-center" style="width: 10%">
+                      <span style="display: inline-block; width: 100%">{{
+                        i.stt
+                      }}</span>
+                    </td>
+                    <td>{{ i.tennguon }}</td>
+                    <td class="text-center" style="width: 20%">
+                      <button
+                        class="button-active"
+                        type="submit"
+                        style="margin: 5px"
+                        name="ctl22$DANHMUC$ctl02$btnDel"
+                        value="Xóa"
+                        class="btn btn-danger rounded-pill"
+                        (click)="deleteSource(i.idnguonvb)"
+                        id="ctl22_DANHMUC_btnDel_0"
+                      >
+                        <i class="uil-trash-alt"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-danger rounded-pill"
+                        style="margin: 5px"
+                        (click)="
+                          getSourceUpdate(i.idnguonvb, i.tennguon, i.stt)
+                        "
+                        data-bs-toggle="modal"
+                        data-bs-target="#scrollable-modal"
+                      >
+                        <i class="uil-edit-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="list row">
+                <div class="col-md-8">
+                  <pagination-controls
+                    id="paging"
+                    [previousLabel]="'quay lại'"
+                    [nextLabel]="'tiếp tục'"
+                    (pageChange)="handlePageChange($event)"
+                  ></pagination-controls>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-md-12">
+              <div class="d-grid">
+                <div
+                  class="list-group-item list-group-item background text-center"
+                  style="font-size: 16px"
+                >
+                  BỘ LỌC
+                </div>
+                <div class="list-group-item list-group-item-custom">
+                  Tìm theo tên nguồn văn bản :
+                </div>
+                <div class="list-group-item">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Tìm kiếm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="scrollable-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="scrollableModalTitle"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered"
+    role="document"
+    style="width: 40%"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scrollableModalTitle">
+          Thêm Nguồn Văn Bản
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-hidden="true"
+        ></button>
+      </div>
+      <form [formGroup]="addForm" (ngSubmit)="addSource()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="stt">STT <span class="required_input">(*)</span></label
+            ><br />
+            <input
+              type="text"
+              name="stt"
+              class="form-control"
+              formControlName="stt"
+              [ngClass]="{
+                'is-invalid': submitted && a.stt.invalid
+              }"
+            />
+            <div
+              *ngIf="
+                (a.stt.invalid && a.stt.touched) || (submitted && a.stt.invalid)
+              "
+              class="form-text text-mutted"
+            >
+              <div *ngIf="a.stt.errors.pattern">
+                <span style="color: red; font-weight: bold">
+                  Số thứ tự không hợp lệ</span
+                >
+              </div>
+              <div *ngIf="a.stt.errors.required">
+                <span style="color: red; font-weight: bold">
+                  Số thứ tự không được trống</span
+                >
+              </div>
+            </div>
+          </div>
+          <pre></pre>
+          <div class="form-group">
+            <label for="nameSource"
+              >Tên Nguồn Văn Bản <span class="required_input">(*)</span></label
+            >
+            <br />
+            <input
+              type="text"
+              name="nameSource"
+              class="form-control"
+              formControlName="name"
+              [ngClass]="{
+                'is-invalid': submitted && a.name.invalid
+              }"
+            />
+            <div
+              *ngIf="
+                (a.name.invalid && a.name.touched) ||
+                (submitted && a.name.invalid)
+              "
+              class="form-text text-mutted"
+            >
+              <div *ngIf="a.name.errors.required">
+                <span style="color: red; font-weight: bold">
+                  Tên nguồn văn bản không được trống</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            #closebuttonAdd
+          >
+            Đóng
+          </button>
+
+          <button
+            *ngIf="!editMode"
+            type="button"
+            type="submit"
+            class="btn btn-primary"
+          >
+            Thêm Nguồn Văn Bản
+          </button>
+          <div
+            *ngIf="editMode"
+            (click)="updateSource()"
+            class="btn btn-primary"
+          >
+            Sửa Nguồn Văn Bản
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
 </div>

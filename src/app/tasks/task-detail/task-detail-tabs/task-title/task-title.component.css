@@ -1,0 +1,56 @@
+.label-enable-edit:hover {
+    border: 2px solid;
+}
+
+label {
+    cursor: text;
+    border: 2px solid transparent;
+    padding: 1.5px;
+}
+
+input {
+    border: 2px solid;
+    border-radius: 1px;
+}
+
+input,
+label {
+    padding: 5px 5px;
+}
+
+input:focus {
+    border: 2px solid;
+}
+
+.uil-pen {
+    display: none;
+    animation: showup 0.5s alternate;
+}
+
+.wrap:hover>.uil-pen {
+    display: inline;
+}
+
+.wrap {
+    display: contents;
+}
+
+.custom-btn {
+    border: 1px solid;
+    border-radius: 4px;
+    margin-left: 2px;
+}
+
+.custom-btn:hover {
+    background-color: beige;
+}
+
+@keyframes showup {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

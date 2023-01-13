@@ -1,4 +1,7 @@
 export class UserEvent {
+  idlich: '';
+  userid: {};
+  ngaynhap: '';
   loaiSukien: '0';
   chude: '0';
   tgbatdau: '';
@@ -17,4 +20,5 @@ export class UserEvent {
   chuoiLapThang: '0';
   chuoiLapNam: '0';
   danhSachDuocXem: any = [];
+  dsDuocXem: any = [];
 }

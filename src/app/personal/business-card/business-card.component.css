@@ -1,14 +1,25 @@
 .nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
 .content-table thead tr {
-    background-color: #0091ff;
-    color: aliceblue;
-    text-align: left;
-    font-weight: bold;
+  background-color: #0091ff;
+  color: aliceblue;
+  text-align: left;
+  font-weight: bold;
 }
-.background-1{
-    background-color: #68be9f;
-    color: aliceblue;
-
+.background-1 {
+  background-color: #68be9f;
+  color: aliceblue;
+}
+.hover:hover {
+  color: blue;
+}
+.groupName {
+  color: blue;
+  font-weight: bold;
+  margin: 0px 0 0px 20px;
+}
+.groupName:hover {
+  color: #0091ff;
+  font-size: 15px;
 }

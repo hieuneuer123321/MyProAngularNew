@@ -1,4 +1,3 @@
-{{ state.personalEvent | json }}
 <div class="container-fluid">
   <ngx-loading
     [show]="state.spinnerLoading"
@@ -37,7 +36,12 @@
                     <span>Ngày Giờ Bắt Đầu</span>
                   </div>
                   <div class="item item-container2">
-                    <span> state.personalEvent </span>
+                    <span>
+                      {{
+                        state.personalEvent.tgbatdau
+                          | date : "dd/MM/yyyy   HH:mm "
+                      }}
+                    </span>
                   </div>
                 </div>
                 <div class="container">
@@ -45,7 +49,12 @@
                     <span>Ngày Giờ Kết Thúc</span>
                   </div>
                   <div class="item item-container2">
-                    <span> : ("" | date : "dd/MM/yyyy HH:mm:ss ") }}</span>
+                    <span>
+                      {{
+                        state.personalEvent.tgketthuc
+                          | date : "dd/MM/yyyy   HH:mm "
+                      }}</span
+                    >
                   </div>
                 </div>
                 <div class="container">
@@ -53,9 +62,7 @@
                     <span>Nội dung</span>
                   </div>
                   <div class="item item-container2">
-                    <span>
-                      sampleDataDetail ? sampleDataDetail.noidung : "" }}</span
-                    >
+                    <span> {{ state.personalEvent.noidung }}</span>
                   </div>
                 </div>
                 <div class="container">
@@ -63,9 +70,7 @@
                     <span>Địa Điểm</span>
                   </div>
                   <div class="item item-container2">
-                    <span
-                      >sampleDataDetail ? sampleDataDetail.diadiem : "" }}</span
-                    >
+                    <span> {{ state.personalEvent.diadiem }}</span>
                   </div>
                 </div>
                 <div class="container">
@@ -73,9 +78,7 @@
                     <span>Đính Kèm</span>
                   </div>
                   <div class="item item-container2">
-                    <span
-                      >sampleDataDetail ? sampleDataDetail.dinhkem : "" }}</span
-                    >
+                    <span></span>
                   </div>
                 </div>
               </div>
@@ -108,6 +111,10 @@
                     background-color: #395bb2;
                     color: white;
                   "
+                  [routerLink]="[
+                    '/personal/update-event/',
+                    state.personalEvent.idlich
+                  ]"
                 >
                   Sửa
                 </button>
@@ -273,8 +280,14 @@
                 >
                   <span style="padding-left: 10px"> Người Được Chia Sẻ</span>
                 </h6>
-                <div style="margin-left: 10px">
-                  <span style="font-size: 14; font-weight: bold"> i.hoTen</span>
+                <div
+                  style="margin-left: 10px"
+                  *ngFor="let i of state.personalEvent.danhSachDuocXem"
+                >
+                  <span style="font-size: 14; font-weight: bold">{{
+                    i.hoTen
+                  }}</span
+                  ><span> {{ soLanXem(i.soLanXem, i.thoiGianXem) }} </span>
                 </div>
               </div>
             </div>

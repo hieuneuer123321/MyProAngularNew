@@ -13,6 +13,11 @@ import { ExpandButtonComponent } from './expand-button/expand-button.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { DropzoneComponent } from './dropzone/dropzone.component';
 import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
+import { RatingsComponent } from './ratings/ratings.component';
+import { ExpandCardComponent } from './expand-card/expand-card.component';
+import { FilesComponent } from './files/files.component';
+import { SafePipe } from '../safe.pipe';
+import { FilesUploadComponent } from './files-upload/files-upload.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,11 @@ import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
     CalendarComponent,
     DropzoneComponent,
     GanttChartComponent,
+    RatingsComponent,
+    ExpandCardComponent,
+    FilesComponent,
+    SafePipe,
+    FilesUploadComponent
   ],
   imports: [CommonModule, RouterModule, FormsModule],
   exports: [
@@ -40,6 +50,10 @@ import { GanttChartComponent } from './gantt-chart/gantt-chart.component';
     CalendarComponent,
     DropzoneComponent,
     GanttChartComponent,
+    RatingsComponent,
+    ExpandCardComponent,
+    FilesComponent,
+    FilesUploadComponent
   ],
 })
-export class UtilitiesModule {}
+export class UtilitiesModule { }

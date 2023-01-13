@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
     ClientComponent,
     SignDocumentsComponent,
     SearchComponent,
-    AdminComponent,
+    AdminComponent
   ],
   imports: [
     CommonModule,

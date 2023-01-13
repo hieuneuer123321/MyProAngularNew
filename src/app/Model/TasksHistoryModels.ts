@@ -11,9 +11,6 @@ export class TaskHistoryResponseModel{
 }
 export class TaskHistoryRequestModel{
         mscv: string
-        nguoiPhanHoi: string
         noiDung: string
-        thoiGian: string = moment().toISOString()
-        danhSachNguoiXuLyKeTiepHoTen: string
         fileDinhKem: string
 }

@@ -1,0 +1,92 @@
+<div class="row" *ngIf="Files != []">
+    <div class="col-6" *ngFor="let file of Files">
+        <div class="card m-1 border">
+            <div class="p-2">
+                <div class="row align-items-center">
+                    <div class="col-3">
+                        <div class="avatar-sm">
+                            <div class="avatar-title bg-danger rounded" *ngIf="file.mimetype == 'application/pdf';">
+                                <i class="mdi mdi-file-pdf-outline fs-2"></i>
+                            </div>
+                            <div class="avatar-title bg-primary rounded" *ngIf="file.mimetype == 'application/msword'">
+                                <i class="mdi mdi-microsoft-word fs-2"></i>
+                            </div>
+                            <div class="avatar-title bg-success rounded"
+                                *ngIf="file.mimetype == 'application/vnd.ms-excel'">
+                                <i class="mdi mdi-microsoft-excel fs-2"></i>
+                            </div>
+                            <div class="avatar-title rounded"
+                                *ngIf="file.mimetype == 'image/png'||file.mimetype == 'image/jpeg'">
+                                <img [src]="(BaseURL +Folder + '/'+IdContent+'/'+file.filename)"
+                                    class="img-fluid avatar-sm" alt="a">
+                            </div>
+                            <div class="avatar-title bg-danger rounded" *ngIf="file.mimetype != 'application/pdf'&&
+                                file.mimetype != 'image/png'&&
+                                file.mimetype != 'application/vnd.ms-excel'&&
+                                file.mimetype != 'application/msword'&&
+                                file.mimetype != 'image/jpeg'">
+                                <i class="mdi mdi-file-alert-outline fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 ps-0">
+                        <p class="text-none paragraph_ellipsis pointer m-0" data-bs-target="#danger-alert-modal"
+                            data-bs-toggle="modal" (click)="UnreadableFileDetail = file.filename"
+                            *ngIf="!readable(file.mimetype)">
+                            {{file.filename}}
+                        </p>
+                        <p class="text-none paragraph_ellipsis pointer m-0" (click)="GetFileDetail(file.filename)"
+                            data-bs-toggle="modal" data-bs-target="#filedetail-modal" *ngIf="readable(file.mimetype)">
+                            {{file.filename}}</p>
+                        <p class="mb-0">{{humanFileSize(file.filesize,true)}}</p>
+                    </div>
+                    <div class="col-2 ps-0 d-flex">
+                        <a class="mdi mdi-folder-download fs-3 pointer"
+                            [href]="(BaseURL + 'Download/'+Folder+'/'+IdContent+'/'+file.filename)|safe"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="Files.length == 0">
+    <div class="d-flex flex-column align-items-center text-secondary">
+        <i class="uil-folder-times fs-1"></i>
+        <h4 class="m-0">Không có dữ liệu</h4>
+    </div>
+</div>
+<div id="filedetail-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-full-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <iframe [src]="(BaseURL + FileDetail)|safe" class="w-100" style="height: 70vh;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                <a type="button" class="btn btn-primary" target="_blank"
+                    [href]="(BaseURL + 'Download/'+FileDetail)|safe">Tải về</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="danger-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-filled bg-danger">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <i class="dripicons-wrong h1"></i>
+                    <h4 class="mt-2">Oh snap!</h4>
+                    <p class="mt-3">Không có bản xem trước cho tệp tin này</p>
+                    <button type="button" class="btn btn-light my-2 me-1" data-bs-dismiss="modal">Đóng</button>
+                    <a type="button" class="btn btn-primary" target="_blank"
+                        [href]="download(UnreadableFileDetail)|safe">Tải về</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -77,42 +77,50 @@
                   </option>
                 </select>
               </div>
-              <app-dual-list
-                (updateLists)="dualListUpdateForAssignee($event)"
-                [leftList]="allUserInStep2List"
-                [rightList]="chosenAssigneelList"
-              ></app-dual-list>
+              <div class="col-xl-12">
+                <app-dual-list
+                  (updateLists)="dualListUpdateForAssignee($event)"
+                  [leftList]="allUserInStep2List"
+                  [rightList]="chosenAssigneelList"
+                ></app-dual-list>
+              </div>
             </div>
           </div>
         </div>
         <div
           class="col-12 form-group row"
-          style="margin-top: 10px; text-align: center"
+          style="margin-top: 20px; text-align: center"
         >
-          <div class="col-6">
+          <div class="col-xl-4 col-md-12" style="margin-top: 10px">
             <button
-              class="btn btn-danger"
+              class="btn btn-warning"
               style="width: 200px"
               (click)="cancel()"
             >
               Bỏ Qua
             </button>
           </div>
-          <div class="col-6">
+          <div class="col-xl-4 col-md-12" style="margin-top: 10px">
             <button
               class="btn btn-primary"
-              (click)="addGroup()"
+              (click)="!idUpdate ? addGroup() : updateGroup()"
               style="width: 200px"
             >
               Lưu
             </button>
           </div>
-          <div class="col-md-3">
-            <div class="col_3">
-              <ul class="oolist">
-                <div class="btnOO"></div>
-              </ul>
-            </div>
+          <div
+            class="col-xl-4 col-md-12"
+            *ngIf="idUpdate"
+            style="margin-top: 10px"
+          >
+            <button
+              class="btn btn-danger"
+              (click)="deleteGroup()"
+              style="width: 200px"
+            >
+              Xóa
+            </button>
           </div>
         </div>
       </div>

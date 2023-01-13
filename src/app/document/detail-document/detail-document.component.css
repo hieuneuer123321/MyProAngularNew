@@ -1,3 +1,20 @@
-.hover{
-    background-color: rgb(0, 242, 255);
-  }
+.hover {
+  background-color: rgb(0, 242, 255);
+}
+.btn_active {
+  background-color: #395bb2;
+  color: white;
+}
+.sub_content {
+  font-size: 13px;
+  font-style: italic;
+}
+.content_main {
+  font-weight: bold;
+}
+.li_list {
+  margin: 10px auto;
+}
+.col-form-label {
+  color: #3d55a1;
+}

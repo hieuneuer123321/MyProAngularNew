@@ -19,6 +19,7 @@ export class UsersComponent implements OnInit {
   userData
   detailUser //thông tin người dùng theo userName
   usereditDetail = {} //biến tạm //
+  statusUserName//trạng thái
   //phân trang
   spinmerLoading = false
   count = 100;
@@ -29,7 +30,19 @@ export class UsersComponent implements OnInit {
   pageSizes = [10, 20, 30];
   paginationConfig
   myModal
-  //
+ //trạng thái user
+ statusName=[
+  {
+    'status': '1',
+    'statusname': 'Đang hoạt động'
+  },
+  {
+    'status': '0',
+    'statusname': 'Đã khóa'
+  }
+ ]
+
+  ////
   userDetail( userData ){
     this.usereditDetail={...userData}
   } 
@@ -38,6 +51,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetUserData();
+    this.statusUser()
     
   }
   ngOnChanges(changes: SimpleChanges): void {
@@ -73,6 +87,7 @@ export class UsersComponent implements OnInit {
       this.myModal.toggle()
     }
   }
+  
   
   ////////////////////////////////////////////////
   getLabel(key) {
@@ -136,5 +151,24 @@ handlePageSizeChange(event): void {
       this.detailUser = Array.from (result)
     } catch {}
   }
-
+// Lấy người dùng theo trạng thái
+async statusUser(){
+  try{
+    let res
+    let result
+    res = await this.api.httpCall(this.api.apiLists.getAllUsersByStatus,{},this.statusName,'get',true);
+    result = <any>res
+    this.statusUserName = Array.from(result)
+  }catch{}
+}
+// so sánh lấy trạng thái người dùng theo user
+ssTrangthai(trangthai){
+var ssTrangthai=false
+this.statusUserName .forEach((x)=>{
+  if (x.status===trangthai){
+    ssTrangthai=true
+  }
+})
+return ssTrangthai
+}
 }

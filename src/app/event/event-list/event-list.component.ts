@@ -114,6 +114,19 @@ export class EventListComponent implements OnInit {
       return 'line-through';
     } else return 'none';
   }
+  checkToday2(stringDate: string) {
+    const date = dateFormat(new Date(stringDate.substring(0, 10)), 'isoDate');
+    // const dateToday = `${new Date().getFullYear()}-${
+    //   new Date().getMonth() + 1
+    // }-${new Date().getDate()}`;
+    const now = dateFormat(new Date(), 'isoDate');
+    // console.log(date, now);
+    if (date == now) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   checkToday(stringDate: string) {
     const date = dateFormat(new Date(stringDate.substring(0, 10)), 'isoDate');
     // const dateToday = `${new Date().getFullYear()}-${
@@ -122,7 +135,7 @@ export class EventListComponent implements OnInit {
     const now = dateFormat(new Date(), 'isoDate');
     // console.log(date, now);
     if (date == now) {
-      return '#FFFADF';
+      return '#d9f6eb';
     } else {
       return '';
     }
@@ -340,6 +353,7 @@ export class EventListComponent implements OnInit {
       this.events = ArrDate;
     }
   }
+
   seeDetail(obj) {
     this.editable = true;
     this.eventDetail = { ...obj };
@@ -504,6 +518,39 @@ export class EventListComponent implements OnInit {
     } else {
       this.gData(0);
     }
+  }
+  DSLQList(arr) {
+    let html = '';
+    let arrTemp = [];
+    if (arr.length > 0) {
+      arr.forEach((item) => {
+        arrTemp.push(item.hoTen);
+      });
+      if (arrTemp.length > 4) {
+        for (let i = 0; i < 4; i++) {
+          const obj = arrTemp[i];
+          html = html + obj + ', ';
+        }
+        html = html + '...';
+      } else {
+        for (let i = 0; i < arrTemp.length; i++) {
+          const obj = arrTemp[i];
+
+          html = html + obj + ', ';
+        }
+      }
+    }
+    return html.slice(0, -2);
+
+    // console.log(arr);
+    // if (arr.length > 0) {
+    //   for (let i = 0; i < 4; i++) {
+    //     const obj = arr[i];
+    //     console.log(obj);
+    //     // html = html + obj.hoTen + ' ';
+    //   }
+    //   return html + '...';
+    // } else return html;
   }
   showDSLQ(arrList: any) {
     let html = '';
@@ -800,40 +847,53 @@ export class EventListComponent implements OnInit {
     });
   }
   async CancelEventMulti() {
-    Swal.fire({
-      title: '<strong>Bạn chắc chắn hủy ?</strong>',
-      icon: 'warning',
-      html: `sau khi hủy có thể phục hồi được !`,
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      reverseButtons: true,
-      focusCancel: true,
-      cancelButtonText: `Quay lại`,
-      confirmButtonText: `Hủy Lịch`,
-    }).then(async (result) => {
-      if (result.value) {
-        try {
-          this.EventNotApproved = await this.api.httpCall(
-            this.api.apiLists.CancelAllEvent,
-            {},
-            this.checkListApproved,
-            'post',
-            true
-          );
-          if (this.currentTab) {
-            this.gData(1);
-          } else {
-            this.gData(0);
+    if (this.checkListApproved && this.checkListApproved.length > 0) {
+      Swal.fire({
+        title: '<strong>Bạn chắc chắn hủy ?</strong>',
+        icon: 'warning',
+        html: `sau khi hủy có thể phục hồi được !`,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        reverseButtons: true,
+        focusCancel: true,
+        cancelButtonText: `Quay lại`,
+        confirmButtonText: `Hủy Lịch`,
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            this.EventNotApproved = await this.api.httpCall(
+              this.api.apiLists.CancelAllEvent,
+              {},
+              this.checkListApproved,
+              'post',
+              true
+            );
+            if (this.currentTab) {
+              this.gData(1);
+            } else {
+              this.gData(0);
+            }
+            this.toaster.success('', 'Hủy lịch Thành Công!', {
+              timeOut: 2500,
+            });
+          } catch (e) {
+            console.log(e);
           }
-          this.toaster.success('', 'Hủy lịch Thành Công!', {
-            timeOut: 2500,
-          });
-        } catch (e) {
-          console.log(e);
         }
-      }
-    });
+      });
+    } else {
+      Swal.fire({
+        title: '<strong>Vui lòng chọn lịch muốn hủy duyệt ?</strong>',
+        icon: 'warning',
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: true,
+        confirmButtonText: `Quay lại`,
+      }).then(async (result) => {});
+    }
   }
   //Duyệt
   // ApprovedAgain(id) {
@@ -900,7 +960,25 @@ export class EventListComponent implements OnInit {
       }
     });
   }
+  RemoveDulicate(arr) {
+    return arr.filter((item, index) => arr.indexOf(item) !== index);
+  }
   async ApprovedMultiple() {
+    // if (this.checkListApproved && this.checkListApproved.length > 0) {
+    console.log(this.checkListApproved);
+    console.log(this.currentTab);
+    // } else {
+    //   Swal.fire({
+    //     title: '<strong>Vui lòng chọn lịch muốn duyệt ?</strong>',
+    //     icon: 'warning',
+    //     showCloseButton: true,
+    //     showCancelButton: false,
+    //     focusConfirm: true,
+    //     reverseButtons: true,
+    //     focusCancel: true,
+    //     confirmButtonText: `Quay lại`,
+    //   }).then(async (result) => {});
+    // }
     Swal.fire({
       title: '<strong>Bạn chắc chắn duyệt ?</strong>',
       icon: 'warning',
@@ -996,49 +1074,62 @@ export class EventListComponent implements OnInit {
     });
   }
   async deleteEventMultiple() {
-    Swal.fire({
-      title: '<strong>Bạn chắc chắn Xóa ?</strong>',
-      icon: 'warning',
-      html: `sau khi Xóa không có thể phục hồi được !`,
-      showCloseButton: true,
-      showCancelButton: true,
-      focusConfirm: false,
-      reverseButtons: true,
-      focusCancel: true,
-      cancelButtonText: `Quay lại`,
-      confirmButtonText: `Xóa`,
-    }).then(async (result) => {
-      if (result.value) {
-        try {
-          if (this.currentTab) {
-            await this.api.httpCall(
-              this.api.apiLists.DeleteEvent,
-              {},
-              this.checkListApproved,
-              'post',
-              true
-            );
-            this.gData(1);
-            this.toaster.success('', 'Xóa lịch Thành Công!', {
-              timeOut: 2500,
-            });
-          } else {
-            await this.api.httpCall(
-              this.api.apiLists.DeleteEvent,
-              {},
-              this.checkListNotApproved,
-              'post',
-              true
-            );
-            this.toaster.success('', 'Xóa lịch Thành Công!', {
-              timeOut: 2500,
-            });
-            this.gData(0);
+    if (this.checkListApproved && this.checkListApproved.length > 0) {
+      Swal.fire({
+        title: '<strong>Bạn chắc chắn Xóa ?</strong>',
+        icon: 'warning',
+        html: `sau khi Xóa không có thể phục hồi được !`,
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        reverseButtons: true,
+        focusCancel: true,
+        cancelButtonText: `Quay lại`,
+        confirmButtonText: `Xóa`,
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            if (this.currentTab) {
+              await this.api.httpCall(
+                this.api.apiLists.DeleteEvent,
+                {},
+                this.checkListApproved,
+                'post',
+                true
+              );
+              this.gData(1);
+              this.toaster.success('', 'Xóa lịch Thành Công!', {
+                timeOut: 2500,
+              });
+            } else {
+              await this.api.httpCall(
+                this.api.apiLists.DeleteEvent,
+                {},
+                this.checkListNotApproved,
+                'post',
+                true
+              );
+              this.toaster.success('', 'Xóa lịch Thành Công!', {
+                timeOut: 2500,
+              });
+              this.gData(0);
+            }
+          } catch (e) {
+            console.log(e);
           }
-        } catch (e) {
-          console.log(e);
         }
-      }
-    });
+      });
+    } else {
+      Swal.fire({
+        title: '<strong>Vui lòng chọn lịch muốn xóa ?</strong>',
+        icon: 'warning',
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: true,
+        reverseButtons: true,
+        focusCancel: true,
+        confirmButtonText: `Quay lại`,
+      }).then(async (result) => {});
+    }
   }
 }

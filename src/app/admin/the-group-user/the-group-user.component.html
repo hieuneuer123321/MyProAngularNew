@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="list-group-item active mb-2"> <b>QUẢN TRỊ PHÒNG BAN/NHÓM/ĐƠN VI</b> </div>
+    <div class="row">
+        <div class="col-9">
+            <table id="basic-datatable" class="table table-bordered table-striped
+                        border
+                        border-style table-hover table-centered mb-2 dt-responsive nowrap
+                        w-100 content-table">
+                <thead >
+                    <tr>
+                        <th style="width:5%">STT</th>
+                        <th>Tên phòng ban/ nhóm/ đơn vị</th>
+                        <th>Tên viết tắt</th>
+                        <th></th>
+                        <th style="width:5%"><input type="checkbox" class="form-check-input" id="customCheck1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of groupNew ">
+                        <td>{{item.STT}}</td>
+                        <td>{{item.groupName}}</td>
+                        <td>{{item.acronym}}</td>
+                        <td style="width: 10%;"><button type="button" [routerLink]="'/admin/edit-user'" class="btn btn-success rounded-pill"><i class="uil-edit-alt"></i></button></td>
+                        <th style="width:5%"><input  type="checkbox" class="form-check-input" id="customCheck1"></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3">
+            <div class="list-group">
+                <button [routerLink]="'/admin/new-group-user'" type="button" class="btn btn-danger mb-2">Thêm mới</button>
+            </div>
+            <div class="list-group">
+                <button  type="button" class="btn btn-danger mb-2">Xóa</button>
+            </div>
+            <div class="list-group">
+                <button [routerLink]="'/admin/users'"  type="button" class="btn btn-danger"> Quay lại</button>
+            </div>
+        </div>
+    </div>
+
+</div>

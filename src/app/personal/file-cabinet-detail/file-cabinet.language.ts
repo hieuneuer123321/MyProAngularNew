@@ -13,7 +13,7 @@ let data = {
     descriptionCol: 'Description',
     locationCol: 'Location',
     to: 'to',
-
+    nextStep: 'Next Step',
     pageTitle2: 'List File Cabinet Share',
   },
   VN: {
@@ -27,6 +27,7 @@ let data = {
     previousBtn: 'Trang trước',
     dateCol: 'Ngày',
     timeCol: 'Giờ',
+    nextStep: 'Bước tiếp theo',
     descriptionCol: 'Nội dung',
     locationCol: 'Địa điểm',
     to: 'đến',

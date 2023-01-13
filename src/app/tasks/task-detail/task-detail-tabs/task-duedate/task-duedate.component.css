@@ -1,0 +1,33 @@
+.end-date {
+    border: 2px solid transparent;
+    cursor: text;
+}
+
+.custom-btn {
+    border: 1px solid;
+    border-radius: 4px;
+    margin-left: 2px;
+}
+
+.custom-btn:hover {
+    background-color: beige;
+}
+
+.end-date:hover>.uil-pen {
+    display: inline;
+}
+
+.uil-pen {
+    display: none;
+    animation: showup 0.5s alternate;
+}
+
+@keyframes showup {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

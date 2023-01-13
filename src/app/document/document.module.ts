@@ -10,17 +10,16 @@ import { TextInheritanceComponent } from './text-inheritance/text-inheritance.co
 import { TextSourceComponent } from './text-source/text-source.component';
 import { DocumentRouting } from './document-routing.module';
 import { NewDocumentComponent } from './new-document/new-document.component';
-import { ArchwizardModule } from 'angular-archwizard';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { NewTextGoComponent } from './new-text-go/new-text-go.component';
+import { UtilitiesModule } from '../utilities/utilities.module';
+import { FormsModule } from '@angular/forms';
 import { AllTextComponent } from './all-text/all-text.component';
 import { DetailDocumentComponent } from './detail-document/detail-document.component';
-import { UtilitiesModule } from '../utilities/utilities.module';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { NgxLoadingModule } from 'ngx-loading';
-import { FormsModule } from '@angular/forms';
-import { CalendarComponent } from '../utilities/calendar/calendar.component';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ArchwizardModule } from 'angular-archwizard';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxLoadingModule } from 'ngx-loading';
 @NgModule({
   declarations: [
     DocumentComponent,
@@ -37,15 +36,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     DetailDocumentComponent,
   ],
   imports: [
-    AngularEditorModule,
-    ReactiveFormsModule,
     CommonModule,
-    ArchwizardModule,
+    DocumentRouting,
+    ReactiveFormsModule,
     NgxPaginationModule,
     NgxLoadingModule,
-    UtilitiesModule,
     FormsModule,
-    DocumentRouting,
+    UtilitiesModule,
+    ArchwizardModule,
+    NgSelectModule,
   ],
 })
 export class DocumentModule {}

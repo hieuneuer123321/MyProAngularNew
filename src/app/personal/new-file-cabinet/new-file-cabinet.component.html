@@ -19,10 +19,14 @@
             <li class="breadcrumb-item">
               <a routerLink="/personal/file-cabinet">Tủ Hồ Sơ</a>
             </li>
-            <li class="breadcrumb-item">Thêm Hồ Sơ Cá Nhân</li>
+            <li class="breadcrumb-item">
+              {{ getLabel(!idUpdate ? "pageTitle" : "pageTitle2") }}
+            </li>
           </ol>
         </div>
-        <h4 class="page-title">Thêm Hồ Sơ Cá Nhân</h4>
+        <h4 class="page-title">
+          {{ getLabel(!idUpdate ? "pageTitle" : "pageTitle2") }}
+        </h4>
       </div>
     </div>
   </div>
@@ -39,12 +43,11 @@
                       >{{ getLabel("nameCol")
                       }}<span class="requiredField"></span
                     ></label>
-                    <textarea
-                      [(ngModel)]="newfileCabinetData.title"
+                    <input
+                      [(ngModel)]="tenhoso"
                       class="form-control"
                       id="example-textarea"
-                      rows="1"
-                    ></textarea>
+                    />
                   </div>
 
                   <div class="mb-3">
@@ -57,7 +60,7 @@
               </div>
               <div class="btn_list">
                 <button type="button" (click)="check()" class="btn btn-primary">
-                  Next Step
+                  {{ getLabel("nextStep") }}
                 </button>
               </div>
             </aw-wizard-step>
@@ -107,7 +110,11 @@
                 <button type="button" class="btn btn-warning" awPreviousStep>
                   {{ getLabel("previousStep") }}
                 </button>
-                <button type="button" class="btn btn-success">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="!idUpdate ? AddFileCabinet() : UpdateFileCabinet()"
+                >
                   {{ getLabel("finishCol") }}
                 </button>
               </div>

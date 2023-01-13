@@ -17,18 +17,7 @@ import * as moment from 'moment';
   styleUrls: ['./event.component.css'],
 })
 export class EventComponent implements OnInit {
-  editable = true;
-  eventDetail = {
-    date: '',
-    title: '',
-    description: '',
-    location: '',
-    time_start: '',
-    time_end: '',
-    status: null,
-  };
   eventSandbox;
-  currentTab = true;
   /////
   userId = this.generalService.currentUser.userId
     ? this.generalService.currentUser.userId
@@ -67,7 +56,7 @@ export class EventComponent implements OnInit {
     this.userId = this.generalService.currentUser.userId
       ? this.generalService.currentUser.userId
       : '';
-    this.gData(this.userId);
+    this.gData(this.userId, null);
     this.onAsigneeGroupChange(null);
     this.getDateEventInMonth(this.userId);
     this.getGroupId(this.generalService.currentUser.userId);
@@ -78,16 +67,13 @@ export class EventComponent implements OnInit {
     this.dateSelectedEvents = a;
     this.gData(
       this.userId,
+      null,
       this.getMonday(a.fulldate),
       this.getSunday(a.fulldate)
     );
   }
   seeDetail(id) {
     this.router.navigate(['/personal/event', id]);
-  }
-  cancelEditEvent() {
-    this.editable = true;
-    this.eventDetail = { ...this.eventSandbox };
   }
   openNewEvent() {
     this.router.navigate(['/personal/new-event']);
@@ -186,7 +172,8 @@ export class EventComponent implements OnInit {
     const date = dateFormat(monday.setDate(monday.getDate() + 6), 'isoDate');
     return date;
   }
-  async gData(userId, fromdate = new Date(), endDate = new Date()) {
+  getEventShareByUserId(id) {}
+  async gData(userId, idShare, fromdate = new Date(), endDate = new Date()) {
     // this.spinnerLoading = true;
     const date1 = new Date(fromdate);
     const date2 = new Date(endDate);
@@ -196,23 +183,31 @@ export class EventComponent implements OnInit {
       return;
     } else {
       try {
-        const AllEventUser: any = await this.api.httpCall(
-          this.api.apiLists.GetUserEventsByUserId + `?uid=${userId}`,
-          {},
-          {},
-          'get',
-          true
-        );
-        // const AllEventUser: any = await this.api.httpCall(
-        //   this.api.apiLists.GetUserEvent,
-        //   {},
-        //   {},
-        //   'get',
-        //   true
-        // );
-        const getEventUserId: any = AllEventUser.filter((item) => {
-          return item.userid.userId == userId;
-        });
+        // Lịch của user có thể xem khi đc chia sẽ
+
+        /// lịch của user đki
+        const AllEventUser: any = !idShare
+          ? await this.api.httpCall(
+              this.api.apiLists.GetUserEvent,
+              {},
+              {},
+              'get',
+              true
+            )
+          : await this.api.httpCall(
+              this.api.apiLists.GetUserEventsByUserId + `?uid=${userId}`,
+              {},
+              {},
+              'get',
+              true
+            );
+
+        const getEventUserId: any = !idShare
+          ? AllEventUser.filter((item) => {
+              return item.userid.userId == userId;
+            })
+          : AllEventUser;
+        // const AllEvent = [...getEventUserId];
         this.EventNotApproved = getEventUserId.length > 0 ? getEventUserId : [];
         const arrTam2 = [];
         const arrTam1 = [];
@@ -305,7 +300,7 @@ export class EventComponent implements OnInit {
   }
   handlePageChange(event): void {
     this.page = event;
-    this.gData(null);
+    this.gData(null, null);
   }
   getLabel(key) {
     return data[`${this.generalService.currentLanguage.Code}`][`${key}`];
@@ -313,7 +308,7 @@ export class EventComponent implements OnInit {
   handlePageSizeChange(event): void {
     this.pageSize = event.target.value;
     this.page = 0;
-    this.gData(null);
+    this.gData(null, null);
   }
   ////
   onAsigneeGroupChange(e) {
@@ -439,7 +434,7 @@ export class EventComponent implements OnInit {
   // chọn người muốn xem lịch
   onChangeUser(id) {
     this.userId = id;
-    this.gData(this.userId);
+    this.getEventShareByUserId(this.userId);
     this.getDateEventInMonth(this.userId);
     this.userName = this.getUserNameId(this.userId);
   }
